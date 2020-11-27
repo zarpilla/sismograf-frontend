@@ -1,4 +1,5 @@
-const apiUrl = process.env.NODE_ENV == 'development' ? "http://127.0.0.1:1337" : "https://content.iapsolutions.com"
+//const apiUrl = process.env.NODE_ENV == 'development' ? "http://127.0.0.1:1337" : "https://sismograf-content.webcoop.cat"
+//const apiUrl = "https://sismograf-content.webcoop.cat"
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -28,6 +29,7 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
+    '@nuxtjs/dotenv'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -45,7 +47,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: (process.env.API_URL || apiUrl)
+    baseURL: process.env.API_URL //(process.env.API_URL || apiUrl)
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
