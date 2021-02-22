@@ -257,7 +257,7 @@ export default {
       show: false,
       options: {
         scrollOverflow: false,
-        licenseKey: "z",
+        licenseKey: "7C5A62B9-9F4349E0-A45C66A1-437BB3A2",
         menu: "#menu",
         //anchors: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'p21', 'p22', 'p23', 'p24', 'p25'],
         sectionsColor: [
