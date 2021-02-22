@@ -1,4 +1,4 @@
-//const apiUrl = process.env.NODE_ENV == 'development' ? "http://127.0.0.1:1337" : "https://sismograf-content.webcoop.cat"
+const apiUrl = process.env.NODE_ENV == 'development' ? "http://127.0.0.1:1337" : "https://sismograf-content.webcoop.cat"
 //const apiUrl = "https://sismograf-content.webcoop.cat"
 
 export default {
@@ -21,7 +21,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '@/plugins/bootstrap-vue'
+    '@/plugins/bootstrap-vue',
+    '@/plugins/statistics'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -47,7 +48,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.API_URL //(process.env.API_URL || apiUrl)
+    baseURL: (process.env.API_URL || apiUrl)
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

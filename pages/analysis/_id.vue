@@ -31,15 +31,54 @@
           v-for="capacity in scope.capacities"
           class="zis-hidden-widescreen"
         >
-          <div v-bind:key="capacity.id" class="section">
-            <div class="scope-capacity">
-              <div class="title">
-                {{ t(scope, 'text') }}
-              </div>
-              <div class="scope">
-                {{ t(capacity, 'text') }}
-              </div>
-              <ul class="capacities-list">
+          <div v-bind:key="capacity.id" class="section scope-capacity">            
+            <div class="title">
+              {{ t(scope, 'text') }}
+            </div>
+            <div class="scope">
+              {{ t(capacity, 'text') }}
+            </div>
+            <div class="next-container text-center">
+              <button class="btn btn-sismograf btn-next" @click="next">
+                <span v-t="'Següent'" />
+                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+              </button>
+            </div>
+          </div>
+              <template
+                v-for="question in capacity.questions"
+                
+                class="zis-hidden-widescreen"
+              >
+              <div v-bind:key="question.id" class="section" >              
+                  <div class="title">
+                    {{ t(scope, 'text') }}
+                  </div>
+                  <div class="scope">
+                    {{ t(capacity, 'text') }}
+                  </div>
+                  <div class="scope question">
+                    {{ t(question, 'text') }}
+                  </div>
+                  <ul class="capacities-list">
+                    <li
+                      class="item"
+                      v-for="item in question.indicators"
+                      v-bind:key="item.id"
+                    >
+                      <div
+                        v-on:click="punctuation(scope, capacity, question, item)"
+                        class="btn btn-sismograf"
+                        v-bind:class="{ active: question.result == item.value }"
+                      >
+                        {{ t(item, 'text') }}                    
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </template>
+              
+              <!-- <ul class="capacities-list">
                 <li
                   class="item"
                   v-for="item in capacity.indicators"
@@ -53,12 +92,10 @@
                     {{ t(item, 'text') }}                    
                   </div>
                 </li>
-              </ul>
-              <br />
-              <br />
-              <br />
-            </div>
-          </div>
+              </ul> -->
+
+            
+          
         </template>
       </template>
 
@@ -360,7 +397,7 @@ export default {
             array.push(capacity.result)
           }
         }
-        means.push(this.mean(array))
+        means.push(this.$mean(array))
       }
       return means;
     },
@@ -419,10 +456,15 @@ export default {
         if (analysis.results.length > 0) {
           analysis.results.forEach(r => {
             template.analysis.scopes.forEach(s => {
-              let capacity = s.capacities.find(c => c.id == r.capacity)
-              if (capacity) {
-                capacity.result = r.result
-              }
+              s.capacities.forEach(c => {
+                let question = c.questions.find(c => c.id == r.question)
+                if (question) {
+                  question.result = r.result
+                  
+                  c.result = app.context.$mean(c.questions.filter(q => q.result != null).map(q => q.result))
+
+                }
+              })
             })
           })
         }
@@ -456,31 +498,33 @@ export default {
       var s = fullpage_api.getActiveSection();
       fullpage_api.moveTo(s.index + 2);
     },
-    punctuation: function (scope, capacity, item) {
-      //ambit, sector, item) {
+    punctuation: function (scope, capacity, question, item) {
+      
+      // let q0 = this.template.analysis.scopes
+      //   .find(s => s.id == scope.id)
+      //   .capacities.find(c => c.id == capacity.id)
 
-      // this.template.analysis.scopes
-      //   .find((s) => s.id == scope.id)
-      //   .capacities.find((c) => c.id == capacity.id)
-      //   .indicators.forEach((i) => {
-      //     i.selected = false;
-      //   });
+      //   console.log('q0', q0)
 
-      let selectedCapacity = this.template.analysis.scopes
-        .find((s) => s.id == scope.id)
-        .capacities.find((c) => c.id == capacity.id);
-      selectedCapacity.result = item.value;
+      let selectedQuestion = this.template.analysis.scopes
+        .find(s => s.id == scope.id)
+        .capacities.find(c => c.id == capacity.id)
+        .questions.find(q => q.id == question.id);
 
-      // selectedCapacity.indicators.forEach((i) => {
-      //   i.selected = false;
-      // });
+      selectedQuestion.result = item.value;
 
-      let previousResult = this.analysis.results.find((r) => r.capacity == capacity.id);
+      let previousResult = this.analysis.results.find((r) => r.question == question.id);
       if (!previousResult) {
-        this.analysis.results.push({ capacity: capacity.id, result: item.value });
+        this.analysis.results.push({ question: question.id, result: item.value });
       } else {
         previousResult.result = item.value;
       }
+
+      let selectedCapacity = this.template.analysis.scopes
+        .find(s => s.id == scope.id)
+        .capacities.find(c => c.id == capacity.id)
+
+      selectedCapacity.result = this.$mean(selectedCapacity.questions.filter(q => q.result != null).map(q => q.result))
 
       //console.log("results", this.results);
 
@@ -544,12 +588,12 @@ export default {
       
       //console.log("data", data);
     },
-    mean(array) {
-      if (!array.length) return null
-      const n = array.length
-      const mean = array.reduce((a, b) => a + b) / n
-      return mean
-    },
+    // mean(array) {
+    //   if (!array.length) return null
+    //   const n = array.length
+    //   const mean = array.reduce((a, b) => a + b) / n
+    //   return mean
+    // },
     stddev(array) {
       if (!array.length) return null
       const n = array.length      
@@ -595,6 +639,11 @@ export default {
 .scope {
   text-align: center;
   font-size: 60px;
+  color: #fff;
+}
+.question{
+  text-align: center;
+  font-size: 40px;
   color: #fff;
 }
 .sector {
