@@ -1,5 +1,6 @@
 <template>
   <div class="fullpage-container">
+    <no-ssr>
     <full-page ref="fullpage" :options="options" id="fullpage">
       <div class="section section-bg-dark">
         <div class="title">
@@ -214,6 +215,7 @@
         </div>
       </div>
     </full-page>
+    </no-ssr>
   </div>
 </template>
 
