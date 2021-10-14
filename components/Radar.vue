@@ -91,18 +91,12 @@ export default {
     },
   },
   methods: {
-    t(obj, field) {      
-      return obj[`${field}_${this.$i18n.locale}`] && obj[`${field}_${this.$i18n.locale}`] !== '' ? obj[`${field}_${this.$i18n.locale}`] : 
-      obj[`${field}_ca`] && obj[`${field}_ca`] !== '' ? obj[`${field}_ca`] : 
-      obj[`${field}_en`] && obj[`${field}_en`] !== '' ? obj[`${field}_en`] : 
-      obj[`${field}_es`] &&  obj[`${field}_es`] !== '' ? obj[`${field}_es`] : ''
-    },
     fillData() {
       //console.log("radar data", this.data);
 
       this.datacollection = {
         labels: this.data.capacities.map((c) => {
-          return this.t(c, 'text');
+          return c.text
         }),
         datasets: [
           {

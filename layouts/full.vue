@@ -9,8 +9,7 @@
     </nuxt-link>
     <div class="xcontainer">
       <nuxt />
-    </div>
-    
+    </div>    
   </div>
 </template>
 

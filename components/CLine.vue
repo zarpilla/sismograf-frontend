@@ -104,19 +104,13 @@ export default {
     }
   },
   methods: {
-    t(obj, field) {      
-      return obj[`${field}_${this.$i18n.locale}`] && obj[`${field}_${this.$i18n.locale}`] !== '' ? obj[`${field}_${this.$i18n.locale}`] : 
-      obj[`${field}_ca`] && obj[`${field}_ca`] !== '' ? obj[`${field}_ca`] : 
-      obj[`${field}_en`] && obj[`${field}_en`] !== '' ? obj[`${field}_en`] : 
-      obj[`${field}_es`] &&  obj[`${field}_es`] !== '' ? obj[`${field}_es`] : ''
-    },
     fillData() {
       //console.log("cline data", this.data);
       let labels = [];
       this.data.forEach(scope => {
         labels = labels.concat(
           scope.capacities.map(s => {
-            return this.t(s, 'text');
+            return s.text
           })
         );
       });

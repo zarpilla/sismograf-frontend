@@ -1,6 +1,3 @@
-const apiUrl = process.env.NODE_ENV == 'development' ? "http://127.0.0.1:1337" : "https://sismograf-content.webcoop.cat"
-//const apiUrl = "https://sismograf-content.webcoop.cat"
-
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -48,7 +45,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: (process.env.API_URL || apiUrl)
+    baseURL: process.env.API_URL
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -62,11 +59,11 @@ export default {
   },
   i18n: {
     locales: ['en', 'ca', 'es'],
-    defaultLocale: 'ca',
+    defaultLocale: 'es',
     detectBrowserLanguage: false,
     seo: false,
     vueI18n: {
-      fallbackLocale: 'ca',      
+      fallbackLocale: 'es',      
       messages: {
         en: {
           welcome: 'Welcome'

@@ -12,10 +12,10 @@
           exact-active-class="is-active"
         >
           <h2 class="title is-3">
-            {{ template.analysis.name_ca }}
+            {{ template.analysis.name }}
           </h2>
 
-          <div class="zcard" v-html="template.analysis.description_ca">            
+          <div class="zcard" v-html="template.analysis.description">            
           </div>
         </nuxt-link>
       </div>
@@ -33,50 +33,6 @@ export default {
   computed: {},
   head() {
     return {
-      // title:
-      //   this.article && this.article[`seo_${this.$i18n.locale}`]
-      //     ? this.article[`seo_${this.$i18n.locale}`].meta_title + ' | ' + this.t('meta-company')
-      //     : this.article[this.title_] + this.t('meta-company'),
-      // meta: [
-      // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-      // {
-      //   hid: "description",
-      //   name: "description",
-      //   content: this.article[`seo_${this.$i18n.locale}`]
-      //     ? this.article[`seo_${this.$i18n.locale}`].meta_description
-      //     : "",
-      // },
-      // {
-      //   hid: "og:title",
-      //   name: "og:title",
-      //   content: this.article[`seo_${this.$i18n.locale}`]
-      //     ? this.article[`seo_${this.$i18n.locale}`].meta_title
-      //     : this.article[`title_${this.$i18n.locale}`]
-      // },
-      // {
-      //   hid: "og:description",
-      //   name: "og:description",
-      //   content: this.article[`seo_${this.$i18n.locale}`]
-      //     ? this.article[`seo_${this.$i18n.locale}`].meta_description
-      //     : ""
-      // },
-      // {
-      //   hid: "og:image",
-      //   name: "og:image",
-      //   content:
-      //     (this.article[`seo_${this.$i18n.locale}`] &&
-      //     this.article[`seo_${this.$i18n.locale}`].og_image
-      //       ? this.api_url + this.article[`seo_${this.$i18n.locale}`].og_image.formats.medium.url
-      //       : null),
-      // },
-      // {
-      //   hid: "robots",
-      //   name: "robots",
-      //   content: this.article[`seo_${this.$i18n.locale}`] != null
-      //     ? ( this.article[`seo_${this.$i18n.locale}`].meta_index ? 'index' : 'noindex' )
-      //     : 'all'
-      // },
-      //],
     };
   },
   async asyncData({ $axios, app, error, store }) {
