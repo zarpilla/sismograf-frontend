@@ -7,15 +7,15 @@
         v-bind:key="template.id"
       >
         <nuxt-link
-          v-if="template.analysis && template.analysis.id"
+          v-if="template && template.id"
           :to="localePath('/analysis/' + template.slug)"
           exact-active-class="is-active"
         >
           <h2 class="title is-3">
-            {{ template.analysis.name }}
+            {{ template.name }}
           </h2>
 
-          <div class="zcard" v-html="template.analysis.description">            
+          <div class="zcard" v-html="template.description">            
           </div>
         </nuxt-link>
       </div>

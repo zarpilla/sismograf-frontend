@@ -19,7 +19,8 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '@/plugins/bootstrap-vue',
-    '@/plugins/statistics'
+    '@/plugins/statistics',
+    '@/plugins/axios'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -41,6 +42,7 @@ export default {
     'nuxt-fullpage.js',
     "@nuxtjs/markdownit",
     'nuxt-fontawesome',
+    '@nuxtjs/auth'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -85,5 +87,27 @@ export default {
     //     icons: ['fas']
     //   }
     // ]
-  }
+  },
+  router: {
+    // middleware: 'guest'
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'auth/local',
+            method: 'post',
+            propertyName: 'jwt'
+          },
+          user: {
+            url: 'users/me',
+            method: 'get',
+            propertyName: false
+          },
+          logout: false
+        }
+      }
+    }
+  },
 }

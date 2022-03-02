@@ -1,24 +1,27 @@
 /* eslint-disable */
 <template>
   <div>
-    <line-chart :height="200" :chart-data="datacollection" :options="options" v-if="datacollection != null"></line-chart>
+    <horizontal-bar-chart :height="600" :chart-data="datacollection" :options="options" v-if="datacollection != null"></horizontal-bar-chart>
   </div>
 </template>
 
 <script>
-import LineChart from "./LineChart";
+import HorizontalBarChart from "./HorizontalBarChart";
 
 export default {
   name: "Radar",
   components: {
-    LineChart
+    HorizontalBarChart
   },
   props: {
     data: {
       type: Array,
       default: () => ({})
     },
-    mobile: Boolean
+    mobile: Boolean,
+    template: {
+      type: Object
+    },
   },
   filters: {
     float1(amount) {
@@ -40,19 +43,27 @@ export default {
         scales: {
           xAxes: [
             {
-              gridLines: {
-                display:false
-              },
-              scaleLabel: {
-                display: false,
-                labelString: "ESS",
-                fontFamily: "Montserrat",
-                fontColor: "#fff",
-                fontSize: "16"              
-              },
+              // gridLines: {
+              //   display:false
+              // },
+              // scaleLabel: {
+              //   display: false,
+              //   labelString: "ESS",
+              //   fontFamily: "Montserrat",
+              //   fontColor: "#fff",
+              //   fontSize: "16"              
+              // },
               ticks: {
-                display: !this.mobile,                
-                fontColor: "#fff"
+                min: 1,
+                max: 8,
+                fontColor: "#fff",
+                callback: (value, index, ticks) => {
+                  const level = this.template?.attributes?.levels?.find(l => l.value === value)
+                  if (level) {
+                    return level.name
+                  }
+                  return value;
+                }
               }
             }
           ],
@@ -62,16 +73,16 @@ export default {
                 display:false
               },
               scaleLabel: {
-                display: false,
-                labelString: "ESS",
+                // display: false,
+                labelString: "IMPSISMO",
                 fontFamily: "Montserrat",
                 fontColor: "#fff",
                 fontSize: "16"
               },
               ticks: {
-                display: false,
+                // display: false,
                 min: 0,
-                max: 11,
+                max: 8,
                 //stepSize: 8,
                 fontColor: "#fff"
               }
@@ -79,12 +90,12 @@ export default {
           ]
         },
         tooltips: {
-          enabled: true,
+          enabled: false,
           callbacks: {
             label: function(tooltipItem, data) {
               return (
-                " " +
-                data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+                " Nivel: " + ""
+                //data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
               );
             }
           }

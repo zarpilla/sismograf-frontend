@@ -7,15 +7,15 @@
         v-bind:key="template.id"
       >
         <nuxt-link
-          v-if="template.analysis && template.analysis.id"
-          :to="localePath('/analysis/' + template.slug)"
+          v-if="template && template.id"
+          :to="localePath('/template/' + template.id)"
           exact-active-class="is-active"
         >
           <h2 class="title is-3">
-            {{ template.analysis.name }}
+            {{ template.attributes.name }}
           </h2>
 
-          <div class="zcard" v-html="template.analysis.description">            
+          <div class="zcard" v-html="template.attributes.description">            
           </div>
         </nuxt-link>
       </div>
@@ -36,17 +36,28 @@ export default {
     };
   },
   async asyncData({ $axios, app, error, store }) {
-    var { data } = await $axios.get(`/templates`);
+    try {
+      const headers = {
+        headers: {
+          'Authorization': `Bearer ${process.env.API_TOKEN}`
+        }
+      }
+      const { data } = await $axios.get(`/templates?token=${process.env.API_TOKEN}`, headers);
 
-    if (data.length == 0) {
-      error({ statusCode: 404, message: "Page not found" });
+      if (data.length == 0) {
+        error({ statusCode: 404, message: "Page not found" });
+      }
+
+      let templates = data.data;
+
+      return {
+        templates: templates,
+      };
     }
-
-    let templates = data;
-
-    return {
-      templates: templates,
-    };
+    catch (e) {
+      console.error('asyncData error')
+      console.error(e)
+    }    
   },
 };
 </script>
