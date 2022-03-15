@@ -20,6 +20,7 @@ export default {
   plugins: [
     '@/plugins/bootstrap-vue',
     '@/plugins/statistics',
+    { src: '~/plugins/vue-ellipse-progress.js', mode: 'client' },
     '@/plugins/axios'
   ],
 
@@ -61,20 +62,34 @@ export default {
   },
   i18n: {
     locales: ['en', 'ca', 'es'],
-    defaultLocale: 'es',
+    defaultLocale: 'en',
     detectBrowserLanguage: false,
     seo: false,
+    strategy: 'prefix_except_default',
     vueI18n: {
-      fallbackLocale: 'es',      
+      fallbackLocale: 'en',      
       messages: {
         en: {
-          welcome: 'Welcome'
+          welcome: 'Welcome',
+          Empezar: 'Empezar!',
+          "Dominios": "Dominios"
         },
         ca: {
-          welcome: 'Benvingudes'
+          welcome: 'Benvingudes',
+          Empezar: 'Començar',
+          "Dominios": "Dominis",
+          Principios: "Principis",
+          Siguiente: "Següent",
+          Indicadores: "Indicadors",
+          "Guardar análisis": "Guardar anàlisi",
+          "Guardar": "Guardar",
+          "Información opcional:": "",
+          "Inicio": "Inici",
+          "Guardado correctamente": "Guardat correctament. Moltes gràcies per la teva participació!"
         },
         es: {
-          welcome: 'Bienvenidas'
+          welcome: 'Bienvenidas',
+          Empezar: 'Empezar'
         }
       }
     }

@@ -20,7 +20,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  middleware: ["auth", "auth-confirmed"],
+  middleware: ["auth"],
   layout: 'admin',
   computed: {
     ...mapGetters(["loggedInUser"]),

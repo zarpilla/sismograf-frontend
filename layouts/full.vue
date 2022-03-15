@@ -1,12 +1,19 @@
 <template>
   <div class="full-page-container">
-    <nuxt-link to="/" class="navbar-item navbar-abs">
+    <!-- <nuxt-link to="/" class="navbar-item navbar-abs">
       <img
         src="~assets/resilience_earth_w.svg"
         alt="Resilience.earth"            
         height="80"
       >
-    </nuxt-link>
+    </nuxt-link> -->
+    <div class="navbar-item navbar-abs">
+    <img
+        src="~assets/resilience_earth_w.svg"
+        alt="Resilience.earth"            
+        height="80"
+      >
+    </div>
     <div class="xcontainer">
       <nuxt />
     </div>    

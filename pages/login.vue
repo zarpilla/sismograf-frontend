@@ -2,36 +2,36 @@
   <section class="section">
     <div class="container">
       <div class="columns">
-        <div class="column is-4 is-offset-4">
+        <div class="column col-6 offset-3 mt-5">
           <h2 class="title has-text-centered">Log In</h2>
 
           <Notification v-if="error" type="danger" :message="error" />
 
           <form method="post" @submit.prevent="login">
-            <div class="field">
+            <div class="form-group zfield">
               <label class="label">Email</label>
               <div class="control">
                 <input
                   v-model="email"
                   type="email"
-                  class="input"
+                  class="form-control"
                   name="email"
                 />
               </div>
             </div>
-            <div class="field">
+            <div class="form-group zfield">
               <label class="label">Password</label>
               <div class="control">
                 <input
                   v-model="password"
                   type="password"
-                  class="input"
+                  class="form-control"
                   name="password"
                 />
               </div>
             </div>
             <div class="control">
-              <button type="submit" class="button is-dark">Log In</button>
+              <button type="submit" class="btn btn-light is-dark">Log In</button>
             </div>
           </form>
         </div>
