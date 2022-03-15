@@ -81,4 +81,9 @@ h2.title{
 a:hover{
   text-decoration: none !important;
 }
+h3.title{
+  color:#fff;
+  font-size: 30px;
+  text-decoration: none !important;
+}
 </style>
