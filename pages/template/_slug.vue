@@ -19,7 +19,10 @@
           </div>
         </div>
 
-        <div class="section section-bg-dark" v-if="template.attributes.label_categories.data.length">
+        <div
+          class="section section-bg-dark"
+          v-if="template.attributes.label_categories.data.length"
+        >
           <div class="title">Selecciona etiquetas</div>
           <ul class="capacities-list label-categories-list">
             <li
@@ -27,11 +30,26 @@
               v-for="labelCategory in template.attributes.label_categories.data"
               v-bind:key="labelCategory.id"
             >
-              <span class="label-category" v-if="template.attributes.labels.data.filter((l) => l.attributes.label_category.data.id === labelCategory.id).length">{{
-                labelCategory.attributes.name
-              }}</span>
-              
-              <ul class="capacities-list labels-list" v-if="template.attributes.labels.data.filter((l) => l.attributes.label_category.data.id === labelCategory.id).length">
+              <span
+                class="label-category"
+                v-if="
+                  template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  ).length
+                "
+                >{{ labelCategory.attributes.name }}</span
+              >
+
+              <ul
+                class="capacities-list labels-list"
+                v-if="
+                  template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  ).length
+                "
+              >
                 <li
                   class="item"
                   v-for="label in template.attributes.labels.data.filter(
@@ -66,10 +84,48 @@
           <!-- <div class="title">
             {{ title }}
           </div> -->
-          <div class="title" v-t="'Dominios'">
-            
+          <div class="title" v-t="'Dominios'"></div>
+          <div class="row">
+            <div class="col-md-6 equal">
+              <div class="domain-quadrant">
+                <div class="domain-quadrant-inner">
+                  {{ template.attributes.domains[0].description }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 equal">
+              <div
+                class="domain-quadrant"
+                v-if="template.attributes.domains.length > 1"
+              >
+                <div class="domain-quadrant-inner">
+                  {{ template.attributes.domains[1].description }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 equal">
+              <div
+                class="domain-quadrant"
+                v-if="template.attributes.domains.length > 2"
+              >
+                <div class="domain-quadrant-inner">
+                  {{ template.attributes.domains[2].description }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 equal">
+              <div
+                class="domain-quadrant"
+                v-if="template.attributes.domains.length > 3"
+              >
+                <div class="domain-quadrant-inner">
+                  {{ template.attributes.domains[3].description }}
+                </div>
+              </div>
+            </div>
           </div>
-          <ul class="index text-center">
+
+          <!-- <ul class="index text-center">
             <li
               class="index-item"
               v-for="domain in template.attributes.domains"
@@ -79,7 +135,7 @@
                 {{ domain.description }}
               </a>
             </li>
-          </ul>
+          </ul> -->
           <div class="next-container text-center">
             <button class="btn btn-sismograf btn-next" @click="next">
               <span v-t="'Siguiente'" />
@@ -95,20 +151,105 @@
               <span> > {{ domain.description }}</span>
             </div>
 
-                  <div class="progress-div-container">
-                    <div class="progress-div">
-                      <div class="progress-title" v-t="'Dominios'">                      
+            <div class="title" v-t="'Principis'"></div>
+
+            <div class="row">
+              <div class="col-md-6 equal">
+                <div class="domain-quadrant" :class="di === 0 ? 'active' : 'inactive'">
+                  <div class="domain-quadrant-inner">
+                    {{ template.attributes.domains[0].description }}
+                    <div v-if="di === 0" class="d-flex">
+                      <div
+                        class="zindex-item principle"
+                        v-for="principle in domain.principles"
+                        v-bind:key="principle.id"
+                      >
+                        {{ principle.name }}
                       </div>
-                      <div class="progress-legend">
-                        {{ di }} / {{ template.attributes.domains.length }} 
-                      </div>
-                      <vue-ellipse-progress color="#333" :progress="di / template.attributes.domains.length * 100" :thickness="4" :size="100" :legend="false">
-                      </vue-ellipse-progress>
                     </div>
-
                   </div>
+                </div>
+              </div>
+              <div class="col-md-6 equal">
+                <div
+                  class="domain-quadrant"
+                  v-if="template.attributes.domains.length > 1"
+                  :class="di === 1 ? 'active' : 'inactive'"
+                >
+                  <div class="domain-quadrant-inner">
+                    {{ template.attributes.domains[1].description }}
+                    <div v-if="di === 1" class="d-flex">
+                      <div
+                        class="zindex-item principle"
+                        v-for="principle in domain.principles"
+                        v-bind:key="principle.id"
+                      >
+                        {{ principle.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 equal">
+                <div
+                  class="domain-quadrant"
+                  v-if="template.attributes.domains.length > 2"
+                  :class="di === 2 ? 'active' : 'inactive'"
+                >
+                  <div class="domain-quadrant-inner">
+                    {{ template.attributes.domains[2].description }}
+                    <div v-if="di === 2" class="d-flex">
+                      <div
+                        class="zindex-item principle"
+                        v-for="principle in domain.principles"
+                        v-bind:key="principle.id"
+                      >
+                        {{ principle.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 equal">
+                <div
+                  class="domain-quadrant"
+                  v-if="template.attributes.domains.length > 3"
+                  :class="di === 3 ? 'active' : 'inactive'"
+                >
+                  <div class="domain-quadrant-inner">
+                    {{ template.attributes.domains[3].description }}
+                    <div v-if="di === 3" class="d-flex">
+                      <div
+                        class="zindex-item principle"
+                        v-for="principle in domain.principles"
+                        v-bind:key="principle.id"
+                      >
+                        {{ principle.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <div class="title">
+            <div class="progress-div-container">
+              <div class="progress-div">
+                <div class="progress-title" v-t="'Dominios'"></div>
+                <div class="progress-legend">
+                  {{ di + 1 }} / {{ template.attributes.domains.length }}
+                </div>
+                <vue-ellipse-progress
+                  color="#333"
+                  :progress="((di+1) / template.attributes.domains.length) * 100"
+                  :thickness="4"
+                  :size="100"
+                  :legend="false"
+                >
+                </vue-ellipse-progress>
+              </div>
+            </div>
+
+            <!-- <div class="title">
               {{ domain.description }}
             </div>
             <h2 class="principle-title text-center" v-t="'Principios'"></h2>
@@ -122,7 +263,7 @@
                   {{ principle.name }}
                 </a>
               </li>
-            </ul>
+            </ul> -->
             <div class="next-container text-center">
               <button class="btn btn-sismograf btn-next" @click="next">
                 <span v-t="'Siguiente'" />
@@ -142,28 +283,38 @@
                 <a :href="`#domain-${domain.id}`">{{ domain.description }}</a>
                 <span> > {{ principle.name }}</span>
               </div>
-              
-                  <div class="progress-div-container">
-                    <div class="progress-div">
-                      <div class="progress-title" v-t="'Dominios'">                      
-                      </div>
-                      <div class="progress-legend">
-                        {{ di }} / {{ template.attributes.domains.length }} 
-                      </div>
-                      <vue-ellipse-progress color="#333" :progress="di / template.attributes.domains.length * 100" :thickness="4" :size="100" :legend="false">
-                      </vue-ellipse-progress>
-                    </div>
 
-                    <div class="progress-div">
-                      <div class="progress-title" v-t="'Principios'">                      
-                      </div>
-                      <div class="progress-legend">
-                        {{ pi }} / {{ domain.principles.length }} 
-                      </div>
-                      <vue-ellipse-progress color="#333" :progress="(pi / domain.principles.length * 100).toFixed(2)" :thickness="4" :size="100" :legend="false">
-                      </vue-ellipse-progress>
-                    </div>
+              <div class="progress-div-container">
+                <div class="progress-div">
+                  <div class="progress-title" v-t="'Dominios'"></div>
+                  <div class="progress-legend">
+                    {{ di + 1}} / {{ template.attributes.domains.length }}
                   </div>
+                  <vue-ellipse-progress
+                    color="#333"
+                    :progress="((di+1) / template.attributes.domains.length) * 100"
+                    :thickness="4"
+                    :size="100"
+                    :legend="false"
+                  >
+                  </vue-ellipse-progress>
+                </div>
+
+                <div class="progress-div">
+                  <div class="progress-title" v-t="'Principios'"></div>
+                  <div class="progress-legend">
+                    {{ pi + 1}} / {{ domain.principles.length }}
+                  </div>
+                  <vue-ellipse-progress
+                    color="#333"
+                    :progress="((pi+1) / domain.principles.length) * 100"
+                    :thickness="4"
+                    :size="100"
+                    :legend="false"
+                  >
+                  </vue-ellipse-progress>
+                </div>
+              </div>
 
               <div class="title">
                 {{ domain.description }}
@@ -190,37 +341,52 @@
                 v-for="(indicator, ii) in pattern.indicators"
                 class="zis-hidden-widescreen"
               >
-
                 <div v-bind:key="indicator.id" class="section">
-
                   <div class="progress-div-container">
                     <div class="progress-div">
-                      <div class="progress-title" v-t="'Dominios'">                      
-                      </div>
+                      <div class="progress-title" v-t="'Dominios'"></div>
                       <div class="progress-legend">
-                        {{ di }} / {{ template.attributes.domains.length }} 
+                        {{ di + 1}} / {{ template.attributes.domains.length }}
                       </div>
-                      <vue-ellipse-progress color="#333" :progress="di / template.attributes.domains.length * 100" :thickness="4" :size="100" :legend="false">
+                      <vue-ellipse-progress
+                        color="#333"
+                        :progress="
+                          ((di+1) / template.attributes.domains.length) * 100
+                        "
+                        :thickness="4"
+                        :size="100"
+                        :legend="false"
+                      >
                       </vue-ellipse-progress>
                     </div>
 
                     <div class="progress-div">
-                      <div class="progress-title" v-t="'Principios'">                      
-                      </div>
+                      <div class="progress-title" v-t="'Principios'"></div>
                       <div class="progress-legend">
-                        {{ pi }} / {{ domain.principles.length }} 
+                        {{ pi + 1}} / {{ domain.principles.length }}
                       </div>
-                      <vue-ellipse-progress color="#333" :progress="(pi / domain.principles.length * 100).toFixed(2)" :thickness="4" :size="100" :legend="false">
+                      <vue-ellipse-progress
+                        color="#333"
+                        :progress="((pi+1) / domain.principles.length) * 100"
+                        :thickness="4"
+                        :size="100"
+                        :legend="false"
+                      >
                       </vue-ellipse-progress>
                     </div>
 
                     <div class="progress-div">
-                      <div class="progress-title" v-t="'Indicadores'">                      
-                      </div>
+                      <div class="progress-title" v-t="'Indicadores'"></div>
                       <div class="progress-legend">
-                        {{ ppi }} / {{ principle.patterns.length }} 
+                        {{ ppi + 1}} / {{ principle.patterns.length }}
                       </div>
-                      <vue-ellipse-progress color="#333" :progress="ppi / principle.patterns.length * 100" :thickness="4" :size="100" :legend="false">
+                      <vue-ellipse-progress
+                        color="#333"
+                        :progress="((ppi+1) / principle.patterns.length) * 100"
+                        :thickness="4"
+                        :size="100"
+                        :legend="false"
+                      >
                       </vue-ellipse-progress>
                     </div>
                   </div>
@@ -287,8 +453,8 @@
             </template>
           </template>
         </template>
-
-        <!-- <div class="section">
+        <!-- 
+        <div class="section">
           <div class="title">Dominios</div>
           <div class="zrow">
             <CBarDomains
@@ -411,10 +577,13 @@
  -->
         <div class="section">
           <div class="title total">
-            <span v-t="'Guardar análisis'" />
+            <span v-t="'Enviar'" />
           </div>
 
-          <div class="text-center description" v-t="'Información opcional:'"></div>
+          <div
+            class="text-center description"
+            v-t="'Información opcional:'"
+          ></div>
 
           <ul class="capacities-list" v-if="template.attributes.labels.data">
             <li
@@ -438,7 +607,12 @@
             <div class="col-md">
               <span class="label" v-t="'Email'"></span>
               <input type="text" v-model="analysis.email" name="zemail" />
-              <span class="label" v-t="'(Opcional, per si vols que et fem el retorn de l`anàlisi per correu)'"></span>
+              <span
+                class="label"
+                v-t="
+                  '(Opcional, per si vols que et fem el retorn de l`anàlisi per correu)'
+                "
+              ></span>
             </div>
             <!-- <div class="col-md">
               <span class="label" v-t="'Organización'"></span>
@@ -467,7 +641,7 @@
               @click="save"
               v-bind:disabled="!validForm"
             >
-              <span v-t="'Guardar'" />
+              <span v-t="'Enviar'" />
               <font-awesome-icon :icon="fas.faLongArrowAltRight" />
             </button>
             <br />
@@ -592,6 +766,7 @@ export default {
         uid: null,
         publishedAt: null,
         parent: null,
+        questionnaire: null,
       },
       commentIndicator: null,
       comment: "",
@@ -779,8 +954,8 @@ export default {
     },
   },
   async asyncData({ $axios, app, error, store }) {
-    let slug = app.context.route.params.slug;    
-    
+    let slug = app.context.route.params.slug;
+
     const headers = {
       headers: {
         Authorization: `Bearer ${process.env.API_TOKEN}`,
@@ -789,23 +964,22 @@ export default {
     // console.log('context i18n', app.i18n)
     var { data } = await $axios.get(
       `/templates?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}`,
-      {}
+      headers
     );
     // console.log('templateData',data, slug)
     if (!data || data.data.length == 0) {
       error({ statusCode: 404, message: "Page not found" });
-      return
-    }
-    else if (data.data && data.data.length === 0) {
+      return;
+    } else if (data.data && data.data.length === 0) {
       error({ statusCode: 404, message: "Page not found" });
-      return
+      return;
     }
 
-    const tid = data.data[0].id
+    const tid = data.data[0].id;
 
     var { data } = await $axios.get(
       `/templates/indicators/${tid}?locale=${app.i18n.locale}`,
-      { }
+      headers
     );
 
     let template = data.data;
@@ -828,14 +1002,14 @@ export default {
     if (app.context.route.query && app.context.route.query.r) {
       var { data } = await $axios.get(
         `/analyses/?filters[uid][$eq]=${app.context.route.query.r}&populate=labels&locale=${app.i18n.locale}`,
-        {}
+        headers
       );
       if (data && data.data && data.data.length > 0) {
         analysis.id = data.data[0].id;
 
         var { data } = await $axios.get(
           `/analyses/${analysis.id}?populate[0]=*&populate[1]=comments&populate[2]=results&populate[3]=comments.indicator&populate[4]=results.indicator&populate[5]=labels&locale=${app.i18n.locale}`,
-          {}
+          headers
         );
 
         analysis.email = data.data.attributes.email;
@@ -866,6 +1040,18 @@ export default {
         });
         analysis.comments = data.data.attributes.comments;
       }
+    } else if (app.context.route.query && app.context.route.query.q) {
+      const questionnaireSlug = app.context.route.query.q;
+      var { data } = await $axios.get(
+        `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&locale=${app.i18n.locale}`,
+        headers
+      );
+
+      if (data.data.length && data.data[0].id) {
+        analysis.questionnaire = data.data[0].id;
+      }
+
+      console.log("questionnaireSlug", analysis);
     }
     return {
       slug: slug,
@@ -1019,18 +1205,15 @@ export default {
         this.analysis.uid = uuidv4();
         const post = { data: this.analysis };
         // delete post.data.id
-        var { data } = await this.$axios.post(
-          `/analyses`,
-          post,
-          {}
-        );
-        this.analysis.id = data.id;
+        var { data } = await this.$axios.post(`/analyses`, post, headers);
+        console.log('data',data)
+        this.analysis.id = data.data.id;
       } else {
         const post = { data: this.analysis };
         var { data } = await this.$axios.put(
           `/analyses/${this.analysis.id}`,
           post,
-          {}
+          headers
         );
       }
       this.$router.push(
@@ -1087,7 +1270,7 @@ export default {
 
 .title {
   text-align: center;
-  font-size: 80px;
+  font-size: 5vw;
   font-weight: bold;
   color: #fff;
 }
@@ -1230,27 +1413,65 @@ textarea.comment {
 .index .index-item a:hover {
   text-decoration: underline;
 }
-.progress-div-container{
+.progress-div-container {
   position: absolute;
   top: 1rem;
   right: 1vw;
 }
-.progress-div{
+.progress-div {
   position: relative;
   color: #fff;
   width: 100px;
-  text-align: center;  
+  text-align: center;
 }
-.progress-legend{
+.progress-legend {
   position: absolute;
-  top:60px;
+  top: 60px;
   width: 100px;
   text-align: center;
   font-weight: bold;
 }
-.principle-title{
+.principle-title {
   color: #fff;
   font-weight: bold;
+}
+.domain-quadrant {
+  background: #eee;
+  display: flex;
+  width: 100%;
+  margin: 2rem;
+  text-align: center;
+  border-radius: 6px;
+}
+.domain-quadrant-inner {
+  margin-bottom: 3rem;
+  padding: 3rem;
+  text-align: center;
+  font-size: 2rem;
+  width: 100%;
+}
+.domain-quadrant.inactive{
+  opacity: 0.2;
+
+}
+.equal {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}
+@media (min-width: 768px) {
+  .row.equal {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+.principle {
+  font-size: 14px;
+  background: rgb(74, 143, 173);
+  color: #fff;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 6px;
 }
 </style>
 <style>

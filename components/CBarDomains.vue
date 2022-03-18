@@ -123,13 +123,13 @@ export default {
   },
   methods: {
     fillData() {
-      //console.log("cline data", this.data);
+      console.log("cline data", this.data);
       let labels = [];
       this.data.forEach((domain) => {
         labels = labels.concat(domain.name);
       });
       let datasetData = [];
-      console.log("cbardom this.data", this.data);
+      // console.log("cbardom this.data", this.data);
       this.data.forEach((domain) => {
         datasetData = datasetData.concat(domain.value ? domain.value : 0);
       });

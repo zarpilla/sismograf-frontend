@@ -17,6 +17,7 @@ export default {
 <style scoped>
 .admin {
   background: rgb(85, 175, 184);
+  background: #fff;
   min-height: 100vh;
 }
 </style>
