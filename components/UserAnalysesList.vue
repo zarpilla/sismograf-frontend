@@ -1,10 +1,10 @@
 <template>
-  <div class="analyses zcontainer-fluid">
+  <div class="analyses zcontainer-fluid" id="lalala">
     <b-table hover :items="analyses" :fields="fields">
       <template #cell(uid)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'id', data.item.id)"
+          @click="setGroup(0, 'id', data.item.id, data.value)"
           >{{ data.value }}</span
         >
       </template>
@@ -26,14 +26,15 @@
             ><b>{{ (data.value * 14.29 - 14.29).toFixed(0) }}%</b></span
           >
         </b-progress-bar>
-        <b class="ml-1" style="display: inline-block;">({{data.value}})</b>
+        <b class="ml-1" style="display: inline-block;">
+          ({{ toLevel(data.value) }})</b>
         </div>
       </template>
 
       <template #cell(template)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'template', data.item.template.data.id)"
+          @click="setGroup(0, 'template', data.item.template.data.id, data.value.data.attributes.name)"
           >{{ data.value.data.attributes.name }}</span
         >
       </template>
@@ -41,7 +42,7 @@
       <template #cell(questionnaire)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'questionnaire', data.item.questionnaire.data.id)"
+          @click="setGroup(0, 'questionnaire', data.item.questionnaire.data.id, data.value.data.attributes.name)"
           >{{ data.value.data.attributes.name }}</span
         >
       </template>
@@ -49,22 +50,25 @@
       <template #cell(organization)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'organization', data.item.questionnaire.data.attributes.organization.data.id)"
+          @click="setGroup(0, 'organization', data.item.questionnaire.data.attributes.organization.data.id, data.item.questionnaire.data.attributes.organization.data.attributes.name)"
           >{{ data.item.questionnaire.data.attributes.organization.data.attributes.name }}</span
         >
-      </template> 
-
-
-      
+      </template>
 
       <template #cell(updatedAt)="data">
         {{ data.value | toDate }}
       </template>
     </b-table>
+<hr class="mt-5">
+<hr class="mt-1">
+    <h2 v-if="pivotData.length">Results</h2>
+<div class="mb-5">
+    <summary-chart class="mb-5" v-if="pivotData.length" :levels="resilienceLevels" :comparer="comparer" :pivotData="pivotData"></summary-chart>
+    </div>
 
-    <div id="sismo-pivot" class="mt-5"></div>
+    <!-- <div id="sismo-pivot" class="mt-5"></div> -->
 
-    <download-excel class="btn btn-primary btn-default export mt-5 mb-5" :data="pivotData">
+    <download-excel v-if="pivotData.length" class="btn btn-primary btn-default export mt-5 mb-5" :data="pivotData" :fields="excelFields">
       Download
     </download-excel>
 
@@ -75,12 +79,11 @@
 import { mapGetters } from "vuex";
 import moment from "moment";
 import configPivot from './configPivot'
+import SummaryChart from './SummaryChart'
+import _ from "lodash";
 
 export default {
   name: "UserAnalysesList",
-  computed: {
-    ...mapGetters(["isAuthenticated", "loggedInUser"]),
-  },
   data() {
     return {
       analyses: [],
@@ -110,10 +113,34 @@ export default {
       index: 1,
       group1: null,
       identifier1: null,
-      comparer: { group1: "none", identifier1: 0, group2: "none", identifier2: 0 },
+      comparer: { group1: "none", identifier1: 0, title1: "", group2: "none", identifier2: 0, title2: "" },
       pivotData: [],
-      pivotgrid: null
+      pivotgrid: null,
+      excelFields: {'analysisId': 'analysisId', 'templateName': 'templateName', 'questionnaireName': 'questionnaireName', 'domainName': 'domainName', 'principleName': 'principleName', 'patternName': 'patternName', 'indicatorName': 'indicatorName', 'responseValue': 'responseValue', 'resilienceLevel': 'resilienceLevel', 'comments': 'comments'},
+      resilienceLevels: []
     };
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated", "loggedInUser"]),
+    chartSummary () {
+      const summaryByDomain = _(this.pivotData)
+        .groupBy('domainName')
+          .map((domainRows, id) => ({
+            domainName: id,
+            resilienceLevel: _.meanBy(domainRows, 'resilienceLevel'),            
+            principles: _(domainRows).groupBy('principleName').map((principleRows, id) => ({
+              principleName: id,
+              resilienceLevel: _.meanBy(principleRows, 'resilienceLevel'),
+              patterns: _(principleRows).groupBy('patternName').map((patternsRows, id) => ({
+                patternName: id,
+                resilienceLevel: _.meanBy(patternsRows, 'resilienceLevel'),
+              }))
+            }))
+            .value()
+          }))
+          .value()
+      return { resilienceLevel: _.meanBy(summaryByDomain, 'resilienceLevel'), domains: summaryByDomain }
+    }
   },
   async fetch() {
     const headers = {
@@ -127,14 +154,24 @@ export default {
     );
 
     this.analyses = data.data.map(({ id, ...more }) => {
-      console.log('more', more)
       return { id, ...more.attributes };
     });
+
+    var { data } = await this.$axios.get(
+      `/resilience-levels?locale=${this.$i18n.locale}`,
+      headers
+    );
+
+    // console.log('data', data)
+
+    this.resilienceLevels = data.data
+
     // filteredTemplates = filteredTemplates.map(({users, ...keepAttrs}) => keepAttrs)
   },
   async mounted() {
     await this.addScript("/vendor/jquery/jquery.js", "jquery-js");
     await this.addScript("/vendor/kendo/kendo.all.min.js", "kendo-all-min-js");
+    // await this.addScript("/vendor/html2pdf/html2pdf.bundle.min.js", "html2pdf-js");
     await this.addStyle(
       "/vendor/kendo/kendo.common.min.css",
       "kendo-common-min-css"
@@ -143,9 +180,10 @@ export default {
     await this.addStyle("/vendor/kendo/custom.css", "custom-css");
   },
   methods: {
-    setGroup(index, group, identifier) {
+    setGroup(index, group, identifier, title) {
       this.comparer[`group${index + 1}`] = group;
       this.comparer[`identifier${index + 1}`] = identifier;
+      this.comparer[`title${index + 1}`] = title;
 
       this.updatePivot()
     },
@@ -171,31 +209,22 @@ export default {
         this.pivotData = Object.freeze(pivotData);
         configPivot.dataSource.data = this.pivotData
 
-        configPivot.dataBound = (e) => {
-        /* The result can be observed in the DevTools(F12) console of the browser. */
-          // console.log("data bound", e);
-          var grid = $("#sismo-pivot").data("kendoPivotGrid");
-          // console.log('dataBound', grid.dataSource._columns)
+        // configPivot.dataBound = (e) => {
+        //   var grid = $("#sismo-pivot").data("kendoPivotGrid");
+        //   localStorage["sismo-pivot-options-rows"] = JSON.stringify(grid.dataSource._rows)
+        //   localStorage["sismo-pivot-options-columns"] = JSON.stringify(grid.dataSource._columns)
+        // }
+        // configPivot.dataBinding = (e) => {
+        // }
 
-          localStorage["sismo-pivot-options-rows"] = JSON.stringify(grid.dataSource._rows)
-          localStorage["sismo-pivot-options-columns"] = JSON.stringify(grid.dataSource._columns)
-        }
-        configPivot.dataBinding = (e) => {
-        /* The result can be observed in the DevTools(F12) console of the browser. */
-          // console.log("data dataBinding", e);
+        // if (localStorage["sismo-pivot-options-rows"]) {
+        //   configPivot.dataSource.rows = JSON.parse(localStorage["sismo-pivot-options-rows"])
+        //   configPivot.dataSource.columns = JSON.parse(localStorage["sismo-pivot-options-columns"])
+        // }
 
-          // var grid = $("#sismo-pivot").data("kendoPivotGrid");
-          // console.log('dataBinding', grid.dataSource._columns)
-        }
-
-        if (localStorage["sismo-pivot-options-rows"]) {
-          configPivot.dataSource.rows = JSON.parse(localStorage["sismo-pivot-options-rows"])
-          configPivot.dataSource.columns = JSON.parse(localStorage["sismo-pivot-options-columns"])
-        }
-
-        window.jQuery('#sismo-pivot').empty()
-        window.jQuery('#sismo-pivot').kendoPivotGrid(configPivot)
-        this.pivotgrid = $("#sismo-pivot").data("kendoPivotGrid");
+        // window.jQuery('#sismo-pivot').empty()
+        // window.jQuery('#sismo-pivot').kendoPivotGrid(configPivot)
+        // this.pivotgrid = $("#sismo-pivot").data("kendoPivotGrid");
         
       }
     },
@@ -229,6 +258,23 @@ export default {
         link.addEventListener("abort", (e) => reject(e));
         head.appendChild(link);
       });
+    },
+    getPDF() {
+      var element = document.getElementById("sismograf-report");
+      var opt = {
+        margin: [0, 0],
+        filename: `sismograf-${this.title}`,
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { dpi: 300, scale: 4, letterRendering: true },
+        jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
+      };
+      // console.log('element', element)
+      html2pdf().set(opt).from(element).save();
+      // html2pdf().from(element).save();
+    },
+    toLevel(value) {
+      const level = this.resilienceLevels.find(r => parseFloat(r.attributes.code) + 0.5 > value)
+      return level ? level.attributes.name : ''
     },
   },
   filters: {

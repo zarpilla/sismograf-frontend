@@ -23,6 +23,7 @@ export default {
     { src: '~/plugins/vue-ellipse-progress.js', mode: 'client' },
     '@/plugins/axios',
     { src: '~/plugins/download-excel.js', mode: 'client' },
+    // { src: '@/plugins/vue-html2pdf', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
