@@ -121,7 +121,7 @@ export default {
       },
     };
     var { data } = await this.$axios.get(
-      `/analyses?populate=template&populate=questionnaire&populate=questionnaire.organization&filters[template][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
+      `/analyses?populate=template&populate=questionnaire&populate=template.users&populate=questionnaire.users&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
       headers
     );
 
