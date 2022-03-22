@@ -1,52 +1,47 @@
 <template>
   <div class="chart-summary">
-
-        <section slot="pdf-content">
-
-
-    <div class="sismograf-report" id="sismograf-report">
-      <h4>{{ comparer.title1 }}</h4>
-      <div class="d-block zmb-2">
-        <resilience-progress
-          name="Global"
-          :value="chartSummary.resilienceLevel"
-          :levels="levels"
-        />
-      </div>
-      <div
-        class="d-block zmb-2 ml-5"
-        v-for="(domain, i) in chartSummary.domains"
-        :key="i"
-      >
-        <hr />
-        <resilience-progress
-          class="mb-2"
-          :name="
-            domain.domainDescription
-              ? domain.domainDescription
-              : domain.domainName
-          "
-          :value="domain.resilienceLevel"
-          :levels="levels"
-        />
-
-        <div
-          class="d-block mb-2 ml-5"
-          v-for="(principle, j) in domain.principles"
-          :key="j"
-        >
+    <section slot="pdf-content">
+      <div class="sismograf-report" id="sismograf-report">
+        <h4>{{ comparer.title1 }}</h4>
+        <div class="d-block zmb-2">
           <resilience-progress
-            :name="principle.principleName"
-            :value="principle.resilienceLevel"
+            name="Global"
+            :value="chartSummary.resilienceLevel"
             :levels="levels"
           />
         </div>
+        <div
+          class="d-block zmb-2 ml-5"
+          v-for="(domain, i) in chartSummary.domains"
+          :key="i"
+        >
+          <hr />
+          <resilience-progress
+            class="mb-2"
+            :name="
+              domain.domainDescription
+                ? domain.domainDescription
+                : domain.domainName
+            "
+            :value="domain.resilienceLevel"
+            :levels="levels"
+          />
+
+          <div
+            class="d-block mb-2 ml-5"
+            v-for="(principle, j) in domain.principles"
+            :key="j"
+          >
+            <resilience-progress
+              :name="principle.principleName"
+              :value="principle.resilienceLevel"
+              :levels="levels"
+            />
+          </div>
+        </div>
       </div>
-    </div>
-
-
-        </section>
-<!-- 
+    </section>
+    <!-- 
     <button class="btn btn-primary mt-5" @click="getPDF">PDF</button> -->
   </div>
 </template>
@@ -81,9 +76,9 @@ export default {
     ...mapGetters(["isAuthenticated", "loggedInUser"]),
     chartSummary() {
       const summaryByDomain = _(this.pivotData)
-        .groupBy("domainName")
+        .groupBy("domainDescription")
         .map((domainRows, id) => ({
-          domainName: id,
+          domainDescription: id,
           resilienceLevel: _.meanBy(domainRows, "resilienceLevel"),
           principles: _(domainRows)
             .groupBy("principleName")
@@ -131,9 +126,7 @@ export default {
       });
     },
     getPDF() {
-
       // this.$refs.html2Pdf.generatePdf()
-
       // var element = document.getElementById("sismograf-report");
       // var opt = {
       //   margin: [0, 0],

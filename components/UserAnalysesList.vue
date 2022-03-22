@@ -8,41 +8,62 @@
           >{{ data.value }}</span
         >
       </template>
-      <template #cell(resilienceLevel)="data">        
+      <template #cell(resilienceLevel)="data">
         <div class="d-flex">
-        <b-progress-bar
-          :value="data.value * 14.29 - 14.29"
-          :max="100"
-          show-progress
-          :variant="
-            data.value < 2.5
-              ? 'danger'
-              : data.value < 5.5
-              ? 'warning'
-              : 'success'
-          "
-        >
-          <span 
-            ><b>{{ (data.value * 14.29 - 14.29).toFixed(0) }}%</b></span
+          <b-progress-bar
+            :value="data.value * 14.29 - 14.29"
+            :max="100"
+            show-progress
+            :variant="
+              data.value < 2.5
+                ? 'danger'
+                : data.value < 5.5
+                ? 'warning'
+                : 'success'
+            "
           >
-        </b-progress-bar>
-        <b class="ml-1" style="display: inline-block;">
-          ({{ toLevel(data.value) }})</b>
+            <span
+              ><b>{{ (data.value * 14.29 - 14.29).toFixed(0) }}%</b></span
+            >
+          </b-progress-bar>
+          <b class="ml-1" style="display: inline-block">
+            ({{
+              toLevel(data.value, data.item.template.data.attributes.locale)
+            }})</b
+          >
         </div>
       </template>
 
       <template #cell(template)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'template', data.item.template.data.id, data.value.data.attributes.name)"
+          @click="
+            setGroup(
+              0,
+              'template',
+              data.item.template.data.id,
+              data.value.data.attributes.name
+            )
+          "
           >{{ data.value.data.attributes.name }}</span
         >
+      </template>
+
+      <template #cell(locale)="data">
+        <span class="z">{{ data.item.template.data.attributes.locale }}</span>
       </template>
 
       <template #cell(questionnaire)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'questionnaire', data.item.questionnaire.data.id, data.value.data.attributes.name)"
+          @click="
+            setGroup(
+              0,
+              'questionnaire',
+              data.item.questionnaire.data.id,
+              data.value.data.attributes.name
+            )
+          "
           >{{ data.value.data.attributes.name }}</span
         >
       </template>
@@ -50,8 +71,19 @@
       <template #cell(organization)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'organization', data.item.questionnaire.data.attributes.organization.data.id, data.item.questionnaire.data.attributes.organization.data.attributes.name)"
-          >{{ data.item.questionnaire.data.attributes.organization.data.attributes.name }}</span
+          @click="
+            setGroup(
+              0,
+              'organization',
+              data.item.questionnaire.data.attributes.organization.data.id,
+              data.item.questionnaire.data.attributes.organization.data
+                .attributes.name
+            )
+          "
+          >{{
+            data.item.questionnaire.data.attributes.organization.data.attributes
+              .name
+          }}</span
         >
       </template>
 
@@ -59,27 +91,37 @@
         {{ data.value | toDate }}
       </template>
     </b-table>
-<hr class="mt-5">
-<hr class="mt-1">
+    <hr class="mt-5" />
+    <hr class="mt-1" />
     <h2 v-if="pivotData.length">Results</h2>
-<div class="mb-5">
-    <summary-chart class="mb-5" v-if="pivotData.length" :levels="resilienceLevels" :comparer="comparer" :pivotData="pivotData"></summary-chart>
+    <div class="mb-5">
+      <summary-chart
+        class="mb-5"
+        v-if="pivotData.length"
+        :levels="resilienceLevels"
+        :comparer="comparer"
+        :pivotData="pivotData"
+      ></summary-chart>
     </div>
 
     <!-- <div id="sismo-pivot" class="mt-5"></div> -->
 
-    <download-excel v-if="pivotData.length" class="btn btn-primary btn-default export mt-5 mb-5" :data="pivotData" :fields="excelFields">
+    <download-excel
+      v-if="pivotData.length"
+      class="btn btn-primary btn-default export mt-5 mb-5"
+      :data="pivotData"
+      :fields="excelFields"
+    >
       Download
     </download-excel>
-
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import moment from "moment";
-import configPivot from './configPivot'
-import SummaryChart from './SummaryChart'
+import configPivot from "./configPivot";
+import SummaryChart from "./SummaryChart";
 import _ from "lodash";
 
 export default {
@@ -97,11 +139,14 @@ export default {
           key: "questionnaire",
           label: "Questionnaire",
         },
-{
+        {
           key: "organization",
           label: "Organization",
         },
-        
+        // {
+        //   key: "locale",
+        //   label: "Language",
+        // },
         "resilienceLevel",
         {
           key: "updatedAt",
@@ -113,34 +158,60 @@ export default {
       index: 1,
       group1: null,
       identifier1: null,
-      comparer: { group1: "none", identifier1: 0, title1: "", group2: "none", identifier2: 0, title2: "" },
+      comparer: {
+        group1: "none",
+        identifier1: 0,
+        title1: "",
+        group2: "none",
+        identifier2: 0,
+        title2: "",
+      },
       pivotData: [],
       pivotgrid: null,
-      excelFields: {'analysisId': 'analysisId', 'templateName': 'templateName', 'questionnaireName': 'questionnaireName', 'domainName': 'domainName', 'principleName': 'principleName', 'patternName': 'patternName', 'indicatorName': 'indicatorName', 'responseValue': 'responseValue', 'resilienceLevel': 'resilienceLevel', 'comments': 'comments'},
-      resilienceLevels: []
+      excelFields: {
+        analysisId: "analysisId",
+        templateName: "templateName",
+        questionnaireName: "questionnaireName",
+        domainName: "domainName",        
+        domainDescription: "domainDescription",
+        principleName: "principleName",
+        patternName: "patternName",
+        indicatorName: "indicatorName",
+        responseValue: "responseValue",
+        resilienceLevel: "resilienceLevel",
+        comments: "comments",
+      },
+      resilienceLevels: { ca: [], en: [], es: [] },
     };
   },
   computed: {
     ...mapGetters(["isAuthenticated", "loggedInUser"]),
-    chartSummary () {
+    chartSummary() {
       const summaryByDomain = _(this.pivotData)
-        .groupBy('domainName')
-          .map((domainRows, id) => ({
-            domainName: id,
-            resilienceLevel: _.meanBy(domainRows, 'resilienceLevel'),            
-            principles: _(domainRows).groupBy('principleName').map((principleRows, id) => ({
+        .groupBy("domainDescription")
+        .map((domainRows, id) => ({
+          domainDescription: id,
+          resilienceLevel: _.meanBy(domainRows, "resilienceLevel"),
+          principles: _(domainRows)
+            .groupBy("principleName")
+            .map((principleRows, id) => ({
               principleName: id,
-              resilienceLevel: _.meanBy(principleRows, 'resilienceLevel'),
-              patterns: _(principleRows).groupBy('patternName').map((patternsRows, id) => ({
-                patternName: id,
-                resilienceLevel: _.meanBy(patternsRows, 'resilienceLevel'),
-              }))
+              resilienceLevel: _.meanBy(principleRows, "resilienceLevel"),
+              patterns: _(principleRows)
+                .groupBy("patternName")
+                .map((patternsRows, id) => ({
+                  patternName: id,
+                  resilienceLevel: _.meanBy(patternsRows, "resilienceLevel"),
+                })),
             }))
-            .value()
-          }))
-          .value()
-      return { resilienceLevel: _.meanBy(summaryByDomain, 'resilienceLevel'), domains: summaryByDomain }
-    }
+            .value(),
+        }))
+        .value();
+      return {
+        resilienceLevel: _.meanBy(summaryByDomain, "resilienceLevel"),
+        domains: summaryByDomain,
+      };
+    },
   },
   async fetch() {
     const headers = {
@@ -157,27 +228,44 @@ export default {
       return { id, ...more.attributes };
     });
 
-    var { data } = await this.$axios.get(
-      `/resilience-levels?locale=${this.$i18n.locale}`,
-      headers
-    );
+    // console.log('this.$i18n.locales', this.$i18n.locales)
 
-    // console.log('data', data)
-
-    this.resilienceLevels = data.data
+    // var { data } = await this.$axios.get(
+    //   `/resilience-levels?locale=${this.$i18n.locale}`,
+    //   headers
+    // );
+    // // console.log('data', data)
+    // this.resilienceLevels = data.data
 
     // filteredTemplates = filteredTemplates.map(({users, ...keepAttrs}) => keepAttrs)
   },
   async mounted() {
-    await this.addScript("/vendor/jquery/jquery.js", "jquery-js");
-    await this.addScript("/vendor/kendo/kendo.all.min.js", "kendo-all-min-js");
-    // await this.addScript("/vendor/html2pdf/html2pdf.bundle.min.js", "html2pdf-js");
-    await this.addStyle(
-      "/vendor/kendo/kendo.common.min.css",
-      "kendo-common-min-css"
-    );
-    await this.addStyle("/vendor/kendo/kendo.custom.css", "kendo-custom-css");
-    await this.addStyle("/vendor/kendo/custom.css", "custom-css");
+    // await this.addScript("/vendor/jquery/jquery.js", "jquery-js");
+    // await this.addScript("/vendor/kendo/kendo.all.min.js", "kendo-all-min-js");
+    // // await this.addScript("/vendor/html2pdf/html2pdf.bundle.min.js", "html2pdf-js");
+    // await this.addStyle(
+    //   "/vendor/kendo/kendo.common.min.css",
+    //   "kendo-common-min-css"
+    // );
+    // await this.addStyle("/vendor/kendo/kendo.custom.css", "kendo-custom-css");
+    // await this.addStyle("/vendor/kendo/custom.css", "custom-css");
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${process.env.API_TOKEN}`,
+      },
+    };
+
+    this.$i18n.locales.forEach(async (loc) => {
+      var { data } = await this.$axios.get(
+        `/resilience-levels?locale=${loc}`,
+        headers
+      );
+
+      console.log("data", data.data, loc);
+
+      this.resilienceLevels[loc] = data.data;
+    });
   },
   methods: {
     setGroup(index, group, identifier, title) {
@@ -185,7 +273,7 @@ export default {
       this.comparer[`identifier${index + 1}`] = identifier;
       this.comparer[`title${index + 1}`] = title;
 
-      this.updatePivot()
+      this.updatePivot();
     },
     async updatePivot() {
       const headers = {
@@ -198,16 +286,29 @@ export default {
           `/analyses/compare/${this.comparer.group1}/${this.comparer.group2}/?g1=${this.comparer.identifier1}&g2=${this.comparer.identifier2}`,
           headers
         );
-        const pivotData = []
-        data.g1.analyses.forEach(a => {
-          a.results = a.results.map(({ id, value, domainId, templateId, questionnaireId, principleId, patternId, indicatorId, ...item }) => item)
-          a.results.forEach(r => {            
-            pivotData.push(r)
-          })          
-        })
+        const pivotData = [];
+        data.g1.analyses.forEach((a) => {
+          a.results = a.results.map(
+            ({
+              id,
+              value,
+              domainId,
+              templateId,
+              questionnaireId,
+              principleId,
+              patternId,
+              indicatorId,
+              ...item
+            }) => item
+          );
+          a.results.forEach((r) => {
+            r.locale = "ca";
+            pivotData.push(r);
+          });
+        });
 
         this.pivotData = Object.freeze(pivotData);
-        configPivot.dataSource.data = this.pivotData
+        configPivot.dataSource.data = this.pivotData;
 
         // configPivot.dataBound = (e) => {
         //   var grid = $("#sismo-pivot").data("kendoPivotGrid");
@@ -225,7 +326,6 @@ export default {
         // window.jQuery('#sismo-pivot').empty()
         // window.jQuery('#sismo-pivot').kendoPivotGrid(configPivot)
         // this.pivotgrid = $("#sismo-pivot").data("kendoPivotGrid");
-        
       }
     },
     async addScript(src, id) {
@@ -272,9 +372,11 @@ export default {
       html2pdf().set(opt).from(element).save();
       // html2pdf().from(element).save();
     },
-    toLevel(value) {
-      const level = this.resilienceLevels.find(r => parseFloat(r.attributes.code) + 0.5 > value)
-      return level ? level.attributes.name : ''
+    toLevel(value, locale) {
+      const level = this.resilienceLevels[locale].find(
+        (r) => parseFloat(r.attributes.code) + 0.5 > value
+      );
+      return level ? level.attributes.name : "";
     },
   },
   filters: {
