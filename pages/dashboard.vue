@@ -20,12 +20,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { UserAnalysesList } from "@/components/UserAnalysesList.vue";
 
 export default {
   middleware: ["auth"],
   layout: 'admin',
-  components: { UserAnalysesList },
   computed: {
     ...mapGetters(["loggedInUser"]),
   },

@@ -21,7 +21,8 @@ export default {
     '@/plugins/bootstrap-vue',
     '@/plugins/statistics',
     { src: '~/plugins/vue-ellipse-progress.js', mode: 'client' },
-    '@/plugins/axios'
+    '@/plugins/axios',
+    { src: '~/plugins/download-excel.js', mode: 'client' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -85,7 +86,8 @@ export default {
           "Guardar": "Guardar",
           "Información opcional:": "",
           "Inicio": "Inici",
-          "Guardado correctamente": "Guardat correctament. Moltes gràcies per la teva participació!"
+          "Guardado correctamente": "Guardat correctament. Moltes gràcies per la teva participació!",
+          "Organización": "Organització"
         },
         es: {
           welcome: 'Bienvenidas',

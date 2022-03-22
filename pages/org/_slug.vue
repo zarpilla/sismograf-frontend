@@ -7,7 +7,6 @@
         v-bind:key="organization.id"
       >
         {{ organization.attributes.name }}
-        
 
         <div
           class="zcard"
@@ -15,14 +14,22 @@
           v-bind:key="questionnaire.id"
         >
           <nuxt-link
-          :to="localePath({ name: 'template-slug', params: { slug: questionnaire.attributes.template.data.attributes.slug }, query: { q: questionnaire.attributes.slug } })"
-          @click.prevent.stop="$i18n.setLocale(template.attributes.locale)"
-          exact-active-class="is-active"
-        >
-          <h3 class="title is-3">
-            {{ questionnaire.attributes.template.data.attributes.name }}
-          </h3>
-        </nuxt-link>
+            :to="
+              localePath({
+                name: 'template-slug',
+                params: {
+                  slug: questionnaire.attributes.template.data.attributes.slug,
+                },
+                query: { q: questionnaire.attributes.slug },
+              })
+            "
+            @click.prevent.stop="$i18n.setLocale(template.attributes.locale)"
+            exact-active-class="is-active"
+          >
+            <h3 class="title is-3">
+              {{ questionnaire.attributes.template.data.attributes.name }}
+            </h3>
+          </nuxt-link>
         </div>
       </div>
     </div>

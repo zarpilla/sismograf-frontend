@@ -584,7 +584,7 @@
             class="text-center description"
             v-t="'Información opcional:'"
           ></div>
-
+          
           <ul class="capacities-list" v-if="template.attributes.labels.data">
             <li
               class="item"
@@ -606,7 +606,7 @@
           <div class="row text-center mt-5">
             <div class="col-md">
               <span class="label" v-t="'Email'"></span>
-              <input type="text" v-model="analysis.email" name="zemail" />
+              <input type="text" v-model="analysis.email" name="zemail" class="form-control" />
               <span
                 class="label"
                 v-t="
@@ -614,15 +614,16 @@
                 "
               ></span>
             </div>
-            <!-- <div class="col-md">
+            <div class="col-md" v-if="questionnaire && questionnaire.attributes && questionnaire.attributes.showOrganization">
               <span class="label" v-t="'Organización'"></span>
               <input
+              class="form-control"
                 type="text"
                 v-model="analysis.organization"
                 name="organization"
               />
             </div>
-            <div class="col-md">
+            <!-- <div class="col-md">
               <span class="label" v-t="'Proyecto'"></span>
               <input type="text" v-model="analysis.project" name="project" />
             </div>
@@ -768,6 +769,7 @@ export default {
         parent: null,
         questionnaire: null,
       },
+      questionnaire: null,
       commentIndicator: null,
       comment: "",
       progressDomain: 0,
@@ -999,6 +1001,9 @@ export default {
       name: "",
       parent: null,
     };
+
+    let questionnaire = null
+
     if (app.context.route.query && app.context.route.query.r) {
       var { data } = await $axios.get(
         `/analyses/?filters[uid][$eq]=${app.context.route.query.r}&populate=labels&locale=${app.i18n.locale}`,
@@ -1040,23 +1045,25 @@ export default {
         });
         analysis.comments = data.data.attributes.comments;
       }
-    } else if (app.context.route.query && app.context.route.query.q) {
-      const questionnaireSlug = app.context.route.query.q;
+    } 
+    
+    if (app.context.route.query && app.context.route.query.q) {
+      // const questionnaireSlug = app.context.route.query.q;
       var { data } = await $axios.get(
         `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&locale=${app.i18n.locale}`,
         headers
       );
-
+      
       if (data.data.length && data.data[0].id) {
         analysis.questionnaire = data.data[0].id;
+        questionnaire = data.data[0]
       }
-
-      console.log("questionnaireSlug", analysis);
     }
     return {
       slug: slug,
       template,
       analysis,
+      questionnaire
     };
   },
   mounted() {
