@@ -52,7 +52,8 @@
           @click="setGroup(0, 'organization', data.item.questionnaire.data.attributes.organization.data.id)"
           >{{ data.item.questionnaire.data.attributes.organization.data.attributes.name }}</span
         >
-      </template>
+      </template> 
+
 
       
 
@@ -121,11 +122,12 @@ export default {
       },
     };
     var { data } = await this.$axios.get(
-      `/analyses?populate=template&populate=questionnaire&populate=template.users&populate=questionnaire.users&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
+      `/analyses?populate=template&populate=questionnaire&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
       headers
     );
 
     this.analyses = data.data.map(({ id, ...more }) => {
+      console.log('more', more)
       return { id, ...more.attributes };
     });
     // filteredTemplates = filteredTemplates.map(({users, ...keepAttrs}) => keepAttrs)
