@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-summary">
+  <div class="chart-progress">
     <div class="d-block">
       <div class="label mr-1">{{ name }}
         <b class="ml-1" style="display: inline-block"

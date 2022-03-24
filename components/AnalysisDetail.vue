@@ -1,70 +1,56 @@
 <template>
-  <div class="chart-summary">
-    <section>
-      <div class="sismograf-report">
-        <h4>{{ title }}</h4>
-        <div class="d-block zmb-2">
-          <resilience-progress
-            name="Global"
-            :value="chartSummary.resilienceLevel"
-            :levels="levels"
-          />
-        </div>
-        <div
-          class="d-block zmb-2 ml-5"
-          v-for="(domain, i) in chartSummary.domains"
-          :key="i"
-        >
-          <hr />
-          <resilience-progress
-            class="mb-2"
-            :name="
-              domain.domainDescription
-                ? domain.domainDescription
-                : domain.domainName
-            "
-            :value="domain.resilienceLevel"
-            :levels="levels"
-          />
-          <hr />
-          <div
-            class="d-block mb-2 ml-5"
-            v-for="(principle, j) in domain.principles"
-            :key="j"
-          >
-            <resilience-progress
-              :name="principle.principleName"
-              :value="principle.resilienceLevel"
-              :levels="levels"
-            />
+  <div class="chart-detail">
+    <section v-if="summary && summary.length">
+      <div class="sismograf-detail text-left">        
+        <div v-for="(result, i) in analysis.results" :key="i" class="mb-3">
+          <div class="indicator-name bold">
+            {{ result.indicatorName }}  
+          </div>
+          <div class="indicator-value">
+            {{ result.responseValue }} ({{ ( result.resilienceLevel * 14.29 - 14.29).toFixed(0)}}%)
+          </div>
+          <div class="indicator-comments mb-2" v-if="result.comments">
+            <b v-t="'Comments:'"></b> {{ result.comments }}
           </div>
         </div>
+        <!-- <summary-chart
+            id="summary-chart-detail"
+            v-if="summary.length"
+            class="mb-5"
+            :title="'ccc'"
+            :levels="levels"
+            :pivotData="summary"
+          ></summary-chart> -->
+
       </div>
     </section>
-    <!-- 
-    <button class="btn btn-primary mt-5" @click="getPDF">PDF</button> -->
+    
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import moment from "moment";
-import ResilienceProgress from "./ResilienceProgress";
-// import VueHtml2pdf from 'vue-html2pdf'
+import SummaryChart from "./SummaryChart";
 import _ from "lodash";
 
 export default {
   name: "SummaryChart",
+  components: {SummaryChart},
   data() {
     return {};
   },
   props: {
-    pivotData: {
-      type: Array,
-      default: [],
+    analysis: {
+      type: Object,
+      default: {},
     },
     levels: {
       type: Object,
+      default: [],
+    },
+    summary: {
+      type: Array,
       default: [],
     },
     title: {
@@ -148,5 +134,11 @@ export default {
 }
 .chart-summary {
   width: 100%;
+}
+.indicator-name{
+  font-weight: bold;
+}
+.indicator-value{
+
 }
 </style>

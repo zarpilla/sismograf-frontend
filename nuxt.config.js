@@ -88,11 +88,17 @@ export default {
           "Información opcional:": "",
           "Inicio": "Inici",
           "Guardado correctamente": "Guardat correctament. Moltes gràcies per la teva participació!",
-          "Organización": "Organització"
+          "Organización": "Organització",
+          "Send and view Results": "Enviar i veure resultats",
+          "Send": "Enviar",
+          "Results": "Resultats"
         },
         es: {
           welcome: 'Bienvenidas',
-          Empezar: 'Empezar'
+          Empezar: 'Empezar',
+          "Send and view Results": "Enviar i ver resultados",
+          "Send": "Enviar",
+          "Results": "Resultados"
         }
       }
     }
@@ -112,6 +118,10 @@ export default {
   auth: {
     strategies: {
       local: {
+        token: {
+          property: 'jwt',
+          global: true,
+        },
         endpoints: {
           login: {
             url: 'auth/local',

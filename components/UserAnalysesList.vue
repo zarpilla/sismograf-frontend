@@ -1,12 +1,38 @@
 <template>
-  <div class="analyses zcontainer-fluid" id="lalala">
+  <div class="analyses zcontainer-fluid">
+    <div class="d-flex mb-2">
+      <button
+        class="btn mr-2"
+        :class="comparerIndex == 0 ? 'btn-secondary' : 'btn-disabled'"
+        @click="compareClicked(0)"
+      >
+        Group 1
+      </button>
+      <button
+        class="btn"
+        :class="comparerIndex == 1 ? 'btn-secondary' : 'btn-disabled'"
+        @click="compareClicked(1)"
+      >
+        Group 2
+      </button>
+    </div>
+
     <b-table hover :items="analyses" :fields="fields">
       <template #cell(uid)="data">
         <span
           class="text-info clickable"
-          @click="setGroup(0, 'id', data.item.id, data.value)"
-          >{{ data.value }}</span
+          @click="
+            setGroup(false, comparerIndex, 'id', data.item.id, data.value)
+          "
+          >{{ data.value | toUid }}</span
         >
+      </template>
+      <template #cell(detail)="data">
+        <button
+          class="btn btn-secondary"
+          @click="setGroup(true, comparerIndex, 'id', data.item.id, data.item.uid)"
+          v-t="'Detail'"
+        ></button>
       </template>
       <template #cell(resilienceLevel)="data">
         <div class="d-flex">
@@ -39,7 +65,8 @@
           class="text-info clickable"
           @click="
             setGroup(
-              0,
+              false,
+              comparerIndex,
               'template',
               data.item.template.data.id,
               data.value.data.attributes.name
@@ -58,7 +85,8 @@
           class="text-info clickable"
           @click="
             setGroup(
-              0,
+              false,
+              comparerIndex,
               'questionnaire',
               data.item.questionnaire.data.id,
               data.value.data.attributes.name
@@ -73,7 +101,8 @@
           class="text-info clickable"
           @click="
             setGroup(
-              0,
+              false,
+              comparerIndex,
               'organization',
               data.item.questionnaire.data.attributes.organization.data.id,
               data.item.questionnaire.data.attributes.organization.data
@@ -93,27 +122,97 @@
     </b-table>
     <hr class="mt-5" />
     <hr class="mt-1" />
-    <h2 v-if="pivotData.length">Results</h2>
-    <div class="mb-5">
-      <summary-chart
-        class="mb-5"
-        v-if="pivotData.length"
-        :levels="resilienceLevels"
-        :comparer="comparer"
-        :pivotData="pivotData"
-      ></summary-chart>
+    <h2 v-if="pivotData1.length">Results</h2>
+    <div class="row">
+      <div class="z" :class="pivotData2.length ? 'col-md-6' : 'col-md-12'">
+        <div class="mb-5">
+          <summary-chart
+            id="summary-chart-1"
+            class="mb-5"
+            v-if="pivotData1.length"
+            :levels="resilienceLevels"
+            :title="
+              comparer.group1 === 'id'
+                ? toUid(comparer.title1)
+                : comparer.title1
+            "
+            :pivotData="pivotData1"
+          ></summary-chart>
+        </div>
+      </div>
+      <div class="col-md-6" v-if="pivotData2.length">
+        <div class="mb-5">
+          <summary-chart
+            id="summary-chart-2"
+            class="mb-5"
+            v-if="pivotData2.length"
+            :levels="resilienceLevels"
+            :title="
+              comparer.group2 === 'id'
+                ? toUid(comparer.title2)
+                : comparer.title1
+            "
+            :pivotData="pivotData2"
+          ></summary-chart>
+        </div>
+      </div>
     </div>
 
     <!-- <div id="sismo-pivot" class="mt-5"></div> -->
 
     <download-excel
-      v-if="pivotData.length"
-      class="btn btn-primary btn-default export mt-5 mb-5"
-      :data="pivotData"
+      v-if="pivotData1.length"
+      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+      :data="pivotData1"
       :fields="excelFields"
     >
-      Download
+      Download Data 1
     </download-excel>
+
+    <download-excel
+      v-if="pivotData2.length"
+      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+      :data="pivotData2"
+      :fields="excelFields"
+    >
+      Download Data 2
+    </download-excel>
+
+    <button
+      v-if="pivotData1.length"
+      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+      @click="downloadImage('summary-chart-1')"
+    >
+      Download Image 1
+    </button>
+
+    <button
+      v-if="pivotData2.length"
+      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+      @click="downloadImage('summary-chart-2')"
+    >
+      Download Image 2
+    </button>
+
+    <b-modal
+      size="lg"
+      centered
+      ref="analysis-modal"
+      :title="analysis ? toUid(analysis.uid) : 'Analysis'"
+    >
+      <div class="d-block text-center">
+        <analysis-detail
+          v-if="analysis && analysisSummary"
+          :analysis="analysis"
+          :summary="analysisSummary"
+          :levels="resilienceLevels"
+        />
+      </div>
+
+      <template #modal-footer>
+        <b-button class="mt-3 btn-primary" @click="cancelModal">Ok</b-button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -122,15 +221,22 @@ import { mapGetters } from "vuex";
 import moment from "moment";
 import configPivot from "./configPivot";
 import SummaryChart from "./SummaryChart";
+import AnalysisDetail from "./AnalysisDetail";
 import _ from "lodash";
+import * as htmlToImage from "html-to-image";
+import download from "downloadjs";
 
 export default {
   name: "UserAnalysesList",
+  components: { AnalysisDetail, SummaryChart },
   data() {
     return {
       analyses: [],
       fields: [
-        "uid",
+        {
+          key: "uid",
+          label: "Id",
+        },
         {
           key: "template",
           label: "Template",
@@ -154,8 +260,12 @@ export default {
             return moment(value).format("DD-MM-YYYY");
           },
         },
+        {
+          key: "detail",
+          label: "Detail",
+        },
       ],
-      index: 1,
+      comparerIndex: 0,
       group1: null,
       identifier1: null,
       comparer: {
@@ -166,13 +276,14 @@ export default {
         identifier2: 0,
         title2: "",
       },
-      pivotData: [],
+      pivotData1: [],
+      pivotData2: [],
       pivotgrid: null,
       excelFields: {
         analysisId: "analysisId",
         templateName: "templateName",
         questionnaireName: "questionnaireName",
-        domainName: "domainName",        
+        domainName: "domainName",
         domainDescription: "domainDescription",
         principleName: "principleName",
         patternName: "patternName",
@@ -182,62 +293,28 @@ export default {
         comments: "comments",
       },
       resilienceLevels: { ca: [], en: [], es: [] },
+      analysis: null,
+      analysisSummary: null,
     };
   },
   computed: {
     ...mapGetters(["isAuthenticated", "loggedInUser"]),
-    chartSummary() {
-      const summaryByDomain = _(this.pivotData)
-        .groupBy("domainDescription")
-        .map((domainRows, id) => ({
-          domainDescription: id,
-          resilienceLevel: _.meanBy(domainRows, "resilienceLevel"),
-          principles: _(domainRows)
-            .groupBy("principleName")
-            .map((principleRows, id) => ({
-              principleName: id,
-              resilienceLevel: _.meanBy(principleRows, "resilienceLevel"),
-              patterns: _(principleRows)
-                .groupBy("patternName")
-                .map((patternsRows, id) => ({
-                  patternName: id,
-                  resilienceLevel: _.meanBy(patternsRows, "resilienceLevel"),
-                })),
-            }))
-            .value(),
-        }))
-        .value();
-      return {
-        resilienceLevel: _.meanBy(summaryByDomain, "resilienceLevel"),
-        domains: summaryByDomain,
-      };
-    },
   },
   async fetch() {
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
-      },
-    };
+    // const headers = {
+    //   headers: {
+    //     Authorization: `Bearer ${process.env.API_TOKEN}`,
+    //   },
+    // };
+
     var { data } = await this.$axios.get(
       `/analyses?populate=template&populate=questionnaire&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
-      headers
+      {}
     );
 
     this.analyses = data.data.map(({ id, ...more }) => {
       return { id, ...more.attributes };
     });
-
-    // console.log('this.$i18n.locales', this.$i18n.locales)
-
-    // var { data } = await this.$axios.get(
-    //   `/resilience-levels?locale=${this.$i18n.locale}`,
-    //   headers
-    // );
-    // // console.log('data', data)
-    // this.resilienceLevels = data.data
-
-    // filteredTemplates = filteredTemplates.map(({users, ...keepAttrs}) => keepAttrs)
   },
   async mounted() {
     // await this.addScript("/vendor/jquery/jquery.js", "jquery-js");
@@ -259,34 +336,33 @@ export default {
     this.$i18n.locales.forEach(async (loc) => {
       var { data } = await this.$axios.get(
         `/resilience-levels?locale=${loc}`,
-        headers
+        {}
       );
-
-      console.log("data", data.data, loc);
 
       this.resilienceLevels[loc] = data.data;
     });
   },
   methods: {
-    setGroup(index, group, identifier, title) {
-      this.comparer[`group${index + 1}`] = group;
-      this.comparer[`identifier${index + 1}`] = identifier;
-      this.comparer[`title${index + 1}`] = title;
+    setGroup(viewDetail, comparerIndex, group, identifier, title) {
+      this.comparer[`group${comparerIndex + 1}`] = group;
+      this.comparer[`identifier${comparerIndex + 1}`] = identifier;
+      this.comparer[`title${comparerIndex + 1}`] = title;
 
-      this.updatePivot();
+      this.updatePivot(viewDetail);
     },
-    async updatePivot() {
-      const headers = {
-        headers: {
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
-        },
-      };
+    async updatePivot(viewDetail) {
+      // const headers = {
+      //   headers: {
+      //     Authorization: `Bearer ${process.env.API_TOKEN}`,
+      //   },
+      // };
       if (this.comparer.identifier1) {
         var { data } = await this.$axios.get(
           `/analyses/compare/${this.comparer.group1}/${this.comparer.group2}/?g1=${this.comparer.identifier1}&g2=${this.comparer.identifier2}`,
-          headers
+          {}
         );
-        const pivotData = [];
+        const pivotData1 = [];
+        const pivotData2 = [];
         data.g1.analyses.forEach((a) => {
           a.results = a.results.map(
             ({
@@ -303,12 +379,43 @@ export default {
           );
           a.results.forEach((r) => {
             r.locale = "ca";
-            pivotData.push(r);
+            pivotData1.push(r);
           });
         });
 
-        this.pivotData = Object.freeze(pivotData);
-        configPivot.dataSource.data = this.pivotData;
+        data.g2.analyses.forEach((a) => {
+          a.results = a.results.map(
+            ({
+              id,
+              value,
+              domainId,
+              templateId,
+              questionnaireId,
+              principleId,
+              patternId,
+              indicatorId,
+              ...item
+            }) => item
+          );
+          a.results.forEach((r) => {
+            r.locale = "ca";
+            pivotData2.push(r);
+          });
+        });
+
+        this.pivotData1 = Object.freeze(pivotData1);
+        this.pivotData2 = Object.freeze(pivotData2);
+
+        if (viewDetail) {
+          this.analysis =
+            this.comparerIndex === 0
+              ? data.g1.analyses[0]
+              : data.g2.analyses[0];
+          this.analysisSummary =
+            this.comparerIndex === 0 ? this.pivotData1 : this.pivotData2;
+          this.$refs["analysis-modal"].show();
+        }
+        // configPivot.dataSource.data = this.pivotData;
 
         // configPivot.dataBound = (e) => {
         //   var grid = $("#sismo-pivot").data("kendoPivotGrid");
@@ -359,29 +466,49 @@ export default {
         head.appendChild(link);
       });
     },
-    getPDF() {
-      var element = document.getElementById("sismograf-report");
-      var opt = {
-        margin: [0, 0],
-        filename: `sismograf-${this.title}`,
-        image: { type: "jpeg", quality: 1 },
-        html2canvas: { dpi: 300, scale: 4, letterRendering: true },
-        jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
-      };
-      // console.log('element', element)
-      html2pdf().set(opt).from(element).save();
-      // html2pdf().from(element).save();
-    },
     toLevel(value, locale) {
       const level = this.resilienceLevels[locale].find(
         (r) => parseFloat(r.attributes.code) + 0.5 > value
       );
       return level ? level.attributes.name : "";
     },
+    compareClicked(option) {
+      if (option === 1 && this.comparerIndex === 1) {
+        this.comparer.group2 = "none";
+        this.comparerIndex = 0;
+      } else {
+        this.comparerIndex = option;
+      }
+    },
+    downloadImage(id) {
+      htmlToImage.toPng(document.getElementById(id)).then(function (dataUrl) {
+        download(dataUrl, "sismograf.png");
+      });
+    },
+    toUid(value) {
+      return value && value.indexOf("-")
+        ? value.substring(0, value.indexOf("-"))
+        : value;
+    },
+    hideModal() {
+      this.analysis = null;
+      this.analysisSummary = null;
+      this.$refs["analysis-modal"].hide();
+    },
+    cancelModal() {
+      this.analysis = null;
+      this.analysisSummary = null;
+      this.$refs["analysis-modal"].hide();
+    },
   },
   filters: {
     toDate(value) {
       return moment(value).format("DD-MM-YYYY");
+    },
+    toUid(value) {
+      return value && value.indexOf("-")
+        ? value.substring(0, value.indexOf("-"))
+        : value;
     },
   },
 };

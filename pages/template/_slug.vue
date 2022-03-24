@@ -577,7 +577,7 @@
  -->
         <div class="section">
           <div class="title total">
-            <span v-t="'Enviar'" />
+            <span v-t="'Send and view Results'" />
           </div>
 
           <div
@@ -642,7 +642,7 @@
               @click="save"
               v-bind:disabled="!validForm"
             >
-              <span v-t="'Enviar'" />
+              <span v-t="'Send'" />
               <font-awesome-icon :icon="fas.faLongArrowAltRight" />
             </button>
             <br />
@@ -1197,6 +1197,8 @@ export default {
       this.analysis.uid = null;
       this.analysis.publishedAt = new Date();
       this.save();
+
+
     },
     async save() {
       this.analysis.language = this.$i18n.locale;
@@ -1225,7 +1227,7 @@ export default {
       }
       this.$router.push(
         this.localePath({
-          name: "template-slug",
+          name: "template-view-slug",
           params: { slug: this.slug },
           query: { r: this.analysis.uid },
         })
