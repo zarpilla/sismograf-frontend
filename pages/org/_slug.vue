@@ -6,16 +6,25 @@
         v-for="organization in organizations"
         v-bind:key="organization.id"
       >
-      <h1>{{ organization.attributes.name }}</h1>
-      <p v-if="organization.attributes.description" class="more" v-html="$md.render(organization.attributes.description)"></p>
-      
-        
+        <h1>{{ organization.attributes.name }}</h1>
+        <div
+          v-if="organization.attributes.description"
+          class="more"
+          v-html="$md.render(organization.attributes.description)"
+        ></div>
+
         <div
           class="zcard mt-5"
-          v-for="questionnaire in organization.attributes.questionnaires.data.filter(q => q.attributes && q.attributes.visible)"
+          v-for="questionnaire in organization.attributes.questionnaires.data.filter(
+            (q) => q.attributes && q.attributes.visible
+          )"
           v-bind:key="questionnaire.id"
-        >
-          <p v-if="questionnaire.attributes.description" class="more" v-html="$md.render(questionnaire.attributes.description)"></p>
+        >        
+          <div
+            v-if="questionnaire.attributes.description"
+            class="more"
+            v-html="$md.render(questionnaire.attributes.description)"
+          ></div>
           <nuxt-link
             :to="
               localePath({
@@ -30,14 +39,28 @@
             exact-active-class="is-active"
             class="mt-5 btn btn-sismograf btn-next"
           >
-            <span v-t="questionnaire.attributes.buttonText || questionnaire.attributes.name" />
+            <span
+              v-t="
+                questionnaire.attributes.buttonText ||
+                questionnaire.attributes.name
+              "
+            />
             <font-awesome-icon :icon="fas.faLongArrowAltRight" />
           </nuxt-link>
-          <div class="org-img" v-if="questionnaire.attributes.image && questionnaire.attributes.image.data && questionnaire.attributes.image.data.attributes">
-            <img :src="questionnaireImage(questionnaire)" class="img-responsive">
+          <div
+            class="org-img"
+            v-if="
+              questionnaire.attributes.image &&
+              questionnaire.attributes.image.data &&
+              questionnaire.attributes.image.data.attributes
+            "
+          >
+            <img
+              :src="questionnaireImage(questionnaire)"
+              class="img-responsive"
+            />
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -49,14 +72,14 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 export default {
   data() {
     return {
-      organizations: [],      
-      apiUrl: process.env.API_URL
+      organizations: [],
+      apiUrl: process.env.API_URL,
     };
   },
   computed: {},
   head() {
     return {};
-  },  
+  },
   async asyncData({ $axios, app, error, store }) {
     let slug = app.context.route.params.slug;
     try {
@@ -91,8 +114,10 @@ export default {
       return fas;
     },
     questionnaireImage(questionnaire) {
-      return (this.apiUrl + questionnaire.attributes.image.data.attributes.url).replace('/api/', '/')
-    }
+      return (
+        this.apiUrl + questionnaire.attributes.image.data.attributes.url
+      ).replace("/api/", "/");
+    },
   },
 };
 </script>
@@ -112,7 +137,7 @@ h3.title {
   font-size: 30px;
   text-decoration: none !important;
 }
-.more{
+.more {
   font-size: 16px;
 }
 
@@ -129,5 +154,8 @@ h3.title {
   margin-bottom: 15px;
   cursor: pointer;
   /* text-transform: capitalize; */
+}
+.org-img{
+  background: #fff;
 }
 </style>
