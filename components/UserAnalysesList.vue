@@ -30,7 +30,9 @@
       <template #cell(detail)="data">
         <button
           class="btn btn-secondary"
-          @click="setGroup(true, comparerIndex, 'id', data.item.id, data.item.uid)"
+          @click="
+            setGroup(true, comparerIndex, 'id', data.item.id, data.item.uid)
+          "
           v-t="'Detail'"
         ></button>
       </template>
@@ -150,7 +152,7 @@
             :title="
               comparer.group2 === 'id'
                 ? toUid(comparer.title2)
-                : comparer.title1
+                : comparer.title2
             "
             :pivotData="pivotData2"
           ></summary-chart>
@@ -413,6 +415,14 @@ export default {
               : data.g2.analyses[0];
           this.analysisSummary =
             this.comparerIndex === 0 ? this.pivotData1 : this.pivotData2;
+
+          var { data } = await this.$axios.get(
+            `/analyses/results/${this.analysis.id}`,
+            {}
+          )
+          if (data.length && data[0].labels) {
+            this.analysis.labels = data[0].labels;
+          }          
           this.$refs["analysis-modal"].show();
         }
         // configPivot.dataSource.data = this.pivotData;

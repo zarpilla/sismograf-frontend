@@ -1093,7 +1093,7 @@ export default {
       );
     },
     isLabelActive(label) {
-      return this.analysis.labels.find((r) => r.id === label.id);
+      return this.analysis.labels.find((r) => r === label.id);
     },
     isCommentActive(indicator) {
       return this.analysis.comments.find(

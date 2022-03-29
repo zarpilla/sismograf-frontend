@@ -1,7 +1,38 @@
 <template>
   <div class="chart-detail">
     <section v-if="summary && summary.length">
-      <div class="sismograf-detail text-left">        
+      <div class="sismograf-detail text-left">
+        <div class="analysis-info">
+          <label class="bold">Date:</label>
+          {{ analysis.createdAt | toDate}}
+        </div>
+        <div class="analysis-info" v-if="analysis.email">
+          <label class="bold">Email:</label>
+          {{ analysis.email}}
+        </div>
+        <div class="analysis-info" v-if="analysis.organization">
+          <label class="bold">Organization:</label>
+          {{ analysis.organization}}
+        </div>
+        <div class="analysis-info" v-if="analysis.project">
+          <label class="bold">Project:</label>
+          {{ analysis.project}} lalala
+        </div>
+        <div class="analysis-info" v-if="analysis.region">
+          <label class="bold">Region:</label>
+          {{ analysis.region}}
+        </div>
+        <div class="analysis-info" v-if="analysis.scope">
+          <label class="bold">Scope:</label>
+          {{ analysis.scope}}
+        </div>
+        <div class="analysis-info" v-if="analysis.labels && analysis.labels.length">
+          <label class="bold">Labels:</label>
+          <div class="d-flex">
+            <div class="label badge bg-warning" v-for="(lbl, i) in analysis.labels" :key="i">{{ lbl.name }}</div>
+          </div>
+        </div>
+        <hr class="mb-3">
         <div v-for="(result, i) in analysis.results" :key="i" class="mb-3">
           <div class="indicator-name bold">
             {{ result.indicatorName }}  
@@ -121,6 +152,16 @@ export default {
       // html2pdf().from(element).save();
     },
   },
+  filters: {
+    toDate(value) {
+      return moment(value).format("DD-MM-YYYY");
+    },
+    toUid(value) {
+      return value && value.indexOf("-")
+        ? value.substring(0, value.indexOf("-"))
+        : value;
+    },
+  },  
 };
 </script>
 <style scoped>
@@ -138,7 +179,7 @@ export default {
 .indicator-name{
   font-weight: bold;
 }
-.indicator-value{
-
+.bold{
+font-weight: bold;
 }
 </style>
