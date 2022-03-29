@@ -1016,7 +1016,7 @@ export default {
       }
     }
 
-    console.log('questionnaire', questionnaire)
+    // console.log('questionnaire', questionnaire)
 
     return {
       slug: slug,
@@ -1439,7 +1439,6 @@ textarea.comment {
 }
 .domain-quadrant.inactive{
   opacity: 0.2;
-
 }
 .equal {
   display: flex;
@@ -1476,11 +1475,13 @@ text-decoration: none;
 @media (max-width: 768px) {
   .scope {
     font-size: 30px;
-    padding-top: 5rem;
+    padding-top: 3.5rem;
+    line-height: 30px;
   }
   .btn-sismograf{
-    padding: 6px 20px;
+    padding: 4px 20px;
     font-size: 14px;
+    margin-bottom: 10px;
   }
   .progress-div-container, .breadcrumb{
     display: none;
@@ -1488,6 +1489,19 @@ text-decoration: none;
   .principle.col-4{
     display: none;
   }
+  .domain-desc{
+    font-size: 1.3rem;
+  }
+  .domain-name{
+    font-size: 1rem;
+  }
+  .domain-quadrant{
+    margin: 0.3rem;
+  }
+  .domain-quadrant-inner{
+    padding: 0.5rem
+  }
+      
 }
 
 </style>

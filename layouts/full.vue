@@ -29,4 +29,9 @@
   margin-top: 5px;
   margin-left: 5px;
 }
+@media (max-width: 768px) {
+  .navbar-abs img{
+    height: 60px;
+  }
+}
 </style>
