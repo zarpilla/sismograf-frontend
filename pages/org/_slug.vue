@@ -10,7 +10,7 @@
 
         <div
           class="zcard"
-          v-for="questionnaire in organization.attributes.questionnaires.data"
+          v-for="questionnaire in organization.attributes.questionnaires.data.filter(q => q.attributes && q.attributes.visible)"
           v-bind:key="questionnaire.id"
         >
           <nuxt-link

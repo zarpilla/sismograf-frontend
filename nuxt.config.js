@@ -89,7 +89,7 @@ export default {
           "Inicio": "Inici",
           "Guardado correctamente": "Guardat correctament. Moltes gràcies per la teva participació!",
           "Organización": "Organització",
-          "Send and view Results": "Enviar i veure resultats",
+          "Send and view Results": "Guardar i veure resultats",
           "Send": "Enviar",
           "Results": "Resultats"
         },
