@@ -1471,6 +1471,25 @@ textarea.comment {
 color: #333;
 text-decoration: none;
 }
+
+
+@media (max-width: 768px) {
+  .scope {
+    font-size: 30px;
+    padding-top: 5rem;
+  }
+  .btn-sismograf{
+    padding: 6px 20px;
+    font-size: 14px;
+  }
+  .progress-div-container, .breadcrumb{
+    display: none;
+  }
+  .principle.col-4{
+    display: none;
+  }
+}
+
 </style>
 <style>
 #fp-nav ul li a span,

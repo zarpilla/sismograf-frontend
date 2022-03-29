@@ -76,7 +76,7 @@ export default {
       }
 
       // let templates = data.data;
-      console.log("organizations", organizations);
+      // console.log("organizations", organizations);
 
       return {
         organizations: organizations,
