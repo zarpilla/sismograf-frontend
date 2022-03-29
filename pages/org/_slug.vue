@@ -158,4 +158,7 @@ h3.title {
 .org-img{
   background: #fff;
 }
+.org-img img{
+  max-width: 100%;
+}
 </style>
