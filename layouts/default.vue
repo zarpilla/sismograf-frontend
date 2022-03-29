@@ -27,9 +27,9 @@
   height: 100vh;
 }
 .xalign{
-  height: 100vh;
-  padding-top: 50vh;
+  /* height: 100vh; */
+  padding-top: 15vh;
   color:#fff;
-  font-size: 50px;
+  /* font-size: 50px; */
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="fullpage-container">
     <no-ssr>
       <full-page ref="fullpage" :options="options" id="fullpage">
-        <div class="section section-bg-dark">
+        <!-- <div class="section section-bg-dark">
           <div class="title">
             {{ title }}
           </div>
@@ -17,13 +17,77 @@
               <font-awesome-icon :icon="fas.faLongArrowAltRight" />
             </button>
           </div>
-        </div>
+        </div> -->
 
-        <div
+        <template v-for="(labelCategory, lci) in template.attributes.label_categories.data">
+          <div v-bind:key="lci" class="section">
+
+<div class="label-category" v-t="'Selecciona etiquetas'"></div>
+            <div
+                class="zlabel-category title"
+                v-if="
+                  template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  ).length
+                "
+                >{{ labelCategory.attributes.name }}</div
+              >
+
+              <ul
+                class="capacities-list labels-list"
+                v-if="
+                  template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  ).length
+                "
+              >
+                <li
+                  class="item"
+                  v-for="label in template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  )"
+                  v-bind:key="label.id"
+                >
+                  <div
+                    v-on:click="addLabel(label, labelCategory)"
+                    class="btn btn-sismograf"
+                    v-bind:class="{
+                      active: isLabelActive(label),
+                    }"
+                  >
+                    {{ label.attributes.name }}
+                  </div>
+                </li>
+              </ul>
+
+              <div class="open-response" v-if="labelCategory.attributes.openResponse === true">
+                <span class="label-category">{{labelCategory.attributes.openResponseText}}</span>
+                <textarea
+                  class="form-control"
+                    type="text"
+                    @input="setLabelComments(labelCategory, $event)"
+                    name="organization"
+                  ></textarea>
+              </div>
+
+<div class="next-container text-center">
+              <button class="btn btn-sismograf btn-next" @click="next">
+                <span v-t="'Siguiente'" />
+                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+              </button>
+</div>
+          </div>
+        </template>
+
+        <!-- <div
           class="section section-bg-dark"
           v-if="template.attributes.label_categories.data.length"
         >
-          <div class="title">Selecciona etiquetas</div>
+          <div class="title" v-t="'Selecciona etiquetas'"></div>
+
           <ul class="capacities-list label-categories-list">
             <li
               class="item"
@@ -59,7 +123,7 @@
                   v-bind:key="label.id"
                 >
                   <div
-                    v-on:click="addLabel(label)"
+                    v-on:click="addLabel(label, labelCategory)"
                     class="btn btn-sismograf"
                     v-bind:class="{
                       active: isLabelActive(label),
@@ -78,64 +142,39 @@
               <font-awesome-icon :icon="fas.faLongArrowAltRight" />
             </button>
           </div>
-        </div>
+        </div> -->
 
         <div class="section section-bg-dark">
-          <!-- <div class="title">
-            {{ title }}
-          </div> -->
-          <div class="title" v-t="'Dominios'"></div>
+          <div class="title" v-t="questionnaire && questionnaire.attributes && questionnaire.attributes.domainsText || 'Dominios'"></div>
           <div class="row">
-            <div class="col-md-6 equal">
+            <div class="col-md-6 equal" v-for="i in 4" :key="i">
               <div class="domain-quadrant">
-                <div class="domain-quadrant-inner">
-                  {{ template.attributes.domains[0].description }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 equal">
-              <div
-                class="domain-quadrant"
-                v-if="template.attributes.domains.length > 1"
-              >
-                <div class="domain-quadrant-inner">
-                  {{ template.attributes.domains[1].description }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 equal">
-              <div
-                class="domain-quadrant"
-                v-if="template.attributes.domains.length > 2"
-              >
-                <div class="domain-quadrant-inner">
-                  {{ template.attributes.domains[2].description }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 equal">
-              <div
-                class="domain-quadrant"
-                v-if="template.attributes.domains.length > 3"
-              >
-                <div class="domain-quadrant-inner">
-                  {{ template.attributes.domains[3].description }}
+                <div class="domain-quadrant-inner">                  
+                  <div class="domain-name">
+                    <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                      {{ template.attributes.domains[i - 1].name }}
+                    </a>
+                  </div>
+                  <div class="domain-desc">
+                    <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                      {{ template.attributes.domains[i - 1].description }}
+                    </a>
+                  </div>
+                  <div class="row">
+                    <div
+                      class="zindex-item principle col-4 text-center"
+                      v-for="principle in template.attributes.domains[i - 1].principles"
+                      v-bind:key="principle.id"
+                    >
+                    <div>
+                      {{ principle.name }}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- <ul class="index text-center">
-            <li
-              class="index-item"
-              v-for="domain in template.attributes.domains"
-              v-bind:key="domain.id"
-            >
-              <a class="domain" :href="`#domain-${domain.id}`">
-                {{ domain.description }}
-              </a>
-            </li>
-          </ul> -->
           <div class="next-container text-center">
             <button class="btn btn-sismograf btn-next" @click="next">
               <span v-t="'Siguiente'" />
@@ -150,81 +189,30 @@
               <a :href="`#init`" v-t="'Inicio'"></a>
               <span> > {{ domain.description }}</span>
             </div>
-
-            <div class="title" v-t="'Principis'"></div>
-
+            <div class="title" v-t="questionnaire && questionnaire.attributes && questionnaire.attributes.domainsText || 'Dominios'"></div>
             <div class="row">
-              <div class="col-md-6 equal">
-                <div class="domain-quadrant" :class="di === 0 ? 'active' : 'inactive'">
-                  <div class="domain-quadrant-inner">
-                    {{ template.attributes.domains[0].description }}
-                    <div v-if="di === 0" class="d-flex">
-                      <div
-                        class="zindex-item principle"
-                        v-for="principle in domain.principles"
-                        v-bind:key="principle.id"
-                      >
-                        {{ principle.name }}
-                      </div>
+              <div class="col-md-6 equal" v-for="i in 4" :key="domain.id * 100 + i">
+                <div class="domain-quadrant" :class="di === (i - 1) ? 'active' : 'inactive'">
+                  <div class="domain-quadrant-inner">                  
+                    <div class="domain-name">
+                      <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                        {{ template.attributes.domains[i - 1].name }}
+                      </a>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 equal">
-                <div
-                  class="domain-quadrant"
-                  v-if="template.attributes.domains.length > 1"
-                  :class="di === 1 ? 'active' : 'inactive'"
-                >
-                  <div class="domain-quadrant-inner">
-                    {{ template.attributes.domains[1].description }}
-                    <div v-if="di === 1" class="d-flex">
-                      <div
-                        class="zindex-item principle"
-                        v-for="principle in domain.principles"
-                        v-bind:key="principle.id"
-                      >
-                        {{ principle.name }}
-                      </div>
+                    <div class="domain-desc">
+                      <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                        {{ template.attributes.domains[i - 1].description }}
+                      </a>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 equal">
-                <div
-                  class="domain-quadrant"
-                  v-if="template.attributes.domains.length > 2"
-                  :class="di === 2 ? 'active' : 'inactive'"
-                >
-                  <div class="domain-quadrant-inner">
-                    {{ template.attributes.domains[2].description }}
-                    <div v-if="di === 2" class="d-flex">
+                    <div class="row">
                       <div
-                        class="zindex-item principle"
-                        v-for="principle in domain.principles"
+                        class="zindex-item principle col-4 text-center"
+                        v-for="principle in template.attributes.domains[i - 1].principles"
                         v-bind:key="principle.id"
                       >
+                      <div>
                         {{ principle.name }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 equal">
-                <div
-                  class="domain-quadrant"
-                  v-if="template.attributes.domains.length > 3"
-                  :class="di === 3 ? 'active' : 'inactive'"
-                >
-                  <div class="domain-quadrant-inner">
-                    {{ template.attributes.domains[3].description }}
-                    <div v-if="di === 3" class="d-flex">
-                      <div
-                        class="zindex-item principle"
-                        v-for="principle in domain.principles"
-                        v-bind:key="principle.id"
-                      >
-                        {{ principle.name }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -248,22 +236,6 @@
                 </vue-ellipse-progress>
               </div>
             </div>
-
-            <!-- <div class="title">
-              {{ domain.description }}
-            </div>
-            <h2 class="principle-title text-center" v-t="'Principios'"></h2>
-            <ul class="index text-center">
-              <li
-                class="index-item"
-                v-for="principle in domain.principles"
-                v-bind:key="principle.id"
-              >
-                <a class="principle" :href="`#principle-${principle.id}`">
-                  {{ principle.name }}
-                </a>
-              </li>
-            </ul> -->
             <div class="next-container text-center">
               <button class="btn btn-sismograf btn-next" @click="next">
                 <span v-t="'Siguiente'" />
@@ -276,62 +248,7 @@
             v-for="(principle, pi) in domain.principles"
             class="zis-hidden-widescreen"
           >
-            <div v-bind:key="principle.id" class="section scope-capacity">
-              <div class="breadcrumb text-center">
-                <a :href="`#init`" v-t="'Inicio'"></a>
-                <span> > </span>
-                <a :href="`#domain-${domain.id}`">{{ domain.description }}</a>
-                <span> > {{ principle.name }}</span>
-              </div>
-
-              <div class="progress-div-container">
-                <div class="progress-div">
-                  <div class="progress-title" v-t="'Dominios'"></div>
-                  <div class="progress-legend">
-                    {{ di + 1}} / {{ template.attributes.domains.length }}
-                  </div>
-                  <vue-ellipse-progress
-                    color="#333"
-                    :progress="((di+1) / template.attributes.domains.length) * 100"
-                    :thickness="4"
-                    :size="100"
-                    :legend="false"
-                  >
-                  </vue-ellipse-progress>
-                </div>
-
-                <div class="progress-div">
-                  <div class="progress-title" v-t="'Principios'"></div>
-                  <div class="progress-legend">
-                    {{ pi + 1}} / {{ domain.principles.length }}
-                  </div>
-                  <vue-ellipse-progress
-                    color="#333"
-                    :progress="((pi+1) / domain.principles.length) * 100"
-                    :thickness="4"
-                    :size="100"
-                    :legend="false"
-                  >
-                  </vue-ellipse-progress>
-                </div>
-              </div>
-
-              <div class="title">
-                {{ domain.description }}
-              </div>
-              <div class="scope">
-                {{ principle.name }}
-              </div>
-              <div class="description text-center">
-                {{ principle.description }}
-              </div>
-              <div class="next-container text-center">
-                <button class="btn btn-sismograf btn-next" @click="next">
-                  <span v-t="'Siguiente'" />
-                  <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-                </button>
-              </div>
-            </div>
+            
 
             <template
               v-for="(pattern, ppi) in principle.patterns"
@@ -410,7 +327,7 @@
                     class="text-center indicator multiple"
                     v-if="indicator.max > 1"
                   >
-                    <span>(máx. {{ indicator.max }} opciones)</span>
+                    <span>(màx. {{ indicator.max }} opcions)</span>
                   </div>
 
                   <ul class="capacities-list">
@@ -420,10 +337,10 @@
                       v-bind:key="option.id"
                     >
                       <div
-                        v-on:click="punctuation(indicator, option)"
+                        v-on:click="punctuation('results', indicator, option)"
                         class="btn btn-sismograf"
                         v-bind:class="{
-                          active: isOptionActive(indicator, option),
+                          active: isOptionActive('results',indicator, option),
                         }"
                       >
                         {{ option.name }}
@@ -499,82 +416,85 @@
           </template>
         </b-modal>
 
-        <!-- 
 
-      <div class="section" v-if="!mobile && !tablet">
-        <div class="title total">
-          {{ total | float1 }} / {{ maxval }}
-          <font-awesome-icon
-            v-if="totaldev > 2 || totaldevg2 > 0.9 || warntotaldevg"
-            :icon="fas.faExclamationCircle"
-            class="warning text-warning"
-          />
-        </div>
-        <div class="text-center text-analysis">
-          <div v-if="totaldev > 2" v-t="'Desequilibri entre àmbits'"></div>
-          <div
-            v-if="totaldevg2 > 0.9"
-            v-t="'Desequilibri dins dels àmbits'"
-          ></div>
-          <div
-            v-else-if="warntotaldevg"
-            v-t="'Desequilibri dins dels àmbits.'"
-          ></div>
-        </div>
+        <template v-for="(block, bi) in questionnaire.attributes.moreBlocks">
 
-        <div class="zrow">
-          <CLine
-            :data="template.scopes"
-            :mobile="mobile || tablet"
-            class="zcolumn"
-          ></CLine>
-        </div>
-
-        <div class="row">
-          <div
-            v-for="(scope, i) in template.scopes"
-            v-bind:key="scope.id"
-            class="col-md-3 text-center mt-5"
-          >
-            <div class="scope-title">
-              {{ scope.text }}
-            </div>
-            <h3 class="scope-title text-white">
-              {{ scopeMeans[i] | float1 }} / 8
-            </h3>
-            <radar :data="scope" />
+          <div class="section" :key="bi">
+<div class="title">
+                  <span v-t="block.title" />
+                </div>
           </div>
-        </div>
-        <div class="next-container text-center">
-          <button class="btn btn-sismograf btn-next" @click="next">
-            <span v-t="'Continuar'" />
-            <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-          </button>
-        </div>
-      </div>
+          
+          <template
+                v-for="(ind, indi) in block.indicators.data"
+                class="z"
+              >
+              
+              <div class="section" :key="indi">
 
-      <div class="section" v-if="mobile || tablet">
-        <div class="title total">
-          TOTAL
-          <br />
-          {{ total | float1 }} / {{ maxval }}
-        </div>
-        <CLine
-          :data="template.scopes"
-          :mobile="mobile || tablet"
-          class="column"
-        ></CLine>
-      </div>
-      <template v-if="mobile || tablet">
-        <div
-          class="section"
-          v-for="(scope, i) in template.scopes"
-          v-bind:key="i"
-        >
-          <radar :data="scope" :mobile="mobile || tablet" />
-        </div>
-      </template>
- -->
+                <div class="label-category">
+                  <span v-t="block.title" />
+                </div>
+                <div class="scope title indicator">
+                  <span v-t="ind.attributes.question" />
+                </div>
+                <ul class="capacities-list">
+                    <li
+                      class="item"
+                      v-for="option in ind.attributes.indicator_options"
+                      v-bind:key="option.id"
+                    >
+                      <div
+                        v-on:click="punctuation('more', ind, option)"
+                        class="btn btn-sismograf"
+                        v-bind:class="{
+                          active: isOptionActive('more', ind, option),
+                        }"
+                      >
+                        {{ option.name }}
+                      </div>
+                    </li>
+                  </ul>
+
+                  <div v-if="ind.attributes.indicator_options.length === 0">
+                    
+                    <textarea
+                  class="form-control"
+                    type="text"
+                    @input="setMoreComments(ind, $event)"
+                    name="organization"
+                  ></textarea>
+                  </div>
+
+                  <!-- <b-button
+                    id="show-btn"
+                    class="btn-sismograf"
+                    v-bind:class="{
+                      active: isCommentActive(ind),
+                    }"
+                    @click="showModal(ind)"
+                  >
+                    <font-awesome-icon :icon="fas.faComment" />
+                  </b-button> -->
+
+                  <div class="next-container text-center">
+                    <button class="btn btn-sismograf btn-next" @click="next">
+                      <span v-t="'Siguiente'" />
+                      <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+                    </button>
+                  </div>
+              </div>
+          </template>
+
+
+        </template>
+        <!-- <div class="section" v-for="(block, bi) in questionnaire.attributes.moreBlocks" :key="bi">
+          moreBlocks:
+          <div class="title total">
+            <span v-t="block.title" />
+          </div>
+          {{ block }}
+        </div> -->
         <div class="section">
           <div class="title total">
             <span v-t="'Send and view Results'" />
@@ -582,17 +502,17 @@
 
           <div
             class="text-center description"
-            v-t="'Información opcional:'"
+            v-t="'Aquesta enquesta és totalment anònima però si vols respondre:'"
           ></div>
           
-          <ul class="capacities-list" v-if="template.attributes.labels.data">
+          <!-- <ul class="capacities-list" v-if="template.attributes.labels.data">
             <li
               class="item"
               v-for="label in template.attributes.labels.data"
               v-bind:key="label.id"
             >
               <div
-                v-on:click="addLabel(label)"
+                v-on:click="addLabel(label, null)"
                 class="btn btn-sismograf"
                 v-bind:class="{
                   active: isLabelActive(label),
@@ -601,7 +521,7 @@
                 {{ label.attributes.name }}
               </div>
             </li>
-          </ul>
+          </ul> -->
 
           <div class="row text-center mt-5">
             <div class="col-md">
@@ -610,7 +530,7 @@
               <span
                 class="label"
                 v-t="
-                  '(Opcional, per si vols que et fem el retorn de l`anàlisi per correu)'
+                  '(Si vols rebre informació i els resultats directament, ens pots deixar un correu electrònic )'
                 "
               ></span>
             </div>
@@ -622,6 +542,12 @@
                 v-model="analysis.organization"
                 name="organization"
               />
+              <span
+                class="label"
+                v-t="
+                  '(Formes part d’alguna organització / col·lectiu / grup formal o informal / empresa ?)'
+                "
+              ></span>
             </div>
             <!-- <div class="col-md">
               <span class="label" v-t="'Proyecto'"></span>
@@ -761,7 +687,9 @@ export default {
         // scope: "",
         language: "",
         results: [],
+        more: [],
         comments: [],
+        labelComments: [],
         labels: [],
         template: 0,
         uid: null,
@@ -778,11 +706,17 @@ export default {
   },
   computed: {
     anchors() {
-      const anchors = ["init", "labels", "index"];
+      const anchors = []; //["init"];
+
+      this.template.attributes.label_categories.data.forEach((cat) => {
+        anchors.push(`labels-${cat.id}`);
+      });
+      anchors.push(`domains`);
+
       this.template.attributes.domains.forEach((domain) => {
         anchors.push(`domain-${domain.id}`);
         domain.principles.forEach((principle) => {
-          anchors.push(`principle-${principle.id}`);
+          // anchors.push(`principle-${principle.id}`);
           principle.patterns.forEach((pattern) => {
             pattern.indicators.forEach((indicator) => {
               anchors.push(`indicator-${indicator.id}`);
@@ -790,13 +724,21 @@ export default {
           });
         });
       });
+
+      this.questionnaire.attributes.moreBlocks.forEach((block) => {        
+        anchors.push(`moreblock-${( block.id)}`);
+        block.indicators.data.forEach((i) => {
+          anchors.push(`moreind-${(i.id)}`);
+        });
+      });
+
       anchors.push("summary-1");
       anchors.push("summary-2");
       anchors.push("save");
       return anchors;
     },
     title() {
-      return this.template.attributes.name;
+      return this.questionnaire && this.questionnaire.attributes && this.questionnaire.attributes.name ? this.questionnaire.attributes.name : this.template.attributes.name;
     },
     description() {
       return this.template.attributes.description;
@@ -994,7 +936,9 @@ export default {
       scope: "",
       language: "",
       results: [],
+      more: [],
       comments: [],
+      labelComments: [],
       labels: [],
       template: template.id,
       uid: null,
@@ -1013,7 +957,7 @@ export default {
         analysis.id = data.data[0].id;
 
         var { data } = await $axios.get(
-          `/analyses/${analysis.id}?populate[0]=*&populate[1]=comments&populate[2]=results&populate[3]=comments.indicator&populate[4]=results.indicator&populate[5]=labels&locale=${app.i18n.locale}`,
+          `/analyses/${analysis.id}?populate[0]=*&populate[1]=comments&populate[2]=results&populate[3]=comments.indicator&populate[4]=results.indicator&populate[5]=labels&populate[6]=more&populate[7]=more.indicator&locale=${app.i18n.locale}`,
           headers
         );
 
@@ -1035,6 +979,18 @@ export default {
           }
         });
         analysis.results = data.data.attributes.results;
+        
+        data.data.attributes.more.forEach((r) => {
+          if (r.indicator && r.indicator.data && r.indicator.data.id) {
+            const id = r.indicator.data.id;
+            delete r.indicator;
+            delete r.id;
+            r.indicator = id;
+          }
+        });
+        analysis.more = data.data.attributes.more;
+
+
         data.data.attributes.comments.forEach((r) => {
           if (r.indicator && r.indicator.data && r.indicator.data.id) {
             const id = r.indicator.data.id;
@@ -1050,7 +1006,7 @@ export default {
     if (app.context.route.query && app.context.route.query.q) {
       // const questionnaireSlug = app.context.route.query.q;
       var { data } = await $axios.get(
-        `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&locale=${app.i18n.locale}`,
+        `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&&populate=more_label_categories&locale=${app.i18n.locale}`,
         headers
       );
       
@@ -1059,6 +1015,9 @@ export default {
         questionnaire = data.data[0]
       }
     }
+
+    console.log('questionnaire', questionnaire)
+
     return {
       slug: slug,
       template,
@@ -1087,10 +1046,10 @@ export default {
       var s = fullpage_api.getActiveSection();
       fullpage_api.moveTo(s.index + 2);
     },
-    isOptionActive(indicator, option) {
-      return this.analysis.results.find(
+    isOptionActive(field, indicator, option) {
+      return this.analysis[field] ? this.analysis[field].find(
         (r) => r.indicator === indicator.id && r.value === option.value
-      );
+      ) : false;
     },
     isLabelActive(label) {
       return this.analysis.labels.find((r) => r === label.id);
@@ -1100,33 +1059,34 @@ export default {
         (r) => r.indicator === indicator.id && r.comment !== ""
       );
     },
-    punctuation(indicator, option) {
-      const same = this.analysis.results.find(
+    punctuation(field, indicator, option) {
+      console.log('field', field, this.analysis)
+      const same = this.analysis[field].find(
         (r) => r.indicator === indicator.id && r.value === option.value
       );
       if (same) {
-        this.analysis.results = this.analysis.results.filter(
+        this.analysis[field] = this.analysis[field].filter(
           (r) =>
             r.indicator !== indicator.id ||
             (r.indicator === indicator.id && r.value !== option.value)
         );
         return;
       }
-      const numOfValues = this.analysis.results.filter(
+      const numOfValues = this.analysis[field].filter(
         (r) => r.indicator === indicator.id
       );
       if (numOfValues.length >= indicator.max) {
-        const indicatorResults = this.analysis.results
+        const indicatorResults = this.analysis[field]
           .filter((r) => r.indicator === indicator.id)
           .filter((r, i) => i > 0);
-        this.analysis.results = this.analysis.results.filter(
+        this.analysis[field] = this.analysis[field].filter(
           (r) => r.indicator !== indicator.id
         );
         indicatorResults.forEach((r) => {
-          this.analysis.results.push(r);
+          this.analysis[field].push(r);
         });
       }
-      this.analysis.results.push({
+      this.analysis[field].push({
         indicator: indicator.id,
         value: option.value,
       });
@@ -1135,7 +1095,7 @@ export default {
         fullpage_api.moveTo(s.index + 2);
       }
     },
-    addLabel(label) {
+    addLabel(label, labelCategory) {
       const previous = this.analysis.labels.find((l) => l === label.id);
       if (previous) {
         this.analysis.labels = this.analysis.labels.filter(
@@ -1144,9 +1104,8 @@ export default {
       } else {
         this.analysis.labels.push(label.id);
       }
-      if (
-        this.template.attributes.labels.data.length ===
-        this.analysis.labels.length
+      // console.log('labelCategory', labelCategory)
+      if (!previous && labelCategory && labelCategory.attributes && labelCategory.attributes.max && labelCategory.attributes.max === 1
       ) {
         var s = fullpage_api.getActiveSection();
         fullpage_api.moveTo(s.index + 2);
@@ -1260,6 +1219,24 @@ export default {
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },
+    setLabelComments(labelCategory, event) {
+      const existing = this.analysis.labelComments.find(c => c.label_category === labelCategory.id)
+      if (existing) {
+        existing.comment = event.target.value
+      }
+      else {
+        this.analysis.labelComments.push({ label_category: labelCategory.id, comment: event.target.value })
+      }      
+    },
+    setMoreComments(ind, event) {
+      const existing = this.analysis.comments.find(c => c.indicator === ind.id)
+      if (existing) {
+        existing.comment = event.target.value
+      }
+      else {
+        this.analysis.comments.push({ indicator: ind.id, comment: event.target.value })
+      }      
+    }
   },
   filters: {
     float1(amount) {
@@ -1393,6 +1370,7 @@ ul.capacities-list li .active {
 .multiple,
 .label-category {
   color: #fff;
+  text-align: center;
 }
 textarea.comment {
   height: 350px;
@@ -1453,8 +1431,8 @@ textarea.comment {
   border-radius: 6px;
 }
 .domain-quadrant-inner {
-  margin-bottom: 3rem;
-  padding: 3rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
   text-align: center;
   font-size: 2rem;
   width: 100%;
@@ -1475,12 +1453,23 @@ textarea.comment {
   }
 }
 .principle {
-  font-size: 14px;
+  font-size: 15px;
+  margin-top: 0.5rem;  
+}
+.principle > div {
   background: rgb(74, 143, 173);
+  background: #999;
   color: #fff;
-  padding: 0.5rem;
-  margin: 0.5rem;
   border-radius: 6px;
+  padding: 1rem;
+}
+.domain-name{
+  font-size: 20px;
+  display: block;
+}
+.domain-name a, .domain-desc a{
+color: #333;
+text-decoration: none;
 }
 </style>
 <style>
