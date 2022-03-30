@@ -30,6 +30,7 @@
   /* height: 100vh; */
   padding-top: 15vh;
   color:#fff;
+  background: rgb(85, 175, 184);
   /* font-size: 50px; */
 }
 </style>

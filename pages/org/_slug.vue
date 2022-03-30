@@ -12,6 +12,7 @@
           class="more"
           v-html="$md.render(organization.attributes.description)"
         ></div>
+        
 
         <div
           class="zcard mt-5"
@@ -19,7 +20,21 @@
             (q) => q.attributes && q.attributes.visible
           )"
           v-bind:key="questionnaire.id"
-        >        
+        >     
+        <div
+            class="org-img"
+            v-if="
+              questionnaire.attributes.image &&
+              questionnaire.attributes.image.data &&
+              questionnaire.attributes.image.data.attributes
+            "
+          >
+            <img
+              :src="questionnaireImage(questionnaire)"
+              class="img-responsive"
+            />
+          </div>
+
           <div
             v-if="questionnaire.attributes.description"
             class="more"
@@ -46,20 +61,7 @@
               "
             />
             <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-          </nuxt-link>
-          <div
-            class="org-img"
-            v-if="
-              questionnaire.attributes.image &&
-              questionnaire.attributes.image.data &&
-              questionnaire.attributes.image.data.attributes
-            "
-          >
-            <img
-              :src="questionnaireImage(questionnaire)"
-              class="img-responsive"
-            />
-          </div>
+          </nuxt-link>          
         </div>
       </div>
     </div>
@@ -155,10 +157,11 @@ h3.title {
   cursor: pointer;
   /* text-transform: capitalize; */
 }
-.org-img{
-  background: #fff;
+.org-img{  
+  margin-bottom: 2rem;
 }
 .org-img img{
   max-width: 100%;
+  max-height: 150px;
 }
 </style>

@@ -19,66 +19,74 @@
           </div>
         </div> -->
 
-        <template v-for="(labelCategory, lci) in template.attributes.label_categories.data">
+        <template
+          v-for="(labelCategory, lci) in template.attributes.label_categories
+            .data"
+        >
           <div v-bind:key="lci" class="section">
-
-<div class="label-category" v-t="'Selecciona etiquetas'"></div>
+            <div class="label-category" v-t="'Selecciona etiquetas'"></div>
             <div
-                class="zlabel-category title"
-                v-if="
-                  template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  ).length
-                "
-                >{{ labelCategory.attributes.name }}</div
-              >
+              class="zlabel-category title"
+              v-if="
+                template.attributes.labels.data.filter(
+                  (l) =>
+                    l.attributes.label_category.data.id === labelCategory.id
+                ).length
+              "
+            >
+              {{ labelCategory.attributes.name }}
+            </div>
 
-              <ul
-                class="capacities-list labels-list"
-                v-if="
-                  template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  ).length
-                "
+            <ul
+              class="capacities-list labels-list"
+              v-if="
+                template.attributes.labels.data.filter(
+                  (l) =>
+                    l.attributes.label_category.data.id === labelCategory.id
+                ).length
+              "
+            >
+              <li
+                class="item"
+                v-for="label in template.attributes.labels.data.filter(
+                  (l) =>
+                    l.attributes.label_category.data.id === labelCategory.id
+                )"
+                v-bind:key="label.id"
               >
-                <li
-                  class="item"
-                  v-for="label in template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  )"
-                  v-bind:key="label.id"
+                <div
+                  v-on:click="addLabel(label, labelCategory)"
+                  class="btn btn-sismograf"
+                  v-bind:class="{
+                    active: isLabelActive(label),
+                  }"
                 >
-                  <div
-                    v-on:click="addLabel(label, labelCategory)"
-                    class="btn btn-sismograf"
-                    v-bind:class="{
-                      active: isLabelActive(label),
-                    }"
-                  >
-                    {{ label.attributes.name }}
-                  </div>
-                </li>
-              </ul>
+                  {{ label.attributes.name }}
+                </div>
+              </li>
+            </ul>
 
-              <div class="open-response" v-if="labelCategory.attributes.openResponse === true">
-                <span class="label-category">{{labelCategory.attributes.openResponseText}}</span>
-                <textarea
-                  class="form-control"
-                    type="text"
-                    @input="setLabelComments(labelCategory, $event)"
-                    name="organization"
-                  ></textarea>
-              </div>
+            <div
+              class="open-response"
+              v-if="labelCategory.attributes.openResponse === true"
+            >
+              <span class="label-category">{{
+                labelCategory.attributes.openResponseText
+              }}</span>
+              <textarea
+                class="form-control"
+                type="text"
+                @input="setLabelComments(labelCategory, $event)"
+                name="organization"
+              ></textarea>
+            </div>
 
-<div class="next-container text-center">
+            <div class="next-container text-center">
               <button class="btn btn-sismograf btn-next" @click="next">
                 <span v-t="'Siguiente'" />
                 <font-awesome-icon :icon="fas.faLongArrowAltRight" />
               </button>
-</div>
+            </div>
           </div>
         </template>
 
@@ -145,29 +153,42 @@
         </div> -->
 
         <div class="section section-bg-dark">
-          <div class="title" v-t="questionnaire && questionnaire.attributes && questionnaire.attributes.domainsText || 'Dominios'"></div>
+          <div
+            class="title"
+            v-t="
+              (questionnaire &&
+                questionnaire.attributes &&
+                questionnaire.attributes.domainsText) ||
+              'Dominios'
+            "
+          ></div>
           <div class="row">
             <div class="col-md-6 equal" v-for="i in 4" :key="i">
               <div class="domain-quadrant">
-                <div class="domain-quadrant-inner">                  
+                <div class="domain-quadrant-inner">
                   <div class="domain-name">
-                    <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                    <a
+                      :href="`#domain-${template.attributes.domains[i - 1].id}`"
+                    >
                       {{ template.attributes.domains[i - 1].name }}
                     </a>
                   </div>
                   <div class="domain-desc">
-                    <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                    <a
+                      :href="`#domain-${template.attributes.domains[i - 1].id}`"
+                    >
                       {{ template.attributes.domains[i - 1].description }}
                     </a>
                   </div>
-                  <div class="row">
+                  <div class="row" v-if="questionnaire && questionnaire.attributes && questionnaire.attributes.showPrinciples !== false">
                     <div
                       class="zindex-item principle col-4 text-center"
-                      v-for="principle in template.attributes.domains[i - 1].principles"
+                      v-for="principle in template.attributes.domains[i - 1]
+                        .principles"
                       v-bind:key="principle.id"
                     >
-                    <div>
-                      {{ principle.name }}
+                      <div>
+                        {{ principle.name }}
                       </div>
                     </div>
                   </div>
@@ -189,29 +210,53 @@
               <a :href="`#init`" v-t="'Inicio'"></a>
               <span> > {{ domain.description }}</span>
             </div>
-            <div class="title" v-t="questionnaire && questionnaire.attributes && questionnaire.attributes.domainsText || 'Dominios'"></div>
+            <div
+              class="title"
+              v-t="
+                (questionnaire &&
+                  questionnaire.attributes &&
+                  questionnaire.attributes.domainsText) ||
+                'Dominios'
+              "
+            ></div>
             <div class="row">
-              <div class="col-md-6 equal" v-for="i in 4" :key="domain.id * 100 + i">
-                <div class="domain-quadrant" :class="di === (i - 1) ? 'active' : 'inactive'">
-                  <div class="domain-quadrant-inner">                  
+              <div
+                class="col-md-6 equal"
+                v-for="i in 4"
+                :key="domain.id * 100 + i"
+              >
+                <div
+                  class="domain-quadrant"
+                  :class="di === i - 1 ? 'active' : 'inactive'"
+                >
+                  <div class="domain-quadrant-inner">
                     <div class="domain-name">
-                      <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                      <a
+                        :href="`#domain-${
+                          template.attributes.domains[i - 1].id
+                        }`"
+                      >
                         {{ template.attributes.domains[i - 1].name }}
                       </a>
                     </div>
                     <div class="domain-desc">
-                      <a :href="`#domain-${template.attributes.domains[i - 1].id}`">
+                      <a
+                        :href="`#domain-${
+                          template.attributes.domains[i - 1].id
+                        }`"
+                      >
                         {{ template.attributes.domains[i - 1].description }}
                       </a>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="questionnaire && questionnaire.attributes && questionnaire.attributes.showPrinciples !== false">
                       <div
                         class="zindex-item principle col-4 text-center"
-                        v-for="principle in template.attributes.domains[i - 1].principles"
+                        v-for="principle in template.attributes.domains[i - 1]
+                          .principles"
                         v-bind:key="principle.id"
                       >
-                      <div>
-                        {{ principle.name }}
+                        <div>
+                          {{ principle.name }}
                         </div>
                       </div>
                     </div>
@@ -228,7 +273,9 @@
                 </div>
                 <vue-ellipse-progress
                   color="#333"
-                  :progress="((di+1) / template.attributes.domains.length) * 100"
+                  :progress="
+                    ((di + 1) / template.attributes.domains.length) * 100
+                  "
                   :thickness="4"
                   :size="100"
                   :legend="false"
@@ -242,14 +289,26 @@
                 <font-awesome-icon :icon="fas.faLongArrowAltRight" />
               </button>
             </div>
+
+            <div
+              class="next-container text-center"
+              v-if="
+                questionnaire &&
+                questionnaire.attributes &&
+                questionnaire.attributes.domainsMustBeCompleted === false
+              "
+            >
+              <button class="btn btn-sismograf btn-next" @click="goToEnd">
+                <span v-t="'Acabar'" />
+                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+              </button>
+            </div>
           </div>
 
           <template
             v-for="(principle, pi) in domain.principles"
             class="zis-hidden-widescreen"
           >
-            
-
             <template
               v-for="(pattern, ppi) in principle.patterns"
               class="zis-hidden-widescreen"
@@ -263,12 +322,12 @@
                     <div class="progress-div">
                       <div class="progress-title" v-t="'Dominios'"></div>
                       <div class="progress-legend">
-                        {{ di + 1}} / {{ template.attributes.domains.length }}
+                        {{ di + 1 }} / {{ template.attributes.domains.length }}
                       </div>
                       <vue-ellipse-progress
                         color="#333"
                         :progress="
-                          ((di+1) / template.attributes.domains.length) * 100
+                          ((di + 1) / template.attributes.domains.length) * 100
                         "
                         :thickness="4"
                         :size="100"
@@ -280,11 +339,11 @@
                     <div class="progress-div">
                       <div class="progress-title" v-t="'Principios'"></div>
                       <div class="progress-legend">
-                        {{ pi + 1}} / {{ domain.principles.length }}
+                        {{ pi + 1 }} / {{ domain.principles.length }}
                       </div>
                       <vue-ellipse-progress
                         color="#333"
-                        :progress="((pi+1) / domain.principles.length) * 100"
+                        :progress="((pi + 1) / domain.principles.length) * 100"
                         :thickness="4"
                         :size="100"
                         :legend="false"
@@ -295,11 +354,13 @@
                     <div class="progress-div">
                       <div class="progress-title" v-t="'Indicadores'"></div>
                       <div class="progress-legend">
-                        {{ ppi + 1}} / {{ principle.patterns.length }}
+                        {{ ppi + 1 }} / {{ principle.patterns.length }}
                       </div>
                       <vue-ellipse-progress
                         color="#333"
-                        :progress="((ppi+1) / principle.patterns.length) * 100"
+                        :progress="
+                          ((ppi + 1) / principle.patterns.length) * 100
+                        "
                         :thickness="4"
                         :size="100"
                         :legend="false"
@@ -340,7 +401,7 @@
                         v-on:click="punctuation('results', indicator, option)"
                         class="btn btn-sismograf"
                         v-bind:class="{
-                          active: isOptionActive('results',indicator, option),
+                          active: isOptionActive('results', indicator, option),
                         }"
                       >
                         {{ option.name }}
@@ -416,57 +477,56 @@
           </template>
         </b-modal>
 
-
         <template v-for="(block, bi) in questionnaire.attributes.moreBlocks">
-
           <div class="section" :key="bi">
-<div class="title">
-                  <span v-t="block.title" />
-                </div>
+            <div class="title">
+              <span v-t="block.title" />
+            </div>
+
+            <div class="next-container text-center">
+              <button class="btn btn-sismograf btn-next" @click="next">
+                <span v-t="'Siguiente'" />
+                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+              </button>
+            </div>
           </div>
-          
-          <template
-                v-for="(ind, indi) in block.indicators.data"
-                class="z"
-              >
-              
-              <div class="section" :key="indi">
 
-                <div class="label-category">
-                  <span v-t="block.title" />
-                </div>
-                <div class="scope title indicator">
-                  <span v-t="ind.attributes.question" />
-                </div>
-                <ul class="capacities-list">
-                    <li
-                      class="item"
-                      v-for="option in ind.attributes.indicator_options"
-                      v-bind:key="option.id"
-                    >
-                      <div
-                        v-on:click="punctuation('more', ind, option)"
-                        class="btn btn-sismograf"
-                        v-bind:class="{
-                          active: isOptionActive('more', ind, option),
-                        }"
-                      >
-                        {{ option.name }}
-                      </div>
-                    </li>
-                  </ul>
-
-                  <div v-if="ind.attributes.indicator_options.length === 0">
-                    
-                    <textarea
-                  class="form-control"
-                    type="text"
-                    @input="setMoreComments(ind, $event)"
-                    name="organization"
-                  ></textarea>
+          <template v-for="(ind, indi) in block.indicators.data" class="z">
+            <div class="section" :key="indi">
+              <div class="label-category">
+                <span v-t="block.title" />
+              </div>
+              <div class="scope title indicator">
+                <span v-t="ind.attributes.question" />
+              </div>
+              <ul class="capacities-list">
+                <li
+                  class="item"
+                  v-for="option in ind.attributes.indicator_options"
+                  v-bind:key="option.id"
+                >
+                  <div
+                    v-on:click="punctuation('more', ind, option)"
+                    class="btn btn-sismograf"
+                    v-bind:class="{
+                      active: isOptionActive('more', ind, option),
+                    }"
+                  >
+                    {{ option.name }}
                   </div>
+                </li>
+              </ul>
 
-                  <!-- <b-button
+              <div v-if="ind.attributes.indicator_options.length === 0">
+                <textarea
+                  class="form-control"
+                  type="text"
+                  @input="setMoreComments(ind, $event)"
+                  name="organization"
+                ></textarea>
+              </div>
+
+              <!-- <b-button
                     id="show-btn"
                     class="btn-sismograf"
                     v-bind:class="{
@@ -477,16 +537,14 @@
                     <font-awesome-icon :icon="fas.faComment" />
                   </b-button> -->
 
-                  <div class="next-container text-center">
-                    <button class="btn btn-sismograf btn-next" @click="next">
-                      <span v-t="'Siguiente'" />
-                      <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-                    </button>
-                  </div>
+              <div class="next-container text-center">
+                <button class="btn btn-sismograf btn-next" @click="next">
+                  <span v-t="'Siguiente'" />
+                  <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+                </button>
               </div>
+            </div>
           </template>
-
-
         </template>
         <!-- <div class="section" v-for="(block, bi) in questionnaire.attributes.moreBlocks" :key="bi">
           moreBlocks:
@@ -502,9 +560,11 @@
 
           <div
             class="text-center description"
-            v-t="'Aquesta enquesta és totalment anònima però si vols respondre:'"
+            v-t="
+              'Aquesta enquesta és totalment anònima però si vols respondre:'
+            "
           ></div>
-          
+
           <!-- <ul class="capacities-list" v-if="template.attributes.labels.data">
             <li
               class="item"
@@ -526,7 +586,12 @@
           <div class="row text-center mt-5">
             <div class="col-md">
               <span class="label" v-t="'Email'"></span>
-              <input type="text" v-model="analysis.email" name="zemail" class="form-control" />
+              <input
+                type="text"
+                v-model="analysis.email"
+                name="zemail"
+                class="form-control"
+              />
               <span
                 class="label"
                 v-t="
@@ -534,10 +599,17 @@
                 "
               ></span>
             </div>
-            <div class="col-md" v-if="questionnaire && questionnaire.attributes && questionnaire.attributes.showOrganization">
+            <div
+              class="col-md"
+              v-if="
+                questionnaire &&
+                questionnaire.attributes &&
+                questionnaire.attributes.showOrganization
+              "
+            >
               <span class="label" v-t="'Organización'"></span>
               <input
-              class="form-control"
+                class="form-control"
                 type="text"
                 v-model="analysis.organization"
                 name="organization"
@@ -725,10 +797,10 @@ export default {
         });
       });
 
-      this.questionnaire.attributes.moreBlocks.forEach((block) => {        
-        anchors.push(`moreblock-${( block.id)}`);
+      this.questionnaire.attributes.moreBlocks.forEach((block) => {
+        anchors.push(`moreblock-${block.id}`);
         block.indicators.data.forEach((i) => {
-          anchors.push(`moreind-${(i.id)}`);
+          anchors.push(`moreind-${i.id}`);
         });
       });
 
@@ -738,7 +810,11 @@ export default {
       return anchors;
     },
     title() {
-      return this.questionnaire && this.questionnaire.attributes && this.questionnaire.attributes.name ? this.questionnaire.attributes.name : this.template.attributes.name;
+      return this.questionnaire &&
+        this.questionnaire.attributes &&
+        this.questionnaire.attributes.name
+        ? this.questionnaire.attributes.name
+        : this.template.attributes.name;
     },
     description() {
       return this.template.attributes.description;
@@ -946,7 +1022,7 @@ export default {
       parent: null,
     };
 
-    let questionnaire = null
+    let questionnaire = null;
 
     if (app.context.route.query && app.context.route.query.r) {
       var { data } = await $axios.get(
@@ -979,7 +1055,7 @@ export default {
           }
         });
         analysis.results = data.data.attributes.results;
-        
+
         data.data.attributes.more.forEach((r) => {
           if (r.indicator && r.indicator.data && r.indicator.data.id) {
             const id = r.indicator.data.id;
@@ -989,7 +1065,6 @@ export default {
           }
         });
         analysis.more = data.data.attributes.more;
-
 
         data.data.attributes.comments.forEach((r) => {
           if (r.indicator && r.indicator.data && r.indicator.data.id) {
@@ -1001,18 +1076,18 @@ export default {
         });
         analysis.comments = data.data.attributes.comments;
       }
-    } 
-    
+    }
+
     if (app.context.route.query && app.context.route.query.q) {
       // const questionnaireSlug = app.context.route.query.q;
       var { data } = await $axios.get(
         `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&&populate=more_label_categories&locale=${app.i18n.locale}`,
         headers
       );
-      
+
       if (data.data.length && data.data[0].id) {
         analysis.questionnaire = data.data[0].id;
-        questionnaire = data.data[0]
+        questionnaire = data.data[0];
       }
     }
 
@@ -1022,7 +1097,7 @@ export default {
       slug: slug,
       template,
       analysis,
-      questionnaire
+      questionnaire,
     };
   },
   mounted() {
@@ -1046,10 +1121,19 @@ export default {
       var s = fullpage_api.getActiveSection();
       fullpage_api.moveTo(s.index + 2);
     },
+    goToEnd() {
+      if (this.questionnaire.attributes.moreBlocks && this.questionnaire.attributes.moreBlocks.length > 0) {
+        fullpage_api.moveTo(`moreblock-${this.questionnaire.attributes.moreBlocks[0].id}`);
+      } else {
+        fullpage_api.moveTo(`summary-1`);        
+      }
+    },
     isOptionActive(field, indicator, option) {
-      return this.analysis[field] ? this.analysis[field].find(
-        (r) => r.indicator === indicator.id && r.value === option.value
-      ) : false;
+      return this.analysis[field]
+        ? this.analysis[field].find(
+            (r) => r.indicator === indicator.id && r.value === option.value
+          )
+        : false;
     },
     isLabelActive(label) {
       return this.analysis.labels.find((r) => r === label.id);
@@ -1060,7 +1144,7 @@ export default {
       );
     },
     punctuation(field, indicator, option) {
-      console.log('field', field, this.analysis)
+      console.log("field", field, this.analysis);
       const same = this.analysis[field].find(
         (r) => r.indicator === indicator.id && r.value === option.value
       );
@@ -1105,7 +1189,12 @@ export default {
         this.analysis.labels.push(label.id);
       }
       // console.log('labelCategory', labelCategory)
-      if (!previous && labelCategory && labelCategory.attributes && labelCategory.attributes.max && labelCategory.attributes.max === 1
+      if (
+        !previous &&
+        labelCategory &&
+        labelCategory.attributes &&
+        labelCategory.attributes.max &&
+        labelCategory.attributes.max === 1
       ) {
         var s = fullpage_api.getActiveSection();
         fullpage_api.moveTo(s.index + 2);
@@ -1156,8 +1245,6 @@ export default {
       this.analysis.uid = null;
       this.analysis.publishedAt = new Date();
       this.save();
-
-
     },
     async save() {
       this.analysis.language = this.$i18n.locale;
@@ -1174,7 +1261,7 @@ export default {
         const post = { data: this.analysis };
         // delete post.data.id
         var { data } = await this.$axios.post(`/analyses`, post, headers);
-        console.log('data',data)
+        console.log("data", data);
         this.analysis.id = data.data.id;
       } else {
         const post = { data: this.analysis };
@@ -1220,23 +1307,31 @@ export default {
       return re.test(String(email).toLowerCase());
     },
     setLabelComments(labelCategory, event) {
-      const existing = this.analysis.labelComments.find(c => c.label_category === labelCategory.id)
+      const existing = this.analysis.labelComments.find(
+        (c) => c.label_category === labelCategory.id
+      );
       if (existing) {
-        existing.comment = event.target.value
+        existing.comment = event.target.value;
+      } else {
+        this.analysis.labelComments.push({
+          label_category: labelCategory.id,
+          comment: event.target.value,
+        });
       }
-      else {
-        this.analysis.labelComments.push({ label_category: labelCategory.id, comment: event.target.value })
-      }      
     },
     setMoreComments(ind, event) {
-      const existing = this.analysis.comments.find(c => c.indicator === ind.id)
+      const existing = this.analysis.comments.find(
+        (c) => c.indicator === ind.id
+      );
       if (existing) {
-        existing.comment = event.target.value
+        existing.comment = event.target.value;
+      } else {
+        this.analysis.comments.push({
+          indicator: ind.id,
+          comment: event.target.value,
+        });
       }
-      else {
-        this.analysis.comments.push({ indicator: ind.id, comment: event.target.value })
-      }      
-    }
+    },
   },
   filters: {
     float1(amount) {
@@ -1437,7 +1532,7 @@ textarea.comment {
   font-size: 2rem;
   width: 100%;
 }
-.domain-quadrant.inactive{
+.domain-quadrant.inactive {
   opacity: 0.2;
 }
 .equal {
@@ -1453,7 +1548,7 @@ textarea.comment {
 }
 .principle {
   font-size: 15px;
-  margin-top: 0.5rem;  
+  margin-top: 0.5rem;
 }
 .principle > div {
   background: rgb(74, 143, 173);
@@ -1462,15 +1557,15 @@ textarea.comment {
   border-radius: 6px;
   padding: 1rem;
 }
-.domain-name{
+.domain-name {
   font-size: 20px;
   display: block;
 }
-.domain-name a, .domain-desc a{
-color: #333;
-text-decoration: none;
+.domain-name a,
+.domain-desc a {
+  color: #333;
+  text-decoration: none;
 }
-
 
 @media (max-width: 768px) {
   .scope {
@@ -1478,32 +1573,31 @@ text-decoration: none;
     padding-top: 3.5rem;
     line-height: 30px;
   }
-  .btn-sismograf{
+  .btn-sismograf {
     padding: 4px 20px;
     font-size: 14px;
     margin-bottom: 10px;
   }
-  .progress-div-container, .breadcrumb{
+  .progress-div-container,
+  .breadcrumb {
     display: none;
   }
-  .principle.col-4{
+  .principle.col-4 {
     display: none;
   }
-  .domain-desc{
+  .domain-desc {
     font-size: 1.3rem;
   }
-  .domain-name{
+  .domain-name {
     font-size: 1rem;
   }
-  .domain-quadrant{
+  .domain-quadrant {
     margin: 0.3rem;
   }
-  .domain-quadrant-inner{
-    padding: 0.5rem
+  .domain-quadrant-inner {
+    padding: 0.5rem;
   }
-      
 }
-
 </style>
 <style>
 #fp-nav ul li a span,
