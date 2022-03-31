@@ -124,77 +124,7 @@
     </b-table>
     <hr class="mt-5" />
     <hr class="mt-1" />
-    <h2 v-if="pivotData1.length">Results</h2>
-    <div class="row">
-      <div class="z" :class="pivotData2.length ? 'col-md-6' : 'col-md-12'">
-        <div class="mb-5">
-          <summary-chart
-            id="summary-chart-1"
-            class="mb-5"
-            v-if="pivotData1.length"
-            :levels="resilienceLevels"
-            :title="
-              comparer.group1 === 'id'
-                ? toUid(comparer.title1)
-                : comparer.title1
-            "
-            :pivotData="pivotData1"
-          ></summary-chart>
-        </div>
-      </div>
-      <div class="col-md-6" v-if="pivotData2.length">
-        <div class="mb-5">
-          <summary-chart
-            id="summary-chart-2"
-            class="mb-5"
-            v-if="pivotData2.length"
-            :levels="resilienceLevels"
-            :title="
-              comparer.group2 === 'id'
-                ? toUid(comparer.title2)
-                : comparer.title2
-            "
-            :pivotData="pivotData2"
-          ></summary-chart>
-        </div>
-      </div>
-    </div>
-
-    <!-- <div id="sismo-pivot" class="mt-5"></div> -->
-
-    <download-excel
-      v-if="pivotData1.length"
-      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
-      :data="pivotData1"
-      :fields="excelFields"
-    >
-      Download Data 1
-    </download-excel>
-
-    <download-excel
-      v-if="pivotData2.length"
-      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
-      :data="pivotData2"
-      :fields="excelFields"
-    >
-      Download Data 2
-    </download-excel>
-
-    <button
-      v-if="pivotData1.length"
-      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
-      @click="downloadImage('summary-chart-1')"
-    >
-      Download Image 1
-    </button>
-
-    <button
-      v-if="pivotData2.length"
-      class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
-      @click="downloadImage('summary-chart-2')"
-    >
-      Download Image 2
-    </button>
+    
 
     <b-modal
       size="lg"
@@ -215,6 +145,93 @@
         <b-button class="mt-3 btn-primary" @click="cancelModal">Ok</b-button>
       </template>
     </b-modal>
+
+    <b-modal
+      size="lg"
+      centered
+      ref="compare-modal"
+      :title="analysis ? toUid(analysis.uid) : 'Analysis'"
+    >
+      <div class="d-block text-center">        
+        <!-- <h2 v-if="pivotData1.length">Results</h2> -->
+        <div class="row">
+          <div class="z" :class="pivotData2.length ? 'col-md-6' : 'col-md-12'">
+            <div class="mb-5">
+              <summary-chart
+                id="summary-chart-1"
+                class="mb-5"
+                v-if="pivotData1.length"
+                :levels="resilienceLevels"
+                :analysis="analysis1"
+                :title="
+                  comparer.group1 === 'id'
+                    ? toUid(comparer.title1)
+                    : comparer.title1
+                "
+                :pivotData="pivotData1"
+              ></summary-chart>
+            </div>
+          </div>
+          <div class="col-md-6" v-if="pivotData2.length">
+            <div class="mb-5">
+              <summary-chart
+                id="summary-chart-2"
+                class="mb-5"
+                v-if="pivotData2.length"
+                :levels="resilienceLevels"
+                :analysis="analysis2"
+                :title="
+                  comparer.group2 === 'id'
+                    ? toUid(comparer.title2)
+                    : comparer.title2
+                "
+                :pivotData="pivotData2"
+              ></summary-chart>
+            </div>
+          </div>
+        </div>
+
+        <download-excel
+          v-if="pivotData1.length"
+          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          :data="pivotData1"
+          :fields="excelFields"
+        >
+          Download Data 1
+        </download-excel>
+
+        <download-excel
+          v-if="pivotData2.length"
+          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          :data="pivotData2"
+          :fields="excelFields"
+        >
+          Download Data 2
+        </download-excel>
+
+        <button
+          v-if="pivotData1.length"
+          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          @click="downloadImage('summary-chart-1')"
+        >
+          Download Image 1
+        </button>
+
+        <button
+          v-if="pivotData2.length"
+          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          @click="downloadImage('summary-chart-2')"
+        >
+          Download Image 2
+        </button>
+        
+      </div>
+
+      <template #modal-footer>
+        <b-button class="mt-3 btn-primary" @click="cancelModal">Ok</b-button>
+      </template>
+    </b-modal>
+
   </div>
 </template>
 
@@ -296,6 +313,8 @@ export default {
       },
       resilienceLevels: { ca: [], en: [], es: [] },
       analysis: null,
+      analysis1: null,
+      analysis2: null,
       analysisSummary: null,
     };
   },
@@ -424,6 +443,17 @@ export default {
             this.analysis.labels = data[0].labels;
           }          
           this.$refs["analysis-modal"].show();
+        }
+        else {
+          this.analysis1 = null
+          this.analysis2 = null
+          if (this.comparer.group1 === 'id') {
+            this.analysis1 = data.g1.analyses[0]
+          }
+          if (this.comparer.group2 === 'id') {
+            this.analysis2 = data.g2.analyses[0];
+          }
+          this.$refs["compare-modal"].show();
         }
         // configPivot.dataSource.data = this.pivotData;
 

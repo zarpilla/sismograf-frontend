@@ -1,20 +1,10 @@
 <template>
   <section class="section container-fluid">
-    <!-- <div class="container">
-      <h2 class="title">My Profile</h2>
-      <div class="content">
-        <p>
-          <strong>Username:</strong>
-          {{ loggedInUser.username }}
-        </p>
-        <p>
-          <strong>Email:</strong>
-          {{ loggedInUser.email }}
-        </p>
-      </div>
-    </div> -->
-    <h3>Analyses</h3>
-    <UserAnalysesList></UserAnalysesList>
+    <!-- <h3>Analyses</h3> -->
+    <div class="pt-2">
+      <UserAnalysesList></UserAnalysesList>
+    </div>
+    
   </section>
 </template>
 

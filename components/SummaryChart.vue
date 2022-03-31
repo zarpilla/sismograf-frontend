@@ -2,8 +2,38 @@
   <div class="chart-summary">
     <section>
       <div class="sismograf-report">
-        <h4>{{ title }}</h4>
-        <div class="d-block zmb-2">
+        <!-- <h4>{{ title }}</h4> -->
+        <!-- <div class="analysis-info" v-if="analysis.email">
+          <label class="bold">Email:</label>
+          {{ analysis.email}}
+        </div> -->
+        <div class="analysis-detail" v-if="analysis">
+          <div class="analysis-info" v-if="analysis.organization">
+            <label class="bold" v-t="'Organization:'"></label>
+            {{ analysis.organization }}
+          </div>
+          <div class="analysis-info" v-if="analysis.project">
+            <label class="bold">Project:</label>
+            {{ analysis.project }} lalala
+          </div>
+          <div class="analysis-info" v-if="analysis.region">
+            <label class="bold">Region:</label>
+            {{ analysis.region }}
+          </div>
+          <div class="analysis-info" v-if="analysis.scope">
+            <label class="bold">Scope:</label>
+            {{ analysis.scope }}
+          </div>
+          <div class="analysis-info">
+            <label class="bold" v-t="'Date:'"></label>
+            {{ analysis.createdAt | toDate }}
+          </div>
+        </div>
+        <div class="zz" v-else>
+          <h4>{{ title }}</h4>
+        </div>
+
+        <div class="d-block global-progress mt-2 zmb-2">
           <resilience-progress
             name="Global"
             :value="chartSummary.resilienceLevel"
@@ -69,7 +99,11 @@ export default {
     },
     title: {
       type: String,
-      default: '',
+      default: "",
+    },
+    analysis: {
+      type: Object,
+      default: [],
     },
   },
   computed: {
@@ -99,7 +133,7 @@ export default {
         resilienceLevel: _.meanBy(summaryByDomain, "resilienceLevel"),
         domains: summaryByDomain,
       };
-    }    
+    },
   },
   async mounted() {
     // await this.addScript("/vendor/html2pdf/html2pdf.bundle.min.js", "html2pdf-js");
@@ -135,6 +169,16 @@ export default {
       // html2pdf().from(element).save();
     },
   },
+  filters: {
+    toDate(value) {
+      return moment(value).format("DD-MM-YYYY");
+    },
+    toUid(value) {
+      return value && value.indexOf("-")
+        ? value.substring(0, value.indexOf("-"))
+        : value;
+    },
+  },  
 };
 </script>
 <style scoped>
@@ -148,5 +192,11 @@ export default {
 }
 .chart-summary {
   width: 100%;
+}
+.chart-summary .analysis-info {
+  text-align: left;
+}
+.chart-summary .analysis-info label {
+  font-weight: bold;
 }
 </style>

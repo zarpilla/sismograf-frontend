@@ -92,7 +92,9 @@ export default {
           "Send and view Results": "Guardar i veure resultats",
           "Send": "Enviar",
           "Results": "Resultats",
-          "Selecciona etiquetas": "Volem començar sabent de tu..."
+          "Selecciona etiquetas": "Volem començar sabent de tu...",
+          "Date:": "Data:",
+          "Organization:": "Organització:"
         },
         es: {
           welcome: 'Bienvenidas',
