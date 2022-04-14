@@ -46,10 +46,10 @@ export default {
           'Authorization': `Bearer ${process.env.API_TOKEN}`
         }
       }
-      var { data } = await $axios.get(`/organizations?locale=es&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
+      var { data } = await $axios.get(`/organizations?locale=es&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
       let organizations = data.data;
 
-      var { data } = await $axios.get(`/organizations?locale=ca&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
+      var { data } = await $axios.get(`/organizations?locale=ca&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
 
       organizations = _.concat(organizations, data.data)
 

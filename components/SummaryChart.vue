@@ -2,12 +2,8 @@
   <div class="chart-summary">
     <section>
       <div class="sismograf-report">
-        <!-- <h4>{{ title }}</h4> -->
-        <!-- <div class="analysis-info" v-if="analysis.email">
-          <label class="bold">Email:</label>
-          {{ analysis.email}}
-        </div> -->
         <div class="analysis-detail" v-if="analysis">
+          <h4>{{ title }}</h4>
           <div class="analysis-info" v-if="analysis.organization">
             <label class="bold" v-t="'Organization:'"></label>
             {{ analysis.organization }}
@@ -178,7 +174,7 @@ export default {
         ? value.substring(0, value.indexOf("-"))
         : value;
     },
-  },  
+  },
 };
 </script>
 <style scoped>

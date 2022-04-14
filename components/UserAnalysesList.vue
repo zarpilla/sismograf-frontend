@@ -17,7 +17,9 @@
       </button>
     </div>
 
-    <b-table hover :items="analyses" :fields="fields">
+    <!-- <pre>{{analyses}}</pre> -->
+
+    <b-table :items="analyses" :fields="fields">
       <template #cell(uid)="data">
         <span
           class="text-info clickable"
@@ -118,13 +120,31 @@
         >
       </template>
 
+      <template #cell(labels)="data">
+        <span
+          @click="
+            setGroup(
+              false,
+              comparerIndex,
+              'label',
+              label.id,
+              label.attributes.name
+            )
+          "
+          class="badge bg-warning mr-1 clickable"
+          v-for="label in data.item.labels.data"
+          :key="label.id"
+        >
+          {{ label.attributes.name }}
+        </span>
+      </template>
+
       <template #cell(updatedAt)="data">
         {{ data.value | toDate }}
       </template>
     </b-table>
     <hr class="mt-5" />
     <hr class="mt-1" />
-    
 
     <b-modal
       size="lg"
@@ -152,7 +172,7 @@
       ref="compare-modal"
       :title="analysis ? toUid(analysis.uid) : 'Analysis'"
     >
-      <div class="d-block text-center">        
+      <div class="d-block text-center">
         <!-- <h2 v-if="pivotData1.length">Results</h2> -->
         <div class="row">
           <div class="z" :class="pivotData2.length ? 'col-md-6' : 'col-md-12'">
@@ -224,14 +244,12 @@
         >
           Download Image 2
         </button>
-        
       </div>
 
       <template #modal-footer>
-        <b-button class="mt-3 btn-primary" @click="cancelModal">Ok</b-button>
+        <b-button class="mt-3 btn-primary" @click="cancelModal2">Ok</b-button>
       </template>
     </b-modal>
-
   </div>
 </template>
 
@@ -268,10 +286,10 @@ export default {
           key: "organization",
           label: "Organization",
         },
-        // {
-        //   key: "locale",
-        //   label: "Language",
-        // },
+        {
+          key: "labels",
+          label: "Labels",
+        },
         "resilienceLevel",
         {
           key: "updatedAt",
@@ -329,7 +347,7 @@ export default {
     // };
 
     var { data } = await this.$axios.get(
-      `/analyses?populate=template&populate=questionnaire&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
+      `/analyses?pagination[pageSize]=9999&populate=template&populate=questionnaire&populate=labels&pòpulate=labels.label_category&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
       {}
     );
 
@@ -399,7 +417,7 @@ export default {
             }) => item
           );
           a.results.forEach((r) => {
-            r.locale = "ca";
+            r.locale = process.env.LANG;
             pivotData1.push(r);
           });
         });
@@ -419,7 +437,7 @@ export default {
             }) => item
           );
           a.results.forEach((r) => {
-            r.locale = "ca";
+            r.locale = process.env.LANG;
             pivotData2.push(r);
           });
         });
@@ -438,19 +456,18 @@ export default {
           var { data } = await this.$axios.get(
             `/analyses/results/${this.analysis.id}`,
             {}
-          )
+          );
           if (data.length && data[0].labels) {
             this.analysis.labels = data[0].labels;
-          }          
-          this.$refs["analysis-modal"].show();
-        }
-        else {
-          this.analysis1 = null
-          this.analysis2 = null
-          if (this.comparer.group1 === 'id') {
-            this.analysis1 = data.g1.analyses[0]
           }
-          if (this.comparer.group2 === 'id') {
+          this.$refs["analysis-modal"].show();
+        } else {
+          this.analysis1 = null;
+          this.analysis2 = null;
+          if (this.comparer.group1 === "id") {
+            this.analysis1 = data.g1.analyses[0];
+          }
+          if (this.comparer.group2 === "id") {
             this.analysis2 = data.g2.analyses[0];
           }
           this.$refs["compare-modal"].show();
@@ -516,6 +533,10 @@ export default {
       if (option === 1 && this.comparerIndex === 1) {
         this.comparer.group2 = "none";
         this.comparerIndex = 0;
+      }
+      else if (option === 0) {
+        this.comparer.group2 = "none";
+        this.comparerIndex = 0;
       } else {
         this.comparerIndex = option;
       }
@@ -539,6 +560,9 @@ export default {
       this.analysis = null;
       this.analysisSummary = null;
       this.$refs["analysis-modal"].hide();
+    },
+    cancelModal2() {
+      this.$refs["compare-modal"].hide();      
     },
   },
   filters: {

@@ -29,7 +29,7 @@
         <div class="analysis-info" v-if="analysis.labels && analysis.labels.length">
           <label class="bold">Labels:</label>
           <div class="d-flex">
-            <div class="label badge bg-warning" v-for="(lbl, i) in analysis.labels" :key="i">{{ lbl.name }}</div>
+            <div class="label badge bg-warning mr-1" v-for="(lbl, i) in analysis.labels" :key="i">{{ lbl.name }}</div>
           </div>
         </div>
         <hr class="mb-3">
