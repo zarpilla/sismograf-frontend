@@ -1,7 +1,7 @@
 <template>
   <div class="container pt-5">
     <div class="alert-container mt-3 mb-5">
-      <div class="alert alert-white" v-t="'Guardado correctamente'"></div>
+      <div class="alert alert-white" v-t="'Successfully saved'"></div>
     </div>
 
     <h2 v-if="pivotData.length" v-t="'Results'" class="mt-5 pt-5">Results</h2>

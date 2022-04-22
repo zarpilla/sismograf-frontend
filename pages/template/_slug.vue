@@ -13,7 +13,7 @@
           ></div>
           <div class="next-container text-center">
             <button class="btn btn-sismograf btn-next" @click="next">
-              <span v-t="'Empezar'" />
+              <span v-t="'Start'" />
               <font-awesome-icon :icon="fas.faLongArrowAltRight" />
             </button>
           </div>
@@ -24,7 +24,7 @@
             .data"
         >
           <div v-bind:key="lci" class="section">
-            <div class="label-category" v-t="'Selecciona etiquetas'"></div>
+            <div class="label-category" v-t="'Select labels'"></div>
             <div
               class="zlabel-category title"
               v-if="
@@ -83,74 +83,12 @@
 
             <div class="next-container text-center">
               <button class="btn btn-sismograf btn-next" @click="next">
-                <span v-t="'Siguiente'" />
+                <span v-t="'Next'" />
                 <font-awesome-icon :icon="fas.faLongArrowAltRight" />
               </button>
             </div>
           </div>
         </template>
-
-        <!-- <div
-          class="section section-bg-dark"
-          v-if="template.attributes.label_categories.data.length"
-        >
-          <div class="title" v-t="'Selecciona etiquetas'"></div>
-
-          <ul class="capacities-list label-categories-list">
-            <li
-              class="item"
-              v-for="labelCategory in template.attributes.label_categories.data"
-              v-bind:key="labelCategory.id"
-            >
-              <span
-                class="label-category"
-                v-if="
-                  template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  ).length
-                "
-                >{{ labelCategory.attributes.name }}</span
-              >
-
-              <ul
-                class="capacities-list labels-list"
-                v-if="
-                  template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  ).length
-                "
-              >
-                <li
-                  class="item"
-                  v-for="label in template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  )"
-                  v-bind:key="label.id"
-                >
-                  <div
-                    v-on:click="addLabel(label, labelCategory)"
-                    class="btn btn-sismograf"
-                    v-bind:class="{
-                      active: isLabelActive(label),
-                    }"
-                  >
-                    {{ label.attributes.name }}
-                  </div>
-                </li>
-              </ul>
-            </li>
-          </ul>
-
-          <div class="next-container text-center">
-            <button class="btn btn-sismograf btn-next" @click="next">
-              <span v-t="'Siguiente'" />
-              <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-            </button>
-          </div>
-        </div> -->
 
         <div class="section section-bg-dark">
           <div
@@ -159,13 +97,13 @@
               (questionnaire &&
                 questionnaire.attributes &&
                 questionnaire.attributes.domainsText) ||
-              'Dominios'
+              'Domains'
             "
           ></div>
           <div class="row">
-            <div class="col-md-6 equal" v-for="i in 4" :key="i">
+            <div class="col-md-6 equal" v-for="i in template.attributes.domains.length" :key="i">
               <div class="domain-quadrant">
-                <div class="domain-quadrant-inner">
+                <div class="domain-quadrant-inner" v-if="template.attributes.domains[i - 1]">
                   <div class="domain-name">
                     <a
                       :href="`#domain-${template.attributes.domains[i - 1].id}`"
@@ -198,16 +136,17 @@
           </div>
           <div class="next-container text-center">
             <button class="btn btn-sismograf btn-next" @click="next">
-              <span v-t="'Siguiente'" />
+              <span v-t="'Next'" />
               <font-awesome-icon :icon="fas.faLongArrowAltRight" />
             </button>
           </div>
         </div>
+        
 
         <template v-for="(domain, di) in template.attributes.domains">
           <div v-bind:key="domain.id" class="section">
             <div class="breadcrumb text-center">
-              <a :href="`#init`" v-t="'Inicio'"></a>
+              <a :href="`#init`" v-t="'Init'"></a>
               <span> > {{ domain.description }}</span>
             </div>
             <div
@@ -216,13 +155,13 @@
                 (questionnaire &&
                   questionnaire.attributes &&
                   questionnaire.attributes.domainsText) ||
-                'Dominios'
+                'Domains'
               "
             ></div>
             <div class="row">
               <div
                 class="col-md-6 equal"
-                v-for="i in 4"
+                v-for="i in template.attributes.domains.length"
                 :key="domain.id * 100 + i"
               >
                 <div
@@ -267,7 +206,7 @@
 
             <div class="progress-div-container">
               <div class="progress-div">
-                <div class="progress-title" v-t="'Dominios'"></div>
+                <div class="progress-title" v-t="'Domains'"></div>
                 <div class="progress-legend">
                   {{ di + 1 }} / {{ template.attributes.domains.length }}
                 </div>
@@ -285,7 +224,7 @@
             </div>
             <div class="next-container text-center">
               <button class="btn btn-sismograf btn-next" @click="next">
-                <span v-t="'Siguiente'" />
+                <span v-t="'Next'" />
                 <font-awesome-icon :icon="fas.faLongArrowAltRight" />
               </button>
             </div>
@@ -320,7 +259,7 @@
                 <div v-bind:key="indicator.id" class="section">
                   <div class="progress-div-container">
                     <div class="progress-div">
-                      <div class="progress-title" v-t="'Dominios'"></div>
+                      <div class="progress-title" v-t="'Domains'"></div>
                       <div class="progress-legend">
                         {{ di + 1 }} / {{ template.attributes.domains.length }}
                       </div>
@@ -337,7 +276,7 @@
                     </div>
 
                     <div class="progress-div">
-                      <div class="progress-title" v-t="'Principios'"></div>
+                      <div class="progress-title" v-t="'Principles'"></div>
                       <div class="progress-legend">
                         {{ pi + 1 }} / {{ domain.principles.length }}
                       </div>
@@ -352,7 +291,7 @@
                     </div>
 
                     <div class="progress-div">
-                      <div class="progress-title" v-t="'Indicadores'"></div>
+                      <div class="progress-title" v-t="'Indicators'"></div>
                       <div class="progress-legend">
                         {{ ppi + 1 }} / {{ principle.patterns.length }}
                       </div>
@@ -370,7 +309,7 @@
                   </div>
 
                   <div class="breadcrumb text-center">
-                    <a :href="`#init`" v-t="'Inicio'"></a>
+                    <a :href="`#init`" v-t="'Init'"></a>
                     <span> > </span>
                     <a :href="`#domain-${domain.id}`">{{
                       domain.description
@@ -411,7 +350,7 @@
 
                   <div class="next-container text-center">
                     <button class="btn btn-sismograf btn-next" @click="next">
-                      <span v-t="'Siguiente'" />
+                      <span v-t="'Next'" />
                       <font-awesome-icon :icon="fas.faLongArrowAltRight" />
                     </button>
                   </div>
@@ -431,30 +370,6 @@
             </template>
           </template>
         </template>
-        <!-- 
-        <div class="section">
-          <div class="title">Dominios</div>
-          <div class="zrow">
-            <CBarDomains
-              :data="summary"
-              :template="template"
-              :mobile="mobile || tablet"
-              class="zcolumn"
-            ></CBarDomains>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="title">Principios</div>
-          <div class="zrow">
-            <CBar
-              :data="summary"
-              :mobile="mobile || tablet"
-              :template="template"
-              class="zcolumn"
-            ></CBar>
-          </div>
-        </div> -->
 
         <b-modal
           size="lg"
@@ -472,7 +387,7 @@
               >Cancelar</b-button
             >
             <b-button class="mt-3 btn-success" @click="hideModal"
-              >Guardar</b-button
+              v-t="'Save'"></b-button
             >
           </template>
         </b-modal>
@@ -485,7 +400,7 @@
 
             <div class="next-container text-center">
               <button class="btn btn-sismograf btn-next" @click="next">
-                <span v-t="'Siguiente'" />
+                <span v-t="'Next'" />
                 <font-awesome-icon :icon="fas.faLongArrowAltRight" />
               </button>
             </div>
@@ -539,20 +454,13 @@
 
               <div class="next-container text-center">
                 <button class="btn btn-sismograf btn-next" @click="next">
-                  <span v-t="'Siguiente'" />
+                  <span v-t="'Next'" />
                   <font-awesome-icon :icon="fas.faLongArrowAltRight" />
                 </button>
               </div>
             </div>
           </template>
         </template>
-        <!-- <div class="section" v-for="(block, bi) in questionnaire.attributes.moreBlocks" :key="bi">
-          moreBlocks:
-          <div class="title total">
-            <span v-t="block.title" />
-          </div>
-          {{ block }}
-        </div> -->
         <div class="section">
           <div class="title total">
             <span v-t="'Send and view Results'" />
@@ -561,27 +469,9 @@
           <div
             class="text-center description"
             v-t="
-              'Aquesta enquesta és totalment anònima però si vols respondre:'
+              'This poll is completely anonymous but if you want to answer:'
             "
           ></div>
-
-          <!-- <ul class="capacities-list" v-if="template.attributes.labels.data">
-            <li
-              class="item"
-              v-for="label in template.attributes.labels.data"
-              v-bind:key="label.id"
-            >
-              <div
-                v-on:click="addLabel(label, null)"
-                class="btn btn-sismograf"
-                v-bind:class="{
-                  active: isLabelActive(label),
-                }"
-              >
-                {{ label.attributes.name }}
-              </div>
-            </li>
-          </ul> -->
 
           <div class="row text-center mt-5">
             <div class="col-md">
@@ -595,7 +485,7 @@
               <span
                 class="label"
                 v-t="
-                  '(Si vols rebre informació i els resultats directament, ens pots deixar un correu electrònic )'
+                  'If you want to receive information and results directly, you can leave us an email'
                 "
               ></span>
             </div>
@@ -607,7 +497,7 @@
                 questionnaire.attributes.showOrganization
               "
             >
-              <span class="label" v-t="'Organización'"></span>
+              <span class="label" v-t="'Organization'"></span>
               <input
                 class="form-control"
                 type="text"
@@ -617,7 +507,7 @@
               <span
                 class="label"
                 v-t="
-                  '(Formes part d’alguna organització / col·lectiu / grup formal o informal / empresa ?)'
+                  'Are you part of a formal or informal organization / group / company ?'
                 "
               ></span>
             </div>
@@ -658,7 +548,7 @@
                 <div
                   v-if="show"
                   class="alert alert-white"
-                  v-t="'Guardado correctamente'"
+                  v-t="'Successfully saved'"
                 ></div>
               </fade-transition>
             </div>

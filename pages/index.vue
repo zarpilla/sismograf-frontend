@@ -7,19 +7,14 @@
         v-for="template in organizations"
         v-bind:key="template.id"
       >
-        <nuxt-link
-          v-if="template && template.id"
-          :zto="localePath('/org/' + template.attributes.slug, template.attributes.locale)"
+      <h3 class="title is-3" v-if="template && template.id">
+        <nuxt-link          
           :to="localePath({ name: 'org-slug', params: { slug: template.attributes.slug } },  template.attributes.locale)"
-          exact-active-class="is-active"
-        >
-          <h3 class="title is-3">
-            {{ template.attributes.name }}
-          </h3>
-
-          <!-- <div class="zcard" v-html="template.attributes.description">            
-          </div> -->
+        >          
+            {{ template.attributes.name }}         
         </nuxt-link>
+      </h3>
+        
       </div>
     </div>
   </section>
@@ -53,6 +48,10 @@ export default {
 
       organizations = _.concat(organizations, data.data)
 
+      var { data } = await $axios.get(`/organizations?locale=en&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
+
+      organizations = _.concat(organizations, data.data)
+
       // if (data.length == 0) {
       //   error({ statusCode: 404, message: "Page not found" });
       // }
@@ -71,17 +70,13 @@ export default {
 };
 </script>
 <style scoped>
-h2.title{
-  color:#fff;
-  text-align: center;
-  font-size: 80px;
-  font-weight: bold;
-  text-decoration: none !important;
+h3.title{
+  margin-bottom: 0.5rem;
 }
 a:hover{
   text-decoration: none !important;
 }
-h3.title{
+h3.title a{
   color:#fff;
   font-size: 30px;
   text-decoration: none !important;
