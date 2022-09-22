@@ -12,7 +12,6 @@
           class="more"
           v-html="$md.render(organization.attributes.description)"
         ></div>
-        
 
         <div
           class="zcard mt-5"
@@ -20,8 +19,8 @@
             (q) => q.attributes && q.attributes.visible
           )"
           v-bind:key="questionnaire.id"
-        >     
-        <div
+        >
+          <div
             class="org-img"
             v-if="
               questionnaire.attributes.image &&
@@ -61,7 +60,7 @@
               "
             />
             <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-          </nuxt-link>          
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -91,7 +90,7 @@ export default {
         },
       };
       var { data } = await $axios.get(
-        `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.API_TOKEN}`,
+        `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.API_TOKEN}`,
         headers
       );
       let organizations = data.data;
@@ -99,6 +98,9 @@ export default {
       if (data.length == 0) {
         error({ statusCode: 404, message: "Page not found" });
       }
+
+
+      // app.$emit('logo-changed', 'src!!!')
 
       // let templates = data.data;
       // console.log("organizations", organizations);
@@ -110,6 +112,14 @@ export default {
       console.error("asyncData error");
       console.error(e);
     }
+  },
+  created () {
+    if (this.organizations && this.organizations.length && this.organizations[0].attributes && this.organizations[0].attributes.logo && this.organizations[0].attributes.logo.data && this.organizations[0].attributes.logo.data.attributes) {
+      const src = (
+        this.apiUrl + this.organizations[0].attributes.logo.data.attributes.url
+      ).replace("/api/", "/");
+      this.$nuxt.$emit('logo-changed', src)
+    }    
   },
   methods: {
     fas() {
@@ -157,10 +167,10 @@ h3.title {
   cursor: pointer;
   /* text-transform: capitalize; */
 }
-.org-img{  
+.org-img {
   margin-bottom: 2rem;
 }
-.org-img img{
+.org-img img {
   max-width: 100%;
   max-height: 150px;
 }

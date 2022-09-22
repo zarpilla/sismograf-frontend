@@ -8,11 +8,12 @@
       >
     </nuxt-link> -->
     <div class="navbar-item navbar-abs">
-    <img
+    <!-- <img
         src="~assets/resilience_earth_w.svg"
         alt="Resilience.earth"            
         height="80"
-      >
+      > -->
+      <logo></logo>
     </div>
     <div class="xcontainer">
       <nuxt />

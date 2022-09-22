@@ -101,9 +101,16 @@
             "
           ></div>
           <div class="row">
-            <div class="col-md-6 equal" v-for="i in template.attributes.domains.length" :key="i">
+            <div
+              class="col-md-6 equal"
+              v-for="i in template.attributes.domains.length"
+              :key="i"
+            >
               <div class="domain-quadrant">
-                <div class="domain-quadrant-inner" v-if="template.attributes.domains[i - 1]">
+                <div
+                  class="domain-quadrant-inner"
+                  v-if="template.attributes.domains[i - 1]"
+                >
                   <div class="domain-name">
                     <a
                       :href="`#domain-${template.attributes.domains[i - 1].id}`"
@@ -118,7 +125,14 @@
                       {{ template.attributes.domains[i - 1].description }}
                     </a>
                   </div>
-                  <div class="row" v-if="questionnaire && questionnaire.attributes && questionnaire.attributes.showPrinciples !== false">
+                  <div
+                    class="row"
+                    v-if="
+                      questionnaire &&
+                      questionnaire.attributes &&
+                      questionnaire.attributes.showPrinciples !== false
+                    "
+                  >
                     <div
                       class="zindex-item principle col-4 text-center"
                       v-for="principle in template.attributes.domains[i - 1]
@@ -141,7 +155,6 @@
             </button>
           </div>
         </div>
-        
 
         <template v-for="(domain, di) in template.attributes.domains">
           <div v-bind:key="domain.id" class="section">
@@ -187,7 +200,14 @@
                         {{ template.attributes.domains[i - 1].description }}
                       </a>
                     </div>
-                    <div class="row" v-if="questionnaire && questionnaire.attributes && questionnaire.attributes.showPrinciples !== false">
+                    <div
+                      class="row"
+                      v-if="
+                        questionnaire &&
+                        questionnaire.attributes &&
+                        questionnaire.attributes.showPrinciples !== false
+                      "
+                    >
                       <div
                         class="zindex-item principle col-4 text-center"
                         v-for="principle in template.attributes.domains[i - 1]
@@ -386,9 +406,11 @@
             <b-button class="mt-3 btn-primary" @click="cancelModal"
               >Cancelar</b-button
             >
-            <b-button class="mt-3 btn-success" @click="hideModal"
-              v-t="'Save'"></b-button
-            >
+            <b-button
+              class="mt-3 btn-success"
+              @click="hideModal"
+              v-t="'Save'"
+            ></b-button>
           </template>
         </b-modal>
 
@@ -467,14 +489,29 @@
           </div>
 
           <div
-            class="text-center description"
-            v-t="
-              'This poll is completely anonymous but if you want to answer:'
+            v-if="
+              questionnaire &&
+              questionnaire.attributes &&
+              questionnaire.attributes.moreFieldsText
             "
+            class="text-center description"
+            v-t="questionnaire.attributes.moreFieldsText"
+          ></div>
+          <div
+            v-else
+            class="text-center description"
+            v-t="'This poll is completely anonymous but if you want to answer:'"
           ></div>
 
           <div class="row text-center mt-5">
-            <div class="col-md">
+            <div
+              class="col-md"
+              v-if="
+                questionnaire &&
+                questionnaire.attributes &&
+                questionnaire.attributes.showEmail
+              "
+            >
               <span class="label" v-t="'Email'"></span>
               <input
                 type="text"
@@ -511,18 +548,6 @@
                 "
               ></span>
             </div>
-            <!-- <div class="col-md">
-              <span class="label" v-t="'Proyecto'"></span>
-              <input type="text" v-model="analysis.project" name="project" />
-            </div>
-            <div class="col-md">
-              <span class="label" v-t="'Región'"></span>
-              <input type="text" v-model="analysis.region" name="region" />
-            </div>
-            <div class="col-md">
-              <span class="label" v-t="'Ámbito'"></span>
-              <input type="text" v-model="analysis.scope" name="scope" />
-            </div> -->
           </div>
           <div class="next-container text-center mt-5">
             <button
@@ -602,6 +627,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: process.env.API_URL,
       template: {},
       slug: "",
       mobile: false,
@@ -854,10 +880,19 @@ export default {
       return means;
     },
     validEmail() {
-      return !this.analysis.email || this.validateEmail(this.analysis.email);
+      return (
+        !this.questionnaire.attributes.emailMandatory ||
+        (this.questionnaire.attributes.emailMandatory && this.analysis.email)
+      ) && !this.analysis.email || this.validateEmail(this.analysis.email);      
+    },
+    validOrganization() {
+      return (
+        !this.questionnaire.attributes.organizationMandatory ||
+        (this.questionnaire.attributes.organizationMandatory && this.analysis.organization)
+      );
     },
     validForm() {
-      return this.validEmail;
+      return this.validEmail && this.validOrganization;
     },
     fas() {
       return fas;
@@ -971,7 +1006,7 @@ export default {
     if (app.context.route.query && app.context.route.query.q) {
       // const questionnaireSlug = app.context.route.query.q;
       var { data } = await $axios.get(
-        `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&&populate=more_label_categories&locale=${app.i18n.locale}`,
+        `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&populate=organization&populate=organization.logo&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&&populate=more_label_categories&locale=${app.i18n.locale}`,
         headers
       );
 
@@ -981,14 +1016,20 @@ export default {
       }
     }
 
-    // console.log('questionnaire', questionnaire)
-
     return {
       slug: slug,
       template,
       analysis,
       questionnaire,
     };
+  },
+  created() {
+    if (this.questionnaire?.attributes?.organization?.data?.attributes?.logo?.data?.attributes?.url) {
+      const src = (
+        this.apiUrl + this.questionnaire?.attributes?.organization?.data?.attributes?.logo?.data?.attributes?.url
+      ).replace("/api/", "/");
+      this.$nuxt.$emit('logo-changed', src)
+    }
   },
   mounted() {
     this.mobile = window.innerWidth < 768;
@@ -1012,10 +1053,15 @@ export default {
       fullpage_api.moveTo(s.index + 2);
     },
     goToEnd() {
-      if (this.questionnaire.attributes.moreBlocks && this.questionnaire.attributes.moreBlocks.length > 0) {
-        fullpage_api.moveTo(`moreblock-${this.questionnaire.attributes.moreBlocks[0].id}`);
+      if (
+        this.questionnaire.attributes.moreBlocks &&
+        this.questionnaire.attributes.moreBlocks.length > 0
+      ) {
+        fullpage_api.moveTo(
+          `moreblock-${this.questionnaire.attributes.moreBlocks[0].id}`
+        );
       } else {
-        fullpage_api.moveTo(`summary-1`);        
+        fullpage_api.moveTo(`summary-1`);
       }
     },
     isOptionActive(field, indicator, option) {
