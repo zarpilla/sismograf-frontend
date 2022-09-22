@@ -114,7 +114,7 @@ export default {
           "Date:": "Fecha:",
           "Organization:": "Organitzación:",
           "This poll is completely anonymous but if you want to answer:": "Esta encuesta es completamente anónima pero si quieres responder:",
-          "If you want to receive information and results directly, you can leave us an email": "Si vols rebre informació i els resultats directament, ens pots deixar un correu electrònic",
+          "If you want to receive information and results directly, you can leave us an email": "Si quieres recibir información y los resultados directamente, puedes dejarnos un correo electrónico",
           "Are you part of a formal or informal organization / group / company ?": "¿Formas parte de alguna organización / colectivo / grupo formal o informal / empresa ?"
         }
       }
