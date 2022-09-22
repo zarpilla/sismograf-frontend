@@ -346,8 +346,13 @@ export default {
     //   },
     // };
 
+    let organizationQuery = ''
+    if (process.env.ORG !== '') {
+      organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${process.env.ORG}`
+    }
+
     var { data } = await this.$axios.get(
-      `/analyses?pagination[pageSize]=9999&populate=template&populate=questionnaire&populate=labels&pòpulate=labels.label_category&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}&sort=createdAt:desc`,
+      `/analyses?pagination[pageSize]=9999&populate=template&populate=questionnaire&populate=labels&pòpulate=labels.label_category&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}${organizationQuery}&sort=createdAt:desc`,
       {}
     );
 
