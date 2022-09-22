@@ -52,6 +52,10 @@ export default {
 
       organizations = _.concat(organizations, data.data)
 
+      if (process.env.ORG !== '') {
+        organizations = organizations.filter(o => o.attributes.slug === process.env.ORG)
+      }
+
       // if (data.length == 0) {
       //   error({ statusCode: 404, message: "Page not found" });
       // }

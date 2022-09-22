@@ -140,7 +140,7 @@
       </template>
 
       <template #cell(updatedAt)="data">
-        {{ data.value | toDate }}
+        {{ data.value }}
       </template>
     </b-table>
     <hr class="mt-5" />
