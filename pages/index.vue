@@ -38,22 +38,22 @@ export default {
     try {
       const headers = {
         headers: {
-          'Authorization': `Bearer ${process.env.API_TOKEN}`
+          'Authorization': `Bearer ${process.env.apiToken}`
         }
       }
-      var { data } = await $axios.get(`/organizations?locale=es&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
+      var { data } = await $axios.get(`/organizations?locale=es&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.apiToken}`, headers);
       let organizations = data.data;
 
-      var { data } = await $axios.get(`/organizations?locale=ca&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
+      var { data } = await $axios.get(`/organizations?locale=ca&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.apiToken}`, headers);
 
       organizations = _.concat(organizations, data.data)
 
-      var { data } = await $axios.get(`/organizations?locale=en&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.API_TOKEN}`, headers);
+      var { data } = await $axios.get(`/organizations?locale=en&filters[visible][$eq]=true&populate=questionnaires&populate=questionnaires.template&token=${process.env.apiToken}`, headers);
 
       organizations = _.concat(organizations, data.data)
 
-      if (process.env.ORG !== '') {
-        organizations = organizations.filter(o => o.attributes.slug === process.env.ORG)
+      if (process.env.organization !== '') {
+        organizations = organizations.filter(o => o.attributes.slug === process.env.organization)
       }
 
       // if (data.length == 0) {

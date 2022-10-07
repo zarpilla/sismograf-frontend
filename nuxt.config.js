@@ -157,5 +157,11 @@ export default {
   },
   server: {
     port: process.env.PORT || 3000,
+  },
+  env: {
+    apiToken: process.env.API_TOKEN,
+    organization: process.env.ORG,
+    language: process.env.LANG,
+    emptyEmail: process.env.EMPTY_EMAIL
   }
 };

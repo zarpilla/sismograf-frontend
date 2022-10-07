@@ -81,7 +81,7 @@ export default {
 
     const headers = {
       headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
+        Authorization: `Bearer ${process.env.apiToken}`,
       },
     };
 

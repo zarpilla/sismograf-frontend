@@ -86,11 +86,11 @@ export default {
     try {
       const headers = {
         headers: {
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
+          Authorization: `Bearer ${process.env.apiToken}`,
         },
       };
       var { data } = await $axios.get(
-        `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.API_TOKEN}`,
+        `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
         headers
       );
       let organizations = data.data;

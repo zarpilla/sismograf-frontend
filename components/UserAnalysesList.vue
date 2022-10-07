@@ -342,13 +342,13 @@ export default {
   async fetch() {
     // const headers = {
     //   headers: {
-    //     Authorization: `Bearer ${process.env.API_TOKEN}`,
+    //     Authorization: `Bearer ${process.env.apiToken}`,
     //   },
     // };
 
     let organizationQuery = ''
-    if (process.env.ORG !== '') {
-      organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${process.env.ORG}`
+    if (process.env.organization !== '') {
+      organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${process.env.organization}`
     }
 
     var { data } = await this.$axios.get(
@@ -373,7 +373,7 @@ export default {
 
     const headers = {
       headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
+        Authorization: `Bearer ${process.env.apiToken}`,
       },
     };
 
@@ -397,7 +397,7 @@ export default {
     async updatePivot(viewDetail) {
       // const headers = {
       //   headers: {
-      //     Authorization: `Bearer ${process.env.API_TOKEN}`,
+      //     Authorization: `Bearer ${process.env.apiToken}`,
       //   },
       // };
       if (this.comparer.identifier1) {
@@ -422,7 +422,7 @@ export default {
             }) => item
           );
           a.results.forEach((r) => {
-            r.locale = process.env.LANG;
+            r.locale = process.env.language;
             pivotData1.push(r);
           });
         });
@@ -442,7 +442,7 @@ export default {
             }) => item
           );
           a.results.forEach((r) => {
-            r.locale = process.env.LANG;
+            r.locale = process.env.language;
             pivotData2.push(r);
           });
         });

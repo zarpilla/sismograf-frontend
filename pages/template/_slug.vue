@@ -498,7 +498,14 @@
             v-t="questionnaire.attributes.moreFieldsText"
           ></div>
           <div
-            v-else
+            v-else-if="
+              (questionnaire &&
+                questionnaire.attributes &&
+                questionnaire.attributes.showEmail) ||
+              (questionnaire &&
+                questionnaire.attributes &&
+                questionnaire.attributes.showOrganization)
+            "
             class="text-center description"
             v-t="'This poll is completely anonymous but if you want to answer:'"
           ></div>
@@ -881,14 +888,18 @@ export default {
     },
     validEmail() {
       return (
-        !this.questionnaire.attributes.emailMandatory ||
-        (this.questionnaire.attributes.emailMandatory && this.analysis.email)
-      ) && !this.analysis.email || this.validateEmail(this.analysis.email);      
+        ((!this.questionnaire.attributes.emailMandatory ||
+          (this.questionnaire.attributes.emailMandatory &&
+            this.analysis.email)) &&
+          !this.analysis.email) ||
+        this.validateEmail(this.analysis.email)
+      );
     },
     validOrganization() {
       return (
         !this.questionnaire.attributes.organizationMandatory ||
-        (this.questionnaire.attributes.organizationMandatory && this.analysis.organization)
+        (this.questionnaire.attributes.organizationMandatory &&
+          this.analysis.organization)
       );
     },
     validForm() {
@@ -903,7 +914,7 @@ export default {
 
     const headers = {
       headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
+        Authorization: `Bearer ${process.env.apiToken}`,
       },
     };
     // console.log('context i18n', app.i18n)
@@ -1024,11 +1035,16 @@ export default {
     };
   },
   created() {
-    if (this.questionnaire?.attributes?.organization?.data?.attributes?.logo?.data?.attributes?.url) {
+    if (
+      this.questionnaire?.attributes?.organization?.data?.attributes?.logo?.data
+        ?.attributes?.url
+    ) {
       const src = (
-        this.apiUrl + this.questionnaire?.attributes?.organization?.data?.attributes?.logo?.data?.attributes?.url
+        this.apiUrl +
+        this.questionnaire?.attributes?.organization?.data?.attributes?.logo
+          ?.data?.attributes?.url
       ).replace("/api/", "/");
-      this.$nuxt.$emit('logo-changed', src)
+      this.$nuxt.$emit("logo-changed", src);
     }
   },
   mounted() {
@@ -1186,9 +1202,11 @@ export default {
       this.analysis.language = this.$i18n.locale;
       this.analysis.template = this.template.id;
       this.analysis.publishedAt = new Date();
+      this.analysis.email = this.analysis.email || process.env.emptyEmail
+      this.analysis.organization = this.analysis.organization || ""
       const headers = {
         headers: {
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
+          Authorization: `Bearer ${process.env.apiToken}`,
           "Content-Type": "application/json",
         },
       };
