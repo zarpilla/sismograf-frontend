@@ -133,6 +133,7 @@ export default {
     // middleware: 'guest'
   },
   auth: {
+    localStorage: false,
     strategies: {
       local: {
         token: {
@@ -153,7 +154,12 @@ export default {
           logout: false
         }
       }
-    }
+    },
+    // redirect: {
+    //   login: '/login',
+    //   logout: '/',
+    //   home: '/dashboard'
+    // }
   },
   server: {
     port: process.env.PORT || 3000,
