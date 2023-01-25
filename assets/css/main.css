@@ -44,9 +44,20 @@ body {
   background: transparent;
   border: 2px solid #020034;
 }
+.button-1:hover{
+  background: #f3c857;
+}
 .button-2 {
   background: #f3c857;
   border: 2px solid #f3c857;
+}
+.button-2:hover {
+  background: #020034;
+  border: 2px solid #020034;
+  color: #fff;
+}
+.button-2:hover::after {
+  background: url("~@/assets/images/fletxa-r-white.svg") no-repeat 0 center;
 }
 .button-3 {
   background: transparent;

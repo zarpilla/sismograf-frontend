@@ -1,7 +1,11 @@
 <template>
   <section class="section text-center section-main granota">
-    <h2 class="main">A quin àmbit correspon el teu projecte?</h2>
     <b-container>
+    <h2 class="main" v-if="organization">{{ organization.attributes.name }}</h2>
+    <div class="org-desc" v-if="organization && organization.attributes.description">{{ organization.attributes.description }}</div>
+    <h2 v-else class="main">A quin àmbit correspon el teu projecte?</h2>
+    
+    
       <div class="d-zflex flex-row justify-content-center buttons">
         <div class="p-3" v-for="questionnaire in questionnaires" v-bind:key="questionnaire.id">
           <nuxt-link
@@ -15,7 +19,7 @@
                 questionnaire.attributes.template.data.attributes.locale
               )
             "
-            class="button button-5 uppercase"
+            class="button button-1 uppercase"
           >
             {{ questionnaire.attributes.name }}
           </nuxt-link>
@@ -30,14 +34,15 @@ import _ from "lodash";
 export default {
   data() {
     return {
-      templates: [],
+      questionnaires: [],
+      organization: null
     };
   },
   computed: {},
   head() {
     return {};
   },
-  async asyncData({ $axios, app, error, store }) {
+  async asyncData({ $axios, app, route }) {
     try {
       const headers = {
         headers: {
@@ -49,9 +54,22 @@ export default {
         headers
       );
       const application = data.data[0];
-      console.log('application', application)
       const questionnaires = application.attributes.questionnaires.data
-      console.log('application', questionnaires)
+
+      console.log('org route', route)
+
+      if (route.query.org) {
+        var { data } = await $axios.get(
+          `/organizations?filters[slug][$eq]=${route.query.org}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
+          headers
+        );
+        const organization = data.data[0]
+
+        return {
+          questionnaires: organization.attributes.questionnaires.data,
+          organization
+        };
+      }
 
       return {
         questionnaires,
@@ -73,8 +91,14 @@ export default {
 .section-main {
   padding-top: 235px;
 }
+.section-main {
+  padding-top: 10vh;
+}
 .buttons > div {
   display: inline-block;
+}
+.org-desc{
+  margin-top: 2rem;
 }
 
 @media (max-width: 1024px) {

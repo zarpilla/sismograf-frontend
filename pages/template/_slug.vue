@@ -388,7 +388,7 @@
                 <span v-t="'next'" />
               </button>
 
-              <button
+              <!-- <button
                 v-if="
                   questionnaire &&
                   questionnaire.attributes &&
@@ -398,7 +398,7 @@
                 @click="goToEnd"
               >
                 <span v-t="'acabar'" />
-              </button>
+              </button> -->
             </div>
           </div>
 
@@ -1152,7 +1152,12 @@ export default {
 
     const application = data.data[0];
 
-    console.log("this.app", application);
+
+    
+    var { data } = await $axios.get(
+        `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
+        headers
+      );
 
     const q =
       app.context.route.query && app.context.route.query.q

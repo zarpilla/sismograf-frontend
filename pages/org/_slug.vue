@@ -1,6 +1,7 @@
 <template>
   <section class="section">
     <div class="z">
+      org
       <div
         class="column zcard"
         v-for="organization in organizations"
@@ -81,55 +82,58 @@ export default {
   head() {
     return {};
   },
+  middleware: ['organization'],
   async asyncData({ $axios, app, error, store }) {
     let slug = app.context.route.params.slug;
-    try {
-      const headers = {
-        headers: {
-          Authorization: `Bearer ${process.env.apiToken}`,
-        },
-      };
-      var { data } = await $axios.get(
-        `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
-        headers
-      );
-      let organizations = data.data;
-
-      if (data.length == 0) {
-        error({ statusCode: 404, message: "Page not found" });
-      }
 
 
-      // app.$emit('logo-changed', 'src!!!')
+    // try {
+    //   const headers = {
+    //     headers: {
+    //       Authorization: `Bearer ${process.env.apiToken}`,
+    //     },
+    //   };
+    //   var { data } = await $axios.get(
+    //     `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
+    //     headers
+    //   );
+    //   let organizations = data.data;
 
-      // let templates = data.data;
-      // console.log("organizations", organizations);
+    //   if (data.length == 0) {
+    //     error({ statusCode: 404, message: "Page not found" });
+    //   }
 
-      return {
-        organizations: organizations,
-      };
-    } catch (e) {
-      console.error("asyncData error");
-      console.error(e);
-    }
+
+    //   // app.$emit('logo-changed', 'src!!!')
+
+    //   // let templates = data.data;
+    //   // console.log("organizations", organizations);
+
+    //   return {
+    //     organizations: organizations,
+    //   };
+    // } catch (e) {
+    //   console.error("asyncData error");
+    //   console.error(e);
+    // }
   },
   created () {
-    if (this.organizations && this.organizations.length && this.organizations[0].attributes && this.organizations[0].attributes.logo && this.organizations[0].attributes.logo.data && this.organizations[0].attributes.logo.data.attributes) {
-      const src = (
-        this.apiUrl + this.organizations[0].attributes.logo.data.attributes.url
-      ).replace("/api/", "/");
-      this.$nuxt.$emit('logo-changed', src)
-    }    
+    // if (this.organizations && this.organizations.length && this.organizations[0].attributes && this.organizations[0].attributes.logo && this.organizations[0].attributes.logo.data && this.organizations[0].attributes.logo.data.attributes) {
+    //   const src = (
+    //     this.apiUrl + this.organizations[0].attributes.logo.data.attributes.url
+    //   ).replace("/api/", "/");
+    //   this.$nuxt.$emit('logo-changed', src)
+    // }    
   },
   methods: {
-    fas() {
-      return fas;
-    },
-    questionnaireImage(questionnaire) {
-      return (
-        this.apiUrl + questionnaire.attributes.image.data.attributes.url
-      ).replace("/api/", "/");
-    },
+    // fas() {
+    //   return fas;
+    // },
+    // questionnaireImage(questionnaire) {
+    //   return (
+    //     this.apiUrl + questionnaire.attributes.image.data.attributes.url
+    //   ).replace("/api/", "/");
+    // },
   },
 };
 </script>

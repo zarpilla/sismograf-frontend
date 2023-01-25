@@ -6,8 +6,7 @@
         <img class="know-icon" src="~@/assets/images/know.svg" />
       </nuxt-link>
     </div>
-    <h1 v-t="'el-sismograf'"></h1>
-
+    <h1 v-t="'el-sismograf'"></h1>    
     <b-container>
       <b-row>
         <b-col md="10" offset-md="1">
@@ -19,11 +18,11 @@
 
             <div class="d-block d-md-flex flex-row justify-content-center buttons">
               <div class="p-3">
-                <nuxt-link :to="localePath('/how-it-works')" class="button button-1" v-t="'com-funciona-1'">
+                <nuxt-link :to="localePath({ name: 'how-it-works', query: { org: organization } })" class="button button-1" v-t="'com-funciona-1'">
                 </nuxt-link>
               </div>
               <div class="p-3">
-                <nuxt-link :to="localePath('/templates')" class="button button-2" v-t="'comencar-el-queestionari'">
+                <nuxt-link :to="localePath({ name: 'templates', query: { org: organization } })" class="button button-2" v-t="'comencar-el-queestionari'">
                 </nuxt-link>
               </div>
             </div>
@@ -39,8 +38,13 @@ import _ from "lodash";
 export default {
   data() {
     return {
-      organizations: [],
+      organization: null,
     };
+  },
+  asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+    if (route.query.org) {
+      return { organization: route.query.org }
+    }
   },
   mounted() {
     const el = document.getElementById('full-page-container')

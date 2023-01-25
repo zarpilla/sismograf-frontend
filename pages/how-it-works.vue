@@ -47,7 +47,7 @@
     </b-container>
     <div class="next-container text-right">
       <nuxt-link
-        :to="localePath('/')"
+        :to="localePath({ name: 'index', query: query })"
         class="button button-4"
         v-t="'tornar'"
       >
@@ -57,6 +57,17 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      query: null
+    };
+  },
+  asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+    if (route.query.org) {
+      const query = { org: route.query.org }
+      return { query }
+    }
+  },
   mounted() {
     const el = document.getElementById("full-page-container");
     el.classList.add("bgnone");
