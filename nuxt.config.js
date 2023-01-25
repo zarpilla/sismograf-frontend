@@ -19,6 +19,7 @@ export default {
   css: [
     "@/assets/fonts/stylesheet.css",
     "@/assets/css/works.scss",
+    "@/assets/css/bg.scss",
     "@/assets/css/main.css",
   ],
 

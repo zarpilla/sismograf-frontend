@@ -45,14 +45,14 @@
         <b-col cols="12" md="4" order-md="9"> </b-col>
       </b-row>
     </b-container>
-    <b-container class="buttons-container">
-      <b-row>
-        <b-col md="5" offset-md="7" class="buttons">
-          <nuxt-link :to="localePath('/')" class="button button-2" v-t="'comencar-el-queestionari'">
-          </nuxt-link>
-        </b-col>
-      </b-row>
-    </b-container>
+    <div class="next-container text-right">
+      <nuxt-link
+        :to="localePath('/')"
+        class="button button-4"
+        v-t="'tornar'"
+      >
+      </nuxt-link>
+    </div>
   </section>
 </template>
 <script>

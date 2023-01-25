@@ -1,26 +1,27 @@
 <template>
   <section class="section text-center section-main granota">
-    
     <h2 class="main">A quin àmbit correspon el teu projecte?</h2>
-
-    <div class="d-zflex flex-row justify-content-center buttons">
-      <div class="p-3" v-for="template in templates" v-bind:key="template.id">
-        <nuxt-link
-          :to="
-            localePath(
-              {
-                name: 'template-slug',
-                params: { slug: template.attributes.slug },
-              },
-              template.attributes.locale
-            )
-          "
-          class="button button-3 uppercase"
-        >
-          {{ template.attributes.name }}
-        </nuxt-link>
+    <b-container>
+      <div class="d-zflex flex-row justify-content-center buttons">
+        <div class="p-3" v-for="questionnaire in questionnaires" v-bind:key="questionnaire.id">
+          <nuxt-link
+            :to="
+              localePath(
+                {
+                  name: 'template-slug',
+                  params: { slug: questionnaire.attributes.template.data.attributes.slug },
+                  query: { q: questionnaire.attributes.slug },
+                },
+                questionnaire.attributes.template.data.attributes.locale
+              )
+            "
+            class="button button-5 uppercase"
+          >
+            {{ questionnaire.attributes.name }}
+          </nuxt-link>
+        </div>
       </div>
-    </div>
+    </b-container>
   </section>
 </template>
 <script>
@@ -44,13 +45,16 @@ export default {
         },
       };
       var { data } = await $axios.get(
-        `/templates?locale=${app.i18n.locale}&token=${process.env.apiToken}`,
+        `/applications?populate=questionnaires&populate=questionnaires.template&locale=${app.i18n.locale}&token=${process.env.apiToken}`,
         headers
       );
-      let templates = data.data;
+      const application = data.data[0];
+      console.log('application', application)
+      const questionnaires = application.attributes.questionnaires.data
+      console.log('application', questionnaires)
 
       return {
-        templates,
+        questionnaires,
       };
     } catch (e) {
       console.error("asyncData error");
@@ -73,14 +77,14 @@ export default {
   display: inline-block;
 }
 
-@media (max-width: 1024px)  {
-  .section-main{
+@media (max-width: 1024px) {
+  .section-main {
     padding-top: 3vh;
   }
 }
 
 @media (min-width: 1025px) and (max-width: 1919px) {
-  .section-main{
+  .section-main {
     padding-top: 12.14px;
   }
 }

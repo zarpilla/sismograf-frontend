@@ -4,10 +4,11 @@
       <b-row>
         <b-col>
           <div class="back">
-            <nuxt-link :to="localePath('/')" class="back">
+            <!-- <nuxt-link :to="localePath('/')" class="back">
               <img src="~/assets/images/fletxa.svg" />
               <span v-t="'tornar'"></span>
-            </nuxt-link>
+            </nuxt-link> -->
+            <span v-t="'el-sismograf'"></span>
           </div>
         </b-col>
         <b-col class="images text-right d-flex">
@@ -64,7 +65,7 @@ export default {
   },
   async fetch() {
     var { data } = await this.$axios.get(
-      `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2`,
+      `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
       {}
     );
     this.$store.commit("app/set", data.data[0]);

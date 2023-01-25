@@ -73,39 +73,27 @@
         </div>
 
         <template
-          v-for="(labelCategory, lci) in template.attributes.label_categories
+          v-for="(labelCategory, lci) in questionnaire.attributes.label_categories
             .data"
-        >
-          <div v-bind:key="lci" class="section zfp-auto-height-responsive granota">
-            <h5 class="text-center sismo-text" v-t="'Select labels'"></h5>
+        >        
+          <div
+            v-bind:key="lci"
+            class="section zfp-auto-height-responsive granota"
+          >
+            <h5 class="text-center sismo-text" v-t="'volem-comencar-sabent-de-tu-1'"></h5>
             <b-container class="text-center">
               <div
-                class="scope title indicator"
-                v-if="
-                  template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  ).length
-                "
+                class="scope title indicator"                
               >
                 {{ labelCategory.attributes.name }}
               </div>
 
               <ul
-                class="capacities-list capacities-list-inline"
-                v-if="
-                  template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  ).length
-                "
+                class="capacities-list capacities-list-inline"                
               >
                 <li
                   class="item"
-                  v-for="label in template.attributes.labels.data.filter(
-                    (l) =>
-                      l.attributes.label_category.data.id === labelCategory.id
-                  )"
+                  v-for="label in labelCategory.attributes.labels.data"
                   v-bind:key="label.id"
                 >
                   <div
@@ -160,7 +148,7 @@
           <b-container class="works-container">
             <b-row>
               <b-col cols="12" md="4" order-md="1"></b-col>
-        <b-col class="info-block" cols="12" md="4" order="1" order-md="2">
+              <b-col class="info-block" cols="12" md="4" order="1" order-md="2">
                 <div class="num">01</div>
                 <div
                   class="title"
@@ -172,8 +160,8 @@
                   {{ template.attributes.domains[0].description }}
                 </div>
               </b-col>
-              <b-col cols="12" md="4" order-md="3"> </b-col>      
-        <b-col class="info-block" cols="12" md="4" order="12" order-md="4">
+              <b-col cols="12" md="4" order-md="3"> </b-col>
+              <b-col class="info-block" cols="12" md="4" order="12" order-md="4">
                 <div class="num" v-if="template.attributes.domains.length > 3">
                   04
                 </div>
@@ -185,14 +173,12 @@
                 </div>
                 <div class="more" v-if="template.attributes.domains.length > 3">
                   {{ template.attributes.domains[3].description }}
-                </div>
-                <b-col cols="12" md="4" order-md="5">
-          <div class="granota"></div>
-        </b-col>
-                <div class="granota"></div>
-              </b-col>      
-        <b-col cols="12" md="4" order-md="7"> </b-col>
-        <b-col class="info-block" cols="12" md="4" order="9" order-md="8">
+                </div>                
+              </b-col>
+              <b-col cols="12" md="4" order-md="5">
+                  <div class="granota"></div>
+                </b-col>              
+              <b-col class="info-block" cols="12" md="4" order="9" order-md="8">
                 <div class="num" v-if="template.attributes.domains.length > 2">
                   03
                 </div>
@@ -205,9 +191,13 @@
                 <div class="more" v-if="template.attributes.domains.length > 2">
                   {{ template.attributes.domains[2].description }}
                 </div>
-              </b-col>
-        <b-col cols="12" md="4" order-md="7"> </b-col>
-        <b-col class="info-block" cols="12" md="4" order="9" order-md="8">
+              </b-col>              
+              <!-- <b-col  md="4"> x</b-col>
+              <b-col  md="4"> c</b-col>
+              <b-col  md="4"> v</b-col> -->
+              
+              <b-col cols="12" md="4" order-md="7"> </b-col>
+              <b-col class="info-block" cols="12" md="4" order="6" order-md="6">
                 <div class="num" v-if="template.attributes.domains.length > 1">
                   02
                 </div>
@@ -221,7 +211,7 @@
                   {{ template.attributes.domains[1].description }}
                 </div>
               </b-col>
-              <b-col> </b-col>
+              <b-col md="4" order-md="8"> </b-col>
             </b-row>
           </b-container>
           <div class="next-container text-right">
@@ -231,7 +221,15 @@
           </div>
         </div>
 
-        <div class="section zfp-auto-height-responsive section-bg-dark how-it-works granota">
+        <div
+          class="
+            section
+            zfp-auto-height-responsive
+            section-bg-dark
+            how-it-works
+            granota
+          "
+        >
           <div class="bg01">
             <div class="info-first" v-t="'alguns-trucs-que-t-ajudaran'">
               alguns trucs que t’ajudaran...
@@ -341,16 +339,18 @@
                           questionnaire.attributes.showPrinciples !== false
                         "
                       >
-                        <a
-                          class="principle"
-                          v-for="(principle, pi) in template.attributes.domains[
+                        <div class="principle-row" v-for="(principle, pi) in template.attributes.domains[
                             i - 1
                           ].principles"
-                          v-bind:key="principle.id"
+                          v-bind:key="principle.id">
+                        <a
+                          class="principle"
+                          
                           :href="`#${principlesAnchors[i - 1][pi]}`"
                         >
                           {{ pi + 1 }}. {{ principle.name }}
                         </a>
+                        </div>
                         <!-- <div
                         class="principle zd-block"
                         v-for="(principle, pi) in template.attributes.domains[i - 1]
@@ -628,7 +628,15 @@
             </div>
           </template>
         </template>
-        <div class="section zfp-auto-height-responsive how-it-works view-result bg-result">
+        <div
+          class="
+            section
+            zfp-auto-height-responsive
+            how-it-works
+            view-result
+            bg-result
+          "
+        >
           <div
             class="info-first"
             v-t="'gracies-per-arribar-fins-al-final-ara-nomes-us-queda'"
@@ -759,7 +767,7 @@ export default {
         menu: "#menu",
         sectionsColor: "#FFFCF3",
         navigation: true,
-        slidesNavigation: false
+        slidesNavigation: false,
       },
       //results: [],
       analysis: {
@@ -807,7 +815,7 @@ export default {
         anchors.push(`org`);
       }
 
-      this.template.attributes.label_categories.data.forEach((cat) => {
+      this.questionnaire.attributes.label_categories.data.forEach((cat) => {
         anchors.push(`labels-${cat.id}`);
       });
       anchors.push(`domains`);
@@ -1138,10 +1146,9 @@ export default {
     }
 
     var { data } = await $axios.get(
-      `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2`,
+      `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`,
       {}
     );
-    // this.$store.commit("app/set", data.data[0])
 
     const application = data.data[0];
 
@@ -1153,7 +1160,7 @@ export default {
         : application.attributes.questionnaire;
 
     var { data } = await $axios.get(
-      `/questionnaires/?filters[slug][$eq]=${q}&populate=organization&populate=organization.logo&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&&populate=more_label_categories&locale=${app.i18n.locale}`,
+      `/questionnaires/?filters[slug][$eq]=${q}&populate=organization&populate=organization.logo&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&populate=more_label_categories&populate=label_categories&populate=label_categories.labels&locale=${app.i18n.locale}`,
       headers
     );
 
@@ -1413,8 +1420,11 @@ export default {
     },
     async showModalSave(indicator) {
       await this.saveAndContinue();
-      this.copyToClipboard();
-      this.$refs["save-modal"].show();
+      setTimeout(() => {
+        this.copyToClipboard();
+        this.$refs["save-modal"].show();
+      }, 150)
+      
     },
     copyToClipboard() {
       const dummy = document.createElement("input");
@@ -1507,7 +1517,7 @@ export default {
       this.$router.push(
         this.localePath({
           name: "template-view-slug",
-          params: { slug: this.slug },
+          params: { slug: this.slug, q: this.questionnaire.attributes.slug },
           query: { r: this.analysis.uid },
         })
       );
@@ -1519,7 +1529,7 @@ export default {
         this.localePath({
           name: "template-slug",
           params: { slug: this.slug },
-          query: { r: this.analysis.uid },
+          query: { r: this.analysis.uid, q: this.questionnaire.attributes.slug },          
           hash: window.location.hash,
         })
       );
@@ -1648,6 +1658,9 @@ ul.capacities-list li .active {
 }
 .principles-list {
   margin-top: 30px;
+}
+.principles-list .principle-row{
+  display: block;
 }
 .principles-list .principle {
   padding: 0.8rem 1.8rem 0.8rem 1.8rem;
@@ -1778,11 +1791,7 @@ a.principle {
 .button-3 {
   margin-bottom: 1rem;
 }
-.next-container {
-  position: absolute;
-  bottom: 150px;
-  right: 3rem;
-}
+
 .action-buttons {
   position: absolute;
   bottom: 150px;
@@ -1882,7 +1891,6 @@ a.principle {
 @media (min-width: 769px) and (max-height: 750px) {
   ul.capacities-list > li {
     display: inline-block;
-
   }
 }
 @media (max-width: 768px) {
@@ -1943,9 +1951,6 @@ a.principle {
     bottom: 7.75vw;
     left: 3rem;
   }
-  .next-container {
-    bottom: 7.75vw;
-  }
   .principle-title {
     font-size: 7.58333333333333vw;
     line-height: 7.58333333333333vw;
@@ -1964,21 +1969,21 @@ a.principle {
     font-size: 1.39166666666667vw;
     line-height: 1.55vw;
   }
-  ul.capacities-list > li{
+  ul.capacities-list > li {
     margin: 0;
   }
 
-  ul.capacities-list > li .button{
+  ul.capacities-list > li .button {
     width: 100%;
   }
   .button-3 {
     margin-bottom: 8px;
   }
   .section {
-    height: auto!important;    
+    height: auto !important;
   }
   .fp-tableCell {
-    height: auto!important;    
+    height: auto !important;
     display: flex;
   }
 }
@@ -2006,9 +2011,7 @@ a.principle {
     bottom: 7.75vw;
     left: 3rem;
   }
-  .next-container {
-    bottom: 7.75vw;
-  }
+
   .principle-title {
     font-size: 2.58333333333333vw;
     line-height: 2.58333333333333vw;

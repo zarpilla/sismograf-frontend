@@ -40,6 +40,10 @@ body {
 
   background: url("~@/assets/images/fletxa-r.svg") no-repeat 0 center;
 }
+.button-1 {
+  background: transparent;
+  border: 2px solid #020034;
+}
 .button-2 {
   background: #f3c857;
   border: 2px solid #f3c857;
@@ -50,6 +54,9 @@ body {
   text-transform: none;
   font-weight: 500;
   padding-right: 3rem;
+  font-size: 17px;
+  letter-spacing: 0;
+  padding: 0.8rem 1.8rem 0.8rem 1.8rem;
 }
 .button.uppercase {
   text-transform: uppercase;
@@ -168,6 +175,13 @@ h2.main {
   background: #FFFCF3 url('~@/assets/images/bgres.png') no-repeat top center;
 }
 
+
+.next-container {
+  position: absolute;
+  bottom: 150px;
+  right: 3rem;
+}
+
 @media (min-width: 1300px) {
   .container-fluid{
     padding-right: 3rem!important;
@@ -195,6 +209,10 @@ h2.main {
     right: 10px;
     left: 10px;
   }
+
+  .next-container {
+    bottom: 7.75vw;
+  }
 }
 
 @media (min-width: 1025px) and (max-width: 1919px) {
@@ -216,5 +234,13 @@ h2.main {
     font-size:0.775vw;
     line-height:0.981666666666667vw;
   }
+  .next-container {
+    bottom: 7.75vw;
+  }
+  .button-3{
+    padding: 0.581333333333333vw 1.48vw 0.551333333333333vw 1.48vw;
+    margin-bottom: 0.75rem!important;
+  }
+
 }
 
