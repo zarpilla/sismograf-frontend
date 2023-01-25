@@ -17,7 +17,7 @@
     </b-container>
     <div class="next-container text-right">
       <nuxt-link
-        :to="localePath({ name: '/', query: query })"
+        :to="localePath({ name: 'index', query: query })"
         class="button button-4"
         v-t="'tornar'"
       >

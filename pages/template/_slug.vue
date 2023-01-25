@@ -20,7 +20,7 @@
                     US DONEM LA benvinguda al sismògraf! volem començar sabent
                     de tu...
                   </h5>
-                  <div class="sismo-question" v-t="'Com et dius?'"></div>
+                  <div class="sismo-question" v-t="'com-et-dius'"></div>
                   <div class="email-field mt-5 mb-5">
                     <input
                       type="text"
@@ -51,14 +51,14 @@
             <b-container>
               <b-row>
                 <b-col md="6" offset-md="3">
-                  <div class="sismo-question" v-t="'Nom del projecte'"></div>
+                  <div class="sismo-question" v-t="'nom-del-projecte'"></div>
 
                   <div class="email-field mt-5 mb-5">
                     <input
                       type="text"
                       v-model="analysis.organization"
                       class="form-control"
-                      :placeholder="$t('Escriu el nom de l\'organització')"
+                      :placeholder="$t('escriu-el-nom-de-l-organitzacio')"
                     />
                   </div>
                 </b-col>

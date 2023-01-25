@@ -3,7 +3,7 @@
     <b-container>
     <h2 class="main" v-if="organization">{{ organization.attributes.name }}</h2>
     <div class="org-desc" v-if="organization && organization.attributes.description">{{ organization.attributes.description }}</div>
-    <h2 v-else class="main">A quin àmbit correspon el teu projecte?</h2>
+    <h2 v-else class="main" v-t="'a-quin-ambit-correspon-el-teu-projecte'">A quin àmbit correspon el teu projecte?</h2>
     
     
       <div class="d-zflex flex-row justify-content-center buttons">

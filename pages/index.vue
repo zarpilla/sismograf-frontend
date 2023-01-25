@@ -2,27 +2,43 @@
   <section class="section text-center granota">
     <div class="punts"></div>
     <div class="know">
-      <nuxt-link :to="localePath('/did-you-know')">
+      <nuxt-link :to="localePath({ name: 'did-you-know', query: query })">
         <img class="know-icon" src="~@/assets/images/know.svg" />
       </nuxt-link>
     </div>
-    <h1 v-t="'el-sismograf'"></h1>    
+    <h1 v-t="'el-sismograf'"></h1>
     <b-container>
       <b-row>
         <b-col md="10" offset-md="1">
           <div class="more-info">
-            <h2 v-t="'saps-en-quin-estat-esta-la-teva-organitzacio-o-projecte-quins-aspectes-li-cal-treballar'">
-            </h2>
-            <h3 v-t="'el-sismograf-es-una-eina-de-diagnosi-per-poder-evaluar-el-grau-de-resiliencia-de-la-teva-organitzacio-o-projecte-si-es-el-primer-cop-t-expliquem-com-funciona-sino-ja-pots-comencar'">            
-            </h3>
+            <h2
+              v-t="
+                'saps-en-quin-estat-esta-la-teva-organitzacio-o-projecte-quins-aspectes-li-cal-treballar'
+              "
+            ></h2>
+            <h3
+              v-t="
+                'el-sismograf-es-una-eina-de-diagnosi-per-poder-evaluar-el-grau-de-resiliencia-de-la-teva-organitzacio-o-projecte-si-es-el-primer-cop-t-expliquem-com-funciona-sino-ja-pots-comencar'
+              "
+            ></h3>
 
-            <div class="d-block d-md-flex flex-row justify-content-center buttons">
+            <div
+              class="d-block d-md-flex flex-row justify-content-center buttons"
+            >
               <div class="p-3">
-                <nuxt-link :to="localePath({ name: 'how-it-works', query: { org: organization } })" class="button button-1" v-t="'com-funciona-1'">
+                <nuxt-link
+                  :to="localePath({ name: 'how-it-works', query: query })"
+                  class="button button-1"
+                  v-t="'com-funciona-1'"
+                >
                 </nuxt-link>
               </div>
               <div class="p-3">
-                <nuxt-link :to="localePath({ name: 'templates', query: { org: organization } })" class="button button-2" v-t="'comencar-el-queestionari'">
+                <nuxt-link
+                  :to="localePath({ name: 'templates', query: query })"
+                  class="button button-2"
+                  v-t="'comencar-el-queestionari'"
+                >
                 </nuxt-link>
               </div>
             </div>
@@ -38,24 +54,35 @@ import _ from "lodash";
 export default {
   data() {
     return {
-      organization: null,
+      query: null,
     };
   },
-  asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+  asyncData({
+    isDev,
+    route,
+    store,
+    env,
+    params,
+    query,
+    req,
+    res,
+    redirect,
+    error,
+  }) {
     if (route.query.org) {
-      return { organization: route.query.org }
+      const query = { org: route.query.org };
+      return { query };
     }
   },
   mounted() {
-    const el = document.getElementById('full-page-container')
-    el.classList.add('bg01')    
-    el.classList.remove('bg02')
-    el.classList.remove('bgnone')
+    const el = document.getElementById("full-page-container");
+    el.classList.add("bg01");
+    el.classList.remove("bg02");
+    el.classList.remove("bgnone");
   },
 };
 </script>
 <style scoped>
-
 .punts {
   background: url("~@/assets/images/punts.svg") no-repeat bottom center;
   padding-top: 235px;
@@ -83,28 +110,28 @@ h3.title a {
   font-size: 30px;
   text-decoration: none !important;
 }
-.know{
+.know {
   position: absolute;
   top: 3rem;
   right: 3rem;
 }
-.know-icon{
+.know-icon {
   background: url("~@/assets/images/know.svg") no-repeat bottom center;
   width: 60px;
   height: 60px;
   display: block;
 }
 @media (max-width: 1024px) {
-  h1{
+  h1 {
     font-size: 10.1vw;
     line-height: 12.61666666666667vw;
     margin-top: 5vh;
   }
-  h2{
+  h2 {
     font-size: 7.06666666666661vw;
     line-height: 9.325vw;
   }
-  h3{
+  h3 {
     font-size: 4.55vw;
     line-height: 5.8vw;
   }
@@ -112,28 +139,28 @@ h3.title a {
   h3.title a {
     font-size: 1.55vw;
   }
-  .know{
+  .know {
     top: 1rem;
-    right: 1rem;  
+    right: 1rem;
   }
   .punts {
     padding-top: 3vh;
   }
 }
 @media (min-width: 1025px) and (max-width: 1919px) {
-  h1{
+  h1 {
     font-size: 3.1vw;
     line-height: 3.61666666666667vw;
   }
-  h2{
+  h2 {
     font-size: 2.06666666666661vw;
     line-height: 2.325vw;
   }
-  h3{
+  h3 {
     font-size: 1.55vw;
     line-height: 1.8vw;
   }
-  .punts{
+  .punts {
     padding-top: 12.14vw;
   }
   h3.title a {
