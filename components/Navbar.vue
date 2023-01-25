@@ -1,6 +1,6 @@
 <template>
 <div class="navbar navbar-light bg-light">  
-  <nuxt-link to="/" class="navbar-brand" v-t="'SISMÒGRAF'">
+  <nuxt-link :to="localePath('/')" class="navbar-brand" v-t="'SISMÒGRAF'">
   </nuxt-link>  
   <div class="navbar-start">
     <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">

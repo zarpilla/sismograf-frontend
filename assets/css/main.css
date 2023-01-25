@@ -1,0 +1,220 @@
+body {
+  font-family: "Athletics" !important;
+}
+.granota {
+  background: url("~@/assets/images/granota.svg") no-repeat top center;
+}
+.mirades {
+    background: url("~@/assets/images/granota-right.svg") no-repeat top right;
+}
+.buttons {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.button {
+  border: 2px solid #020034;
+  border-radius: 25px;
+  padding: 0.8rem 5rem 0.8rem 3rem;
+  font-weight: 900;
+  font-size: 15px;
+  text-align: left;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #020034;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+}
+.button:hover {
+  text-decoration: none;
+  color: #020034;
+}
+.button::after {
+  content: "";
+  width: 19px;
+  height: 15px;
+  top: 16px;
+  right: 1.5rem;
+  position: absolute;
+  display: inline-block;
+
+  background: url("~@/assets/images/fletxa-r.svg") no-repeat 0 center;
+}
+.button-2 {
+  background: #f3c857;
+  border: 2px solid #f3c857;
+}
+.button-3 {
+  background: transparent;
+  border: 2px solid #020034;
+  text-transform: none;
+  font-weight: 500;
+  padding-right: 3rem;
+}
+.button.uppercase {
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+}
+.button-3:hover {
+  background: #f3c857;
+  border: 2px solid #f3c857;
+  cursor: pointer;
+}
+.button-3::after {
+  display: none;
+}
+.button.no-icon{
+  padding-right: 3rem;
+}
+.button.no-icon::after{
+  display: none;
+}
+
+.button-4 {
+  background: #020034;
+  border: 2px solid #020034;
+  color: #fff;
+}
+.button-4::after {
+  background: url("~@/assets/images/fletxa-r-white.svg") no-repeat 0 center;
+}
+.button-4:hover::after {
+  background: url("~@/assets/images/fletxa-r.svg") no-repeat 0 center;
+}
+
+.button-4:hover {
+  background: #f3c857;
+  border: 2px solid #f3c857;
+  color: #020034;
+}
+h2.main {
+  font-weight: 700 !important;
+  font-size: 50px !important;
+  line-height: 50px !important;
+  margin-top: 12vh;
+}
+.fullpage-wrapper {
+  background: #fffcf3;
+}
+#fp-nav.fp-right {
+  top: 2rem !important;
+  right: 47px;
+  left: 33px;
+}
+#fp-nav ul {
+  display: flex !important;
+  list-style: none;
+}
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+  background: #EFDDA2 !important;
+  margin: -2px 0 0 -13px;
+}
+
+#fp-nav ul li a.active span,
+#fp-nav ul li:hover a.active span,
+.fp-slidesNav ul li a.active span,
+.fp-slidesNav ul li:hover a.active span {
+  height: 22px;
+  width: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 100%;
+  border: 2px solid #EFDDA2;
+  background: #fffcf3 !important;
+}
+#fp-nav ul li a:not(.active) span,
+.fp-slidesNav ul li a:not(.active) span {
+  height: 2px;
+  width: 40px;
+  transition: none !important;
+}
+#fp-nav ul li:hover a:not(.active) span,
+.fp-slidesNav ul li:hover a:not(.active) span {
+  margin-top: -2px !important;
+}
+#fp-nav ul li a:not(.active) span,
+.fp-slidesNav ul li a:not(.active) span {
+  border-radius: 0;
+  left: 4px !important;
+}
+.fp-no-table{
+  display: flex!important;
+}
+.modal-content{
+  border-radius: 0!important;
+  border: 0!important;
+}
+.modal-header{
+  border-bottom: 0!important;
+  padding: 1.5rem!important;
+}
+.modal-footer{
+  border: 0!important;
+}
+.modal-body{
+  padding: 0.5rem 3rem!important;
+}
+.comment-title{
+  padding-bottom: 0.5rem;
+}
+.form-control.comment {
+  border: 2px solid #020034!important;
+  background: #fff!important;
+  border-radius: 0;
+}
+.bg-result{
+  background: #FFFCF3 url('~@/assets/images/bgres.png') no-repeat top center;
+}
+
+@media (min-width: 1300px) {
+  .container-fluid{
+    padding-right: 3rem!important;
+    padding-left: 3rem!important;
+  }
+}
+
+
+@media (max-width: 1024px)  {
+  h2.main {
+    margin-top: 3vh;
+    font-size:7.58333333333333vw!important;
+    line-height:9.1vw!important;
+  }
+  .button{
+    padding: 2.681333333333333vw 6.13333333333333vw 2.251333333333333vw 4.48vw;
+    font-size: 3.75vw!important;
+  }  
+  .button-3{
+    text-align: center;
+    padding: 2.181333333333333vw 3.48vw 2.051333333333333vw 3.48vw;
+  }
+  #fp-nav.fp-right {
+    top: 16px !important;
+    right: 10px;
+    left: 10px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1919px) {
+  .button{
+    padding: 0.681333333333333vw 4.13333333333333vw 0.651333333333333vw 2.48vw;
+    font-size: 0.775vw;
+  }
+  .button::after {
+    /* width: 0.981666666666667vw;
+    height: 0.775vw; */
+    top: 0.826666666666667vw;
+    right: 1.24vw;
+  }
+  h2.main {
+    font-size: 2.58333333333333vw!important;
+    line-height: 2.58333333333333vw !important;
+  }
+  .button.uppercase {    
+    font-size:0.775vw;
+    line-height:0.981666666666667vw;
+  }
+}
+

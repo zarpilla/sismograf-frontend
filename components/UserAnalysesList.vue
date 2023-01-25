@@ -359,7 +359,7 @@ export default {
     this.analyses = data.data.map(({ id, ...more }) => {
       return { id, ...more.attributes };
     });
-  },
+  },  
   async mounted() {
     // await this.addScript("/vendor/jquery/jquery.js", "jquery-js");
     // await this.addScript("/vendor/kendo/kendo.all.min.js", "kendo-all-min-js");

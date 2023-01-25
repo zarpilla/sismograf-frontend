@@ -2,231 +2,372 @@
   <div class="fullpage-container">
     <no-ssr>
       <full-page ref="fullpage" :options="options" id="fullpage">
-        <!-- <div class="section section-bg-dark">
-          <div class="title">
-            {{ title }}
+        <div class="section zfp-auto-height-responsive name granota">
+          <div class="bg01">
+            <b-container>
+              <b-row>
+                <b-col md="6" offset-md="3">
+                  <div class="punts"></div>
+                  <h1 class="text-center sismo-title" v-t="'el-sismograf'">
+                    El Sismògraf
+                  </h1>
+                  <h5
+                    class="text-center sismo-text"
+                    v-t="
+                      'us-donem-la-benvinguda-al-sismograf-volem-comencar-sabent-de-tu'
+                    "
+                  >
+                    US DONEM LA benvinguda al sismògraf! volem començar sabent
+                    de tu...
+                  </h5>
+                  <div class="sismo-question" v-t="'Com et dius?'"></div>
+                  <div class="email-field mt-5 mb-5">
+                    <input
+                      type="text"
+                      v-model="analysis.name"
+                      class="form-control"
+                      :placeholder="$t('escriu-el-teu-nom')"
+                    />
+                  </div>
+                </b-col>
+              </b-row>
+            </b-container>
+            <div class="next-container text-right">
+              <button class="button button-4" @click="next">
+                <span v-t="'next'" />
+              </button>
+            </div>
           </div>
-          <div
-            class="description text-center"
-            v-if="description"
-            v-html="$md.render(description)"
-          ></div>
-          <div class="next-container text-center">
-            <button class="btn btn-sismograf btn-next" @click="next">
-              <span v-t="'Start'" />
-              <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-            </button>
+        </div>
+        <div
+          class="section zfp-auto-height-responsive name granota"
+          v-if="
+            questionnaire &&
+            questionnaire.attributes &&
+            questionnaire.attributes.showOrganization
+          "
+        >
+          <div class="zbg01">
+            <b-container>
+              <b-row>
+                <b-col md="6" offset-md="3">
+                  <div class="sismo-question" v-t="'Nom del projecte'"></div>
+
+                  <div class="email-field mt-5 mb-5">
+                    <input
+                      type="text"
+                      v-model="analysis.organization"
+                      class="form-control"
+                      :placeholder="$t('Escriu el nom de l\'organització')"
+                    />
+                  </div>
+                </b-col>
+              </b-row>
+            </b-container>
+            <div class="next-container text-right">
+              <button class="button button-4" @click="next">
+                <span v-t="'next'" />
+              </button>
+            </div>
           </div>
-        </div> -->
+        </div>
 
         <template
           v-for="(labelCategory, lci) in template.attributes.label_categories
             .data"
         >
-          <div v-bind:key="lci" class="section">
-            <div class="label-category" v-t="'Select labels'"></div>
-            <div
-              class="zlabel-category title"
-              v-if="
-                template.attributes.labels.data.filter(
-                  (l) =>
-                    l.attributes.label_category.data.id === labelCategory.id
-                ).length
-              "
-            >
-              {{ labelCategory.attributes.name }}
-            </div>
-
-            <ul
-              class="capacities-list labels-list"
-              v-if="
-                template.attributes.labels.data.filter(
-                  (l) =>
-                    l.attributes.label_category.data.id === labelCategory.id
-                ).length
-              "
-            >
-              <li
-                class="item"
-                v-for="label in template.attributes.labels.data.filter(
-                  (l) =>
-                    l.attributes.label_category.data.id === labelCategory.id
-                )"
-                v-bind:key="label.id"
+          <div v-bind:key="lci" class="section zfp-auto-height-responsive granota">
+            <h5 class="text-center sismo-text" v-t="'Select labels'"></h5>
+            <b-container class="text-center">
+              <div
+                class="scope title indicator"
+                v-if="
+                  template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  ).length
+                "
               >
-                <div
-                  v-on:click="addLabel(label, labelCategory)"
-                  class="btn btn-sismograf"
-                  v-bind:class="{
-                    active: isLabelActive(label),
-                  }"
+                {{ labelCategory.attributes.name }}
+              </div>
+
+              <ul
+                class="capacities-list capacities-list-inline"
+                v-if="
+                  template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  ).length
+                "
+              >
+                <li
+                  class="item"
+                  v-for="label in template.attributes.labels.data.filter(
+                    (l) =>
+                      l.attributes.label_category.data.id === labelCategory.id
+                  )"
+                  v-bind:key="label.id"
                 >
-                  {{ label.attributes.name }}
-                </div>
-              </li>
-            </ul>
+                  <div
+                    v-on:click="addLabel(label, labelCategory)"
+                    class="button button-3"
+                    v-bind:class="{
+                      active: isLabelActive(label),
+                    }"
+                  >
+                    {{ label.attributes.name }}
+                  </div>
+                </li>
+              </ul>
 
-            <div
-              class="open-response"
-              v-if="labelCategory.attributes.openResponse === true"
-            >
-              <span class="label-category">{{
-                labelCategory.attributes.openResponseText
-              }}</span>
-              <textarea
-                class="form-control"
-                type="text"
-                @input="setLabelComments(labelCategory, $event)"
-                name="organization"
-              ></textarea>
-            </div>
+              <div
+                class="open-response"
+                v-if="labelCategory.attributes.openResponse === true"
+              >
+                <h5
+                  class="text-center sismo-text"
+                  v-t="labelCategory.attributes.openResponseText"
+                ></h5>
 
-            <div class="next-container text-center">
-              <button class="btn btn-sismograf btn-next" @click="next">
-                <span v-t="'Next'" />
-                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+                <textarea
+                  class="form-control"
+                  type="text"
+                  @input="setLabelComments(labelCategory, $event)"
+                  name="organization"
+                ></textarea>
+              </div>
+            </b-container>
+            <div class="next-container text-right">
+              <button class="button button-4" @click="next">
+                <span v-t="'next'" />
               </button>
             </div>
           </div>
         </template>
 
-        <div class="section section-bg-dark">
-          <div
-            class="title"
-            v-t="
-              (questionnaire &&
-                questionnaire.attributes &&
-                questionnaire.attributes.domainsText) ||
-              'Domains'
-            "
-          ></div>
-          <div class="row">
-            <div
-              class="col-md-6 equal"
-              v-for="i in template.attributes.domains.length"
-              :key="i"
-            >
-              <div class="domain-quadrant">
-                <div
-                  class="domain-quadrant-inner"
-                  v-if="template.attributes.domains[i - 1]"
-                >
-                  <div class="domain-name">
-                    <a
-                      :href="`#domain-${template.attributes.domains[i - 1].id}`"
-                    >
-                      {{ template.attributes.domains[i - 1].name }}
-                    </a>
-                  </div>
-                  <div class="domain-desc">
-                    <a
-                      :href="`#domain-${template.attributes.domains[i - 1].id}`"
-                    >
-                      {{ template.attributes.domains[i - 1].description }}
-                    </a>
-                  </div>
-                  <div
-                    class="row"
-                    v-if="
-                      questionnaire &&
-                      questionnaire.attributes &&
-                      questionnaire.attributes.showPrinciples !== false
-                    "
-                  >
-                    <div
-                      class="zindex-item principle col-4 text-center"
-                      v-for="principle in template.attributes.domains[i - 1]
-                        .principles"
-                      v-bind:key="principle.id"
-                    >
-                      <div>
-                        {{ principle.name }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="next-container text-center">
-            <button class="btn btn-sismograf btn-next" @click="next">
-              <span v-t="'Next'" />
-              <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-            </button>
-          </div>
-        </div>
-
-        <template v-for="(domain, di) in template.attributes.domains">
-          <div v-bind:key="domain.id" class="section">
-            <div class="breadcrumb text-center">
-              <a :href="`#init`" v-t="'Init'"></a>
-              <span> > {{ domain.description }}</span>
-            </div>
-            <div
+        <div class="section zfp-auto-height-responsive how-it-works">
+          <b-container>
+            <h2
               class="title"
               v-t="
                 (questionnaire &&
                   questionnaire.attributes &&
                   questionnaire.attributes.domainsText) ||
-                'Domains'
+                'que-treballarem'
+              "
+            ></h2>
+          </b-container>
+          <b-container class="works-container">
+            <b-row>
+              <b-col cols="12" md="4" order-md="1"></b-col>
+        <b-col class="info-block" cols="12" md="4" order="1" order-md="2">
+                <div class="num">01</div>
+                <div
+                  class="title"
+                  v-if="template.attributes.domains.length > 0"
+                >
+                  {{ template.attributes.domains[0].name }}
+                </div>
+                <div class="more">
+                  {{ template.attributes.domains[0].description }}
+                </div>
+              </b-col>
+              <b-col cols="12" md="4" order-md="3"> </b-col>      
+        <b-col class="info-block" cols="12" md="4" order="12" order-md="4">
+                <div class="num" v-if="template.attributes.domains.length > 3">
+                  04
+                </div>
+                <div
+                  class="title"
+                  v-if="template.attributes.domains.length > 3"
+                >
+                  {{ template.attributes.domains[3].name }}
+                </div>
+                <div class="more" v-if="template.attributes.domains.length > 3">
+                  {{ template.attributes.domains[3].description }}
+                </div>
+                <b-col cols="12" md="4" order-md="5">
+          <div class="granota"></div>
+        </b-col>
+                <div class="granota"></div>
+              </b-col>      
+        <b-col cols="12" md="4" order-md="7"> </b-col>
+        <b-col class="info-block" cols="12" md="4" order="9" order-md="8">
+                <div class="num" v-if="template.attributes.domains.length > 2">
+                  03
+                </div>
+                <div
+                  class="title"
+                  v-if="template.attributes.domains.length > 2"
+                >
+                  {{ template.attributes.domains[2].name }}
+                </div>
+                <div class="more" v-if="template.attributes.domains.length > 2">
+                  {{ template.attributes.domains[2].description }}
+                </div>
+              </b-col>
+        <b-col cols="12" md="4" order-md="7"> </b-col>
+        <b-col class="info-block" cols="12" md="4" order="9" order-md="8">
+                <div class="num" v-if="template.attributes.domains.length > 1">
+                  02
+                </div>
+                <div
+                  class="title"
+                  v-if="template.attributes.domains.length > 1"
+                >
+                  {{ template.attributes.domains[1].name }}
+                </div>
+                <div class="more" v-if="template.attributes.domains.length > 1">
+                  {{ template.attributes.domains[1].description }}
+                </div>
+              </b-col>
+              <b-col> </b-col>
+            </b-row>
+          </b-container>
+          <div class="next-container text-right">
+            <button @click="next" class="button button-4">
+              <span v-t="'next'" />
+            </button>
+          </div>
+        </div>
+
+        <div class="section zfp-auto-height-responsive section-bg-dark how-it-works granota">
+          <div class="bg01">
+            <div class="info-first" v-t="'alguns-trucs-que-t-ajudaran'">
+              alguns trucs que t’ajudaran...
+            </div>
+            <b-container class="z">
+              <b-row>
+                <b-col md="4" class="info-block">
+                  <img src="~/assets/images/comment.svg" />
+                  <div class="title" v-t="'comenta-ns'">Comenta'ns</div>
+                  <div
+                    class="more"
+                    v-t="
+                      'podras-deixar-comentaris-clicant-a-aquest-boto-per-clarificar-o-ampliar-les-respostes'
+                    "
+                  >
+                    Podràs deixar comentaris clicant a aquest botó per
+                    clarificar o ampliar les respostes.
+                  </div>
+                </b-col>
+                <b-col md="4" class="info-block">
+                  <img src="~/assets/images/save.svg" />
+                  <div class="title" v-t="'fes-una-pausa'">Fes una pausa</div>
+                  <div
+                    class="more"
+                    v-t="
+                      'guarda-les-respostes-fetes-i-marca-alla-on-t-has-quedat-per-reprendre-el-queestionari-en-un-altre-moment'
+                    "
+                  >
+                    Guarda les respostes fetes i marca allà on t’has quedat per
+                    reprendre el qüestionari en un altre moment.
+                  </div>
+                </b-col>
+                <b-col md="4" class="info-block">
+                  <img src="~/assets/images/index.svg" />
+                  <div class="title" v-t="'torna-a-l-index'">
+                    Torna a l’índex
+                  </div>
+                  <div
+                    class="more"
+                    v-t="
+                      'torna-a-l-index-si-vols-saber-quines-seccions-ja-has-respost-i-quines-et-falten'
+                    "
+                  >
+                    Torna a l’índex si vols saber quines seccions ja has respost
+                    i quines et falten.
+                  </div>
+                </b-col>
+              </b-row>
+              <div class="next-container text-right">
+                <button class="button button-4" @click="next">
+                  <span v-t="'next'" />
+                </button>
+              </div>
+            </b-container>
+          </div>
+        </div>
+
+        <template v-for="(domain, di) in template.attributes.domains">
+          <div
+            v-bind:key="domain.id"
+            class="section zfp-auto-height-responsive mirades"
+            :class="`bg-domain-${di}`"
+          >
+            <!-- <div class="breadcrumb text-center">
+              <a :href="`#init`" v-t="'Init'"></a>
+              <span> > {{ domain.description }}</span>
+            </div> -->
+
+            <div
+              class="principle-title"
+              v-t="
+                (questionnaire &&
+                  questionnaire.attributes &&
+                  questionnaire.attributes.domainsText) ||
+                'les-quatre-mirades'
               "
             ></div>
-            <div class="row">
-              <div
-                class="col-md-6 equal"
-                v-for="i in template.attributes.domains.length"
-                :key="domain.id * 100 + i"
-              >
-                <div
-                  class="domain-quadrant"
-                  :class="di === i - 1 ? 'active' : 'inactive'"
+
+            <b-container fluid>
+              <b-row>
+                <b-col
+                  class="equal"
+                  v-for="i in template.attributes.domains.length"
+                  :key="domain.id * 100 + i"
+                  md="3"
                 >
-                  <div class="domain-quadrant-inner">
-                    <div class="domain-name">
-                      <a
-                        :href="`#domain-${
-                          template.attributes.domains[i - 1].id
-                        }`"
-                      >
-                        {{ template.attributes.domains[i - 1].name }}
-                      </a>
-                    </div>
-                    <div class="domain-desc">
-                      <a
-                        :href="`#domain-${
-                          template.attributes.domains[i - 1].id
-                        }`"
-                      >
-                        {{ template.attributes.domains[i - 1].description }}
-                      </a>
-                    </div>
-                    <div
-                      class="row"
-                      v-if="
-                        questionnaire &&
-                        questionnaire.attributes &&
-                        questionnaire.attributes.showPrinciples !== false
-                      "
-                    >
+                  <div
+                    class="domain-quadrant"
+                    :class="di === i - 1 ? 'active' : 'inactive'"
+                  >
+                    <div class="domain-quadrant-inner">
+                      <div class="domain-number">0{{ i }}</div>
+                      <div class="domain-name">
+                        <a
+                          :href="`#domain-${
+                            template.attributes.domains[i - 1].id
+                          }`"
+                        >
+                          {{ template.attributes.domains[i - 1].name }}
+                        </a>
+                      </div>
                       <div
-                        class="zindex-item principle col-4 text-center"
-                        v-for="principle in template.attributes.domains[i - 1]
+                        class="principles-list"
+                        v-if="
+                          questionnaire &&
+                          questionnaire.attributes &&
+                          questionnaire.attributes.showPrinciples !== false
+                        "
+                      >
+                        <a
+                          class="principle"
+                          v-for="(principle, pi) in template.attributes.domains[
+                            i - 1
+                          ].principles"
+                          v-bind:key="principle.id"
+                          :href="`#${principlesAnchors[i - 1][pi]}`"
+                        >
+                          {{ pi + 1 }}. {{ principle.name }}
+                        </a>
+                        <!-- <div
+                        class="principle zd-block"
+                        v-for="(principle, pi) in template.attributes.domains[i - 1]
                           .principles"
                         v-bind:key="principle.id"
                       >
-                        <div>
-                          {{ principle.name }}
-                        </div>
+                        {{ pi + 1 }}. {{ principle.name }} - {{ principlesAnchors[i - 1][pi] }}
+                      </div> -->
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="progress-div-container">
+                </b-col>
+              </b-row>
+            </b-container>
+            <!-- <div class="progress-div-container">
               <div class="progress-div">
-                <div class="progress-title" v-t="'Domains'"></div>
+                <div class="progress-title" v-t="'que-treballarem'"></div>
                 <div class="progress-legend">
                   {{ di + 1 }} / {{ template.attributes.domains.length }}
                 </div>
@@ -241,25 +382,22 @@
                 >
                 </vue-ellipse-progress>
               </div>
-            </div>
+            </div> -->
             <div class="next-container text-center">
-              <button class="btn btn-sismograf btn-next" @click="next">
-                <span v-t="'Next'" />
-                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+              <button class="button button-4" @click="next">
+                <span v-t="'next'" />
               </button>
-            </div>
 
-            <div
-              class="next-container text-center"
-              v-if="
-                questionnaire &&
-                questionnaire.attributes &&
-                questionnaire.attributes.domainsMustBeCompleted === false
-              "
-            >
-              <button class="btn btn-sismograf btn-next" @click="goToEnd">
-                <span v-t="'Acabar'" />
-                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+              <button
+                v-if="
+                  questionnaire &&
+                  questionnaire.attributes &&
+                  questionnaire.attributes.domainsMustBeCompleted === false
+                "
+                class="button button-4"
+                @click="goToEnd"
+              >
+                <span v-t="'acabar'" />
               </button>
             </div>
           </div>
@@ -273,144 +411,164 @@
               class="zis-hidden-widescreen"
             >
               <template
-                v-for="(indicator, ii) in pattern.indicators"
+                v-for="indicator in pattern.indicators"
                 class="zis-hidden-widescreen"
               >
-                <div v-bind:key="indicator.id" class="section">
-                  <div class="progress-div-container">
-                    <div class="progress-div">
-                      <div class="progress-title" v-t="'Domains'"></div>
-                      <div class="progress-legend">
-                        {{ di + 1 }} / {{ template.attributes.domains.length }}
-                      </div>
-                      <vue-ellipse-progress
-                        color="#333"
-                        :progress="
-                          ((di + 1) / template.attributes.domains.length) * 100
-                        "
-                        :thickness="4"
-                        :size="100"
-                        :legend="false"
-                      >
-                      </vue-ellipse-progress>
-                    </div>
-
-                    <div class="progress-div">
-                      <div class="progress-title" v-t="'Principles'"></div>
-                      <div class="progress-legend">
-                        {{ pi + 1 }} / {{ domain.principles.length }}
-                      </div>
-                      <vue-ellipse-progress
-                        color="#333"
-                        :progress="((pi + 1) / domain.principles.length) * 100"
-                        :thickness="4"
-                        :size="100"
-                        :legend="false"
-                      >
-                      </vue-ellipse-progress>
-                    </div>
-
-                    <div class="progress-div">
-                      <div class="progress-title" v-t="'Indicators'"></div>
-                      <div class="progress-legend">
-                        {{ ppi + 1 }} / {{ principle.patterns.length }}
-                      </div>
-                      <vue-ellipse-progress
-                        color="#333"
-                        :progress="
-                          ((ppi + 1) / principle.patterns.length) * 100
-                        "
-                        :thickness="4"
-                        :size="100"
-                        :legend="false"
-                      >
-                      </vue-ellipse-progress>
-                    </div>
-                  </div>
+                <div
+                  v-bind:key="indicator.id"
+                  class="section zfp-auto-height-responsive fp-no-table"
+                  :class="`bg-domain-content-${di}`"
+                >
+                  <!-- <Progress
+                    :domain="domain"
+                    :template="template"
+                    :principle="principle"
+                    :di="di"
+                    :pi="pi"
+                    :ppi="ppi"
+                  >
+                  </Progress> -->
 
                   <div class="breadcrumb text-center">
                     <a :href="`#init`" v-t="'Init'"></a>
                     <span> > </span>
-                    <a :href="`#domain-${domain.id}`">{{
-                      domain.description
-                    }}</a>
+                    <a :href="`#domain-${domain.id}`">{{ domain.name }}</a>
                     <span> > </span>
                     <a :href="`#principle-${principle.id}`">{{
                       principle.name
                     }}</a>
-                    <span> > {{ pattern.name }}</span>
-                  </div>
-                  <div class="scope title indicator">
-                    {{ indicator.question }}
-                  </div>
-                  <div
-                    class="text-center indicator multiple"
-                    v-if="indicator.max > 1"
-                  >
-                    <span>(màx. {{ indicator.max }} opcions)</span>
+                    <!-- <span> > {{ pattern.name }}</span> -->
                   </div>
 
-                  <ul class="capacities-list">
-                    <li
-                      class="item"
-                      v-for="option in indicator.indicator_options"
-                      v-bind:key="option.id"
+                  <b-container>
+                    <div class="scope title indicator">
+                      {{ indicator.question }}
+                    </div>
+                    <div
+                      class="text-center indicator multiple"
+                      v-if="indicator.max > 1"
                     >
-                      <div
-                        v-on:click="punctuation('results', indicator, option)"
-                        class="btn btn-sismograf"
-                        v-bind:class="{
-                          active: isOptionActive('results', indicator, option),
-                        }"
+                      <span
+                        v-t="
+                          $t('max-indicator-max-opcions', { 0: indicator.max })
+                        "
+                      ></span>
+                    </div>
+                    <ul class="capacities-list">
+                      <li
+                        class="item"
+                        v-for="option in indicator.indicator_options"
+                        v-bind:key="option.id"
                       >
-                        {{ option.name }}
-                      </div>
-                    </li>
-                  </ul>
+                        <div
+                          v-on:click="punctuation('results', indicator, option)"
+                          class="button button-3"
+                          v-bind:class="{
+                            active: isOptionActive(
+                              'results',
+                              indicator,
+                              option
+                            ),
+                          }"
+                        >
+                          {{ option.name }}
+                        </div>
+                      </li>
+                    </ul>
 
-                  <div class="next-container text-center">
-                    <button class="btn btn-sismograf btn-next" @click="next">
-                      <span v-t="'Next'" />
-                      <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+                    <div class="next-container text-right">
+                      <button class="button button-4" @click="next">
+                        <span v-t="'next'" />
+                      </button>
+                    </div>
+                  </b-container>
+
+                  <div class="action-buttons">
+                    <button
+                      id="show-btn"
+                      class="btn-comment"
+                      v-bind:class="{
+                        active: isCommentActive(indicator),
+                      }"
+                      @click="showModal(indicator)"
+                    >
+                      <img src="~/assets/images/comment.svg" />
                     </button>
+                    <button
+                      id="save-btn"
+                      class="btn-save"
+                      @click="showModalSave(indicator)"
+                    >
+                      <img src="~/assets/images/save.svg" />
+                    </button>
+                    <a id="index-btn" class="btn-index" href="#domains">
+                      <img src="~/assets/images/index.svg" />
+                    </a>
                   </div>
-
-                  <b-button
-                    id="show-btn"
-                    class="btn-sismograf"
-                    v-bind:class="{
-                      active: isCommentActive(indicator),
-                    }"
-                    @click="showModal(indicator)"
-                  >
-                    <font-awesome-icon :icon="fas.faComment" />
-                  </b-button>
                 </div>
               </template>
             </template>
           </template>
         </template>
 
-        <b-modal
-          size="lg"
-          centered
-          ref="my-modal"
-          :title="commentIndicator ? commentIndicator.question : ''"
-        >
+        <b-modal size="lg" centered ref="comment-modal" :title="''">
+          <h5 class="comment-title">
+            {{ commentIndicator ? commentIndicator.question : "" }}
+          </h5>
           <div class="d-block text-center">
             <textarea class="form-control comment" v-model="comment">
             </textarea>
           </div>
+          <template #modal-header>
+            <img src="~/assets/images/comment.svg" />
+          </template>
 
           <template #modal-footer>
-            <b-button class="mt-3 btn-primary" @click="cancelModal"
-              >Cancelar</b-button
-            >
-            <b-button
-              class="mt-3 btn-success"
+            <button
+              class="zmt-3 button button-1 no-icon mb-3"
+              @click="cancelModal"
+              v-t="'cancel'"
+            ></button>
+            <button
+              class="zmt-3 button button-4 no-icon mr-4 mb-3"
               @click="hideModal"
-              v-t="'Save'"
-            ></b-button>
+              v-t="'save'"
+            ></button>
+          </template>
+        </b-modal>
+
+        <b-modal size="lg" centered ref="save-modal" title="">
+          <template #modal-header>
+            <img src="~/assets/images/save.svg" />
+          </template>
+          <h5 class="comment-title" v-t="'guardar-sismograf'"></h5>
+
+          <div
+            class="copy-body"
+            v-t="
+              'copia-i-guarda-en-un-lloc-segur-aquesta-adreca-i-torna-quan-vulguis-a-continuar-el-teu-sismograf'
+            "
+          >
+            Copia i guarda en un lloc segur aquesta adreça i torna quan vulguis
+            a continuar el teu sismògraf:
+          </div>
+          <div class="copy-url mt-4 mb-4">{{ copyUrl }}</div>
+
+          <template #modal-footer>
+            <button
+              @click="copyToClipboard"
+              class="mt-3 mb-3 button button-3 uppercase"
+              v-t="'copiar-al-portaretalls'"
+            >
+              Copiar al portaretalls
+            </button>
+            <button
+              class="mt-3 mb-3 button button-4"
+              @click="cancelSaveModal"
+              v-t="'d-acord'"
+            >
+              D'acord
+            </button>
           </template>
         </b-modal>
 
@@ -421,9 +579,8 @@
             </div>
 
             <div class="next-container text-center">
-              <button class="btn btn-sismograf btn-next" @click="next">
-                <span v-t="'Next'" />
-                <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+              <button class="button button-4" @click="next">
+                <span v-t="'next'" />
               </button>
             </div>
           </div>
@@ -444,7 +601,7 @@
                 >
                   <div
                     v-on:click="punctuation('more', ind, option)"
-                    class="btn btn-sismograf"
+                    class="button button-3"
                     v-bind:class="{
                       active: isOptionActive('more', ind, option),
                     }"
@@ -463,128 +620,83 @@
                 ></textarea>
               </div>
 
-              <!-- <b-button
-                    id="show-btn"
-                    class="btn-sismograf"
-                    v-bind:class="{
-                      active: isCommentActive(ind),
-                    }"
-                    @click="showModal(ind)"
-                  >
-                    <font-awesome-icon :icon="fas.faComment" />
-                  </b-button> -->
-
               <div class="next-container text-center">
-                <button class="btn btn-sismograf btn-next" @click="next">
-                  <span v-t="'Next'" />
-                  <font-awesome-icon :icon="fas.faLongArrowAltRight" />
+                <button class="button button-4" @click="next">
+                  <span v-t="'next'" />
                 </button>
               </div>
             </div>
           </template>
         </template>
-        <div class="section">
-          <div class="title total">
-            <span v-t="'Send and view Results'" />
-          </div>
-
+        <div class="section zfp-auto-height-responsive how-it-works view-result bg-result">
           <div
-            v-if="
-              questionnaire &&
-              questionnaire.attributes &&
-              questionnaire.attributes.moreFieldsText
-            "
-            class="text-center description"
-            v-t="questionnaire.attributes.moreFieldsText"
-          ></div>
-          <div
-            v-else-if="
-              (questionnaire &&
-                questionnaire.attributes &&
-                questionnaire.attributes.showEmail) ||
-              (questionnaire &&
-                questionnaire.attributes &&
-                questionnaire.attributes.showOrganization)
-            "
-            class="text-center description"
-            v-t="'This poll is completely anonymous but if you want to answer:'"
-          ></div>
-
-          <div class="row text-center mt-5">
-            <div
-              class="col-md"
-              v-if="
-                questionnaire &&
-                questionnaire.attributes &&
-                questionnaire.attributes.showEmail
-              "
-            >
-              <span class="label" v-t="'Email'"></span>
-              <input
-                type="text"
-                v-model="analysis.email"
-                name="zemail"
-                class="form-control"
-              />
-              <span
-                class="label"
-                v-t="
-                  'If you want to receive information and results directly, you can leave us an email'
-                "
-              ></span>
-            </div>
-            <div
-              class="col-md"
-              v-if="
-                questionnaire &&
-                questionnaire.attributes &&
-                questionnaire.attributes.showOrganization
-              "
-            >
-              <span class="label" v-t="'Organization'"></span>
-              <input
-                class="form-control"
-                type="text"
-                v-model="analysis.organization"
-                name="organization"
-              />
-              <span
-                class="label"
-                v-t="
-                  'Are you part of a formal or informal organization / group / company ?'
-                "
-              ></span>
-            </div>
+            class="info-first"
+            v-t="'gracies-per-arribar-fins-al-final-ara-nomes-us-queda'"
+          >
+            Gràcies per arribar fins al final, ara només us queda...
           </div>
-          <div class="next-container text-center mt-5">
-            <button
-              class="btn btn-sismograf btn-next"
-              @click="save"
-              v-bind:disabled="!validForm"
-            >
-              <span v-t="'Send'" />
-              <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-            </button>
-            <br />
-            <button
-              class="btn btn-sismograf btn-next"
-              @click="saveNew"
-              v-bind:disabled="!validForm"
-              v-if="analysis.uid && false"
-            >
-              <span v-t="'Guardar nueva versión'" />
-              <font-awesome-icon :icon="fas.faLongArrowAltRight" />
-            </button>
-            <div class="alert-container mt-3">
-              <fade-transition>
+          <b-container fluid>
+            <b-row>
+              <b-col cols="2">
+                <h2 class="title-view" v-t="'veure-els-resultats'"></h2>
+              </b-col>
+              <b-col cols="4"> </b-col>
+              <b-col cols="4">
                 <div
-                  v-if="show"
-                  class="alert alert-white"
-                  v-t="'Successfully saved'"
+                  class="email-field"
+                  v-if="
+                    questionnaire &&
+                    questionnaire.attributes &&
+                    questionnaire.attributes.showEmail
+                  "
+                >
+                  <span
+                    class="label"
+                    v-t="'voleu-rebre-ls-per-correu-electronic'"
+                  ></span>
+                  <input
+                    type="text"
+                    v-model="analysis.email"
+                    name="zemail"
+                    class="form-control"
+                    :placeholder="$t('email')"
+                  />
+                </div>
+
+                <div
+                  v-if="
+                    questionnaire &&
+                    questionnaire.attributes &&
+                    questionnaire.attributes.moreFieldsText
+                  "
+                  class="text-left text-description"
+                  v-t="questionnaire.attributes.moreFieldsText"
                 ></div>
-              </fade-transition>
-            </div>
-          </div>
+                <div
+                  v-else-if="
+                    (questionnaire &&
+                      questionnaire.attributes &&
+                      questionnaire.attributes.showEmail) ||
+                    (questionnaire &&
+                      questionnaire.attributes &&
+                      questionnaire.attributes.showOrganization)
+                  "
+                  class="text-left text-description"
+                  v-t="
+                    'aquesta-enquesta-es-totalment-anonima-pero-si-vols-que-t-enviem-els-resultats-a-la-teva-bustia-ens-pots-deixar-un-correu-electronic'
+                  "
+                ></div>
+
+                <button
+                  class="button button-4 mt-5"
+                  @click="saveAndResults"
+                  v-bind:disabled="!validForm"
+                >
+                  <span v-t="'veure-els-resultats'" />
+                </button>
+              </b-col>
+            </b-row>
+          </b-container>
         </div>
       </full-page>
     </no-ssr>
@@ -597,41 +709,43 @@ import CLine from "~/components/CLine";
 import CBar from "~/components/CBar";
 import CBarDomains from "~/components/CBarDomains";
 import FadeTransition from "~/components/FadeTransition";
+import Progress from "~/components/Progress";
 
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
+import { mapGetters } from "vuex";
 
 export default {
-  layout: "full",
-  head() {
-    return {
-      title: `${this.title}`,
-      meta: [
-        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-        {
-          hid: "description",
-          name: "description",
-          content: this.description,
-        },
-        {
-          hid: "og:title",
-          name: "og:title",
-          content: this.title,
-        },
-        {
-          hid: "og:description",
-          name: "og:description",
-          content: this.description,
-        },
-        {
-          hid: "og:image",
-          name: "og:image",
-          content: require("~/assets/resilience_earth.svg"),
-        },
-      ],
-    };
-  },
+  components: { Progress },
+  // head() {
+  //   return {
+  //     title: `${this.title}`,
+  //     meta: [
+  //       // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+  //       {
+  //         hid: "description",
+  //         name: "description",
+  //         content: this.description,
+  //       },
+  //       {
+  //         hid: "og:title",
+  //         name: "og:title",
+  //         content: this.title,
+  //       },
+  //       {
+  //         hid: "og:description",
+  //         name: "og:description",
+  //         content: this.description,
+  //       },
+  //       {
+  //         hid: "og:image",
+  //         name: "og:image",
+  //         content: require("~/assets/resilience_earth.svg"),
+  //       },
+  //     ],
+  //   };
+  // },
   data() {
     return {
       apiUrl: process.env.API_URL,
@@ -641,41 +755,17 @@ export default {
       tablet: false,
       show: false,
       options: {
-        scrollOverflow: false,
         licenseKey: "7C5A62B9-9F4349E0-A45C66A1-437BB3A2",
         menu: "#menu",
-        sectionsColor: [
-          "#55AFB8",
-          "#394335",
-          "#4A8FAD",
-          "#87dbb3",
-          "#DB8077",
-          "#394335",
-          "#4A8FAD",
-          "#87dbb3",
-          "#DB8077",
-          "#394335",
-          "#4A8FAD",
-          "#87dbb3",
-          "#DB8077",
-          "#394335",
-          "#4A8FAD",
-          "#87dbb3",
-          "#DB8077",
-          "#55AFB8",
-          "#55AFB8",
-          "#55AFB8",
-          "#55AFB8",
-          "#55AFB8",
-          "#55AFB8",
-          "#1f1f1f",
-        ],
-        navigation: false,
+        sectionsColor: "#FFFCF3",
+        navigation: true,
+        slidesNavigation: false
       },
       //results: [],
       analysis: {
         id: 0,
         email: "",
+        name: "",
         // organization: "",
         // project: "",
         // region: "",
@@ -697,16 +787,31 @@ export default {
       comment: "",
       progressDomain: 0,
       progressPrinciple: 0,
+      copyUrl: "",
     };
   },
   computed: {
+    ...mapGetters({
+      app: "app/get",
+    }),
     anchors() {
       const anchors = []; //["init"];
+
+      anchors.push(`name`);
+
+      if (
+        this.questionnaire &&
+        this.questionnaire.attributes &&
+        this.questionnaire.attributes.showOrganization
+      ) {
+        anchors.push(`org`);
+      }
 
       this.template.attributes.label_categories.data.forEach((cat) => {
         anchors.push(`labels-${cat.id}`);
       });
       anchors.push(`domains`);
+      anchors.push(`tricks`);
 
       this.template.attributes.domains.forEach((domain) => {
         anchors.push(`domain-${domain.id}`);
@@ -730,6 +835,27 @@ export default {
       anchors.push("summary-1");
       anchors.push("summary-2");
       anchors.push("save");
+      return anchors;
+    },
+    principlesAnchors() {
+      const anchors = []; //["init"];
+
+      this.template.attributes.domains.forEach((domain, i) => {
+        domain.principles.forEach((principle) => {
+          let first = true;
+
+          principle.patterns.forEach((pattern) => {
+            pattern.indicators.forEach((indicator) => {
+              if (first) {
+                anchors.push([]);
+                anchors[i].push(`indicator-${indicator.id}`);
+              }
+              first = false;
+            });
+          });
+        });
+      });
+
       return anchors;
     },
     title() {
@@ -917,12 +1043,10 @@ export default {
         Authorization: `Bearer ${process.env.apiToken}`,
       },
     };
-    // console.log('context i18n', app.i18n)
     var { data } = await $axios.get(
       `/templates?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}`,
       headers
     );
-    // console.log('templateData',data, slug)
     if (!data || data.data.length == 0) {
       error({ statusCode: 404, message: "Page not found" });
       return;
@@ -974,10 +1098,9 @@ export default {
         );
 
         analysis.email = data.data.attributes.email;
-        // analysis.organization = data.data.attributes.organization;
-        // analysis.project = data.data.attributes.project;
-        // analysis.region = data.data.attributes.region;
-        // analysis.scope = data.data.attributes.scope;
+        if (analysis.email === process.env.emptyEmail) {
+          analysis.email = "";
+        }
         analysis.uid = data.data.attributes.uid;
         analysis.parent = data.data.attributes.parent;
         analysis.labels = data.data.attributes.labels.data;
@@ -1014,40 +1137,45 @@ export default {
       }
     }
 
-    if (app.context.route.query && app.context.route.query.q) {
-      // const questionnaireSlug = app.context.route.query.q;
-      var { data } = await $axios.get(
-        `/questionnaires/?filters[slug][$eq]=${app.context.route.query.q}&populate=organization&populate=organization.logo&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&&populate=more_label_categories&locale=${app.i18n.locale}`,
-        headers
-      );
+    var { data } = await $axios.get(
+      `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2`,
+      {}
+    );
+    // this.$store.commit("app/set", data.data[0])
 
-      if (data.data.length && data.data[0].id) {
-        analysis.questionnaire = data.data[0].id;
-        questionnaire = data.data[0];
-      }
+    const application = data.data[0];
+
+    console.log("this.app", application);
+
+    const q =
+      app.context.route.query && app.context.route.query.q
+        ? app.context.route.query.q
+        : application.attributes.questionnaire;
+
+    var { data } = await $axios.get(
+      `/questionnaires/?filters[slug][$eq]=${q}&populate=organization&populate=organization.logo&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&&populate=more_label_categories&locale=${app.i18n.locale}`,
+      headers
+    );
+
+    if (data.data.length && data.data[0].id) {
+      analysis.questionnaire = data.data[0].id;
+      questionnaire = data.data[0];
     }
 
     return {
-      slug: slug,
+      slug,
       template,
       analysis,
       questionnaire,
     };
   },
-  created() {
-    if (
-      this.questionnaire?.attributes?.organization?.data?.attributes?.logo?.data
-        ?.attributes?.url
-    ) {
-      const src = (
-        this.apiUrl +
-        this.questionnaire?.attributes?.organization?.data?.attributes?.logo
-          ?.data?.attributes?.url
-      ).replace("/api/", "/");
-      this.$nuxt.$emit("logo-changed", src);
-    }
-  },
-  mounted() {
+  created() {},
+  async mounted() {
+    await this.addScript(
+      "/vendor/scrolloverflow/scrolloverflow.min.js",
+      "scrolloverflow-min-js"
+    );
+
     this.mobile = window.innerWidth < 768;
     this.tablet =
       /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(
@@ -1062,8 +1190,129 @@ export default {
       .concat(sectionsColor);
     this.options.sectionsColor = sectionsColor;
     this.options.anchors = this.anchors;
+    this.options.afterLoad = (origin, destination, direction, trigger) => {
+      const item = destination.item;
+      const el = document.body;
+      console.log("item", item);
+      if (item.classList.contains("bg-domain-0")) {
+        el.classList.add("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("bg-domain-1")) {
+        el.classList.add("bg-domain-1");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("bg-domain-2")) {
+        el.classList.add("bg-domain-2");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("bg-domain-3")) {
+        el.classList.add("bg-domain-3");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("bg-domain-content-0")) {
+        el.classList.add("bg-domain-content-0");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("bg-domain-content-1")) {
+        el.classList.add("bg-domain-content-1");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("bg-domain-content-2")) {
+        el.classList.add("bg-domain-content-2");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("bg-domain-content-3")) {
+        el.classList.add("bg-domain-content-3");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-result");
+      } else if (item.classList.contains("view-result")) {
+        el.classList.add("bg-result");
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+      } else {
+        el.classList.remove("bg-domain-0");
+        el.classList.remove("bg-domain-1");
+        el.classList.remove("bg-domain-2");
+        el.classList.remove("bg-domain-3");
+        el.classList.remove("bg-domain-content-0");
+        el.classList.remove("bg-domain-content-1");
+        el.classList.remove("bg-domain-content-2");
+        el.classList.remove("bg-domain-content-3");
+        el.classList.remove("bg-result");
+      }
+    };
   },
   methods: {
+    async addScript(src, id) {
+      return new Promise((resolve, reject) => {
+        if (document.getElementById(id)) {
+          resolve();
+        }
+        const head = document.head || document.getElementsByTagName("head")[0];
+        const script = document.createElement("script");
+        script.src = src;
+        script.id = id;
+        script.addEventListener("load", resolve);
+        script.addEventListener("error", (e) => reject(e));
+        script.addEventListener("abort", (e) => reject(e));
+        head.appendChild(script);
+      });
+    },
     next: () => {
       var s = fullpage_api.getActiveSection();
       fullpage_api.moveTo(s.index + 2);
@@ -1096,7 +1345,6 @@ export default {
       );
     },
     punctuation(field, indicator, option) {
-      console.log("field", field, this.analysis);
       const same = this.analysis[field].find(
         (r) => r.indicator === indicator.id && r.value === option.value
       );
@@ -1140,7 +1388,7 @@ export default {
       } else {
         this.analysis.labels.push(label.id);
       }
-      // console.log('labelCategory', labelCategory)
+
       if (
         !previous &&
         labelCategory &&
@@ -1161,7 +1409,23 @@ export default {
         this.comment = previous.comment;
       }
       this.commentIndicator = indicator;
-      this.$refs["my-modal"].show();
+      this.$refs["comment-modal"].show();
+    },
+    async showModalSave(indicator) {
+      await this.saveAndContinue();
+      this.copyToClipboard();
+      this.$refs["save-modal"].show();
+    },
+    copyToClipboard() {
+      const dummy = document.createElement("input");
+      const text = window.location.href;
+      this.copyUrl = text;
+
+      document.body.appendChild(dummy);
+      dummy.value = text;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
     },
     hideModal() {
       const indicator = this.commentIndicator;
@@ -1176,10 +1440,13 @@ export default {
           comment: this.comment,
         });
       }
-      this.$refs["my-modal"].hide();
+      this.$refs["comment-modal"].hide();
     },
     cancelModal() {
-      this.$refs["my-modal"].hide();
+      this.$refs["comment-modal"].hide();
+    },
+    cancelSaveModal() {
+      this.$refs["save-modal"].hide();
     },
     // allIsSelected() {
     //   let allSelected = true;
@@ -1202,8 +1469,8 @@ export default {
       this.analysis.language = this.$i18n.locale;
       this.analysis.template = this.template.id;
       this.analysis.publishedAt = new Date();
-      this.analysis.email = this.analysis.email || process.env.emptyEmail
-      this.analysis.organization = this.analysis.organization || ""
+      this.analysis.email = this.analysis.email || process.env.emptyEmail;
+      this.analysis.organization = this.analysis.organization || "";
       const headers = {
         headers: {
           Authorization: `Bearer ${process.env.apiToken}`,
@@ -1215,7 +1482,7 @@ export default {
         const post = { data: this.analysis };
         // delete post.data.id
         var { data } = await this.$axios.post(`/analyses`, post, headers);
-        console.log("data", data);
+
         this.analysis.id = data.data.id;
       } else {
         const post = { data: this.analysis };
@@ -1225,13 +1492,7 @@ export default {
           headers
         );
       }
-      this.$router.push(
-        this.localePath({
-          name: "template-view-slug",
-          params: { slug: this.slug },
-          query: { r: this.analysis.uid },
-        })
-      );
+
       this.show = true;
       setTimeout(() => {
         // this.show = false;
@@ -1239,7 +1500,29 @@ export default {
       // this.$router.push({
       //   path: `/analysis/${this.slug}?r=${this.analysis.uid}`
       // })
-      //console.log("data", data);
+    },
+    async saveAndResults() {
+      await this.save();
+
+      this.$router.push(
+        this.localePath({
+          name: "template-view-slug",
+          params: { slug: this.slug },
+          query: { r: this.analysis.uid },
+        })
+      );
+    },
+    async saveAndContinue() {
+      await this.save();
+
+      this.$router.push(
+        this.localePath({
+          name: "template-slug",
+          params: { slug: this.slug },
+          query: { r: this.analysis.uid },
+          hash: window.location.hash,
+        })
+      );
     },
     // mean(array) {
     //   if (!array.length) return null
@@ -1298,66 +1581,15 @@ export default {
   },
 };
 </script>
+
+
 <style scoped>
-.section {
-  padding: 0 6vw;
-}
-
-.title {
-  text-align: center;
-  font-size: 5vw;
-  font-weight: bold;
-  color: #fff;
-}
-.description {
-  color: #fff;
-  font-size: 20px;
-}
-
-.section-bg-dark .title,
-.section-bg-dark .description,
-.section-bg-dark p {
-  color: #eee;
-}
-.scope {
-  text-align: center;
-  font-size: 60px;
-  color: #fff;
-}
-.question {
-  text-align: center;
-  font-size: 40px;
-  color: #fff;
-}
-.sector {
-  font-size: 30px;
-  color: #fff;
-  margin: 30px auto;
-}
-.btn-sismograf {
-  border: 0;
-  background: rgb(85, 175, 184);
-  color: #fff;
-
-  background: #fff;
-  color: #333;
-  border-radius: 6px;
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  /* text-transform: capitalize; */
-}
-.btn-next {
-  background: #fff;
-  color: #1f1f1f;
-  margin-top: 2rem;
-}
 ul.capacities-list {
   list-style-type: none;
   padding: 0;
-  text-align: center;
+  text-align: left;
   margin-top: 2rem;
+  padding-bottom: 3rem;
 }
 ul.labels-list {
   margin-top: 1rem;
@@ -1367,24 +1599,74 @@ ul.label-categories-list > li {
   display: block !important;
 }
 ul.capacities-list > li {
-  display: inline-block;
+  display: block;
   margin: 0 10px;
 }
-ul.capacities-list li .active {
-  background: hsl(48, 100%, 67%);
-  color: #333;
+ul.capacities-list.capacities-list-inline {
+  text-align: center;
 }
-.scope-title {
-  font-size: 20px;
-  color: #fff;
+ul.capacities-list.capacities-list-inline > li {
+  display: inline-block;
+}
+ul.capacities-list li .active {
+  background: #f3c857;
+}
+.scope.title {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 40px;
+  text-align: center;
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 150px;
+}
+.principle-title {
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 50px;
+  text-align: left;
+  color: #020034;
+  position: absolute;
+  top: 80px;
+  left: 4rem;
+}
+.domain-number {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 40px;
+  color: #f3c857;
+}
+.domain-name {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 40px;
+  color: #020034;
+}
+.domain-name a {
+  color: #020034;
+  text-decoration: none;
+}
+.principles-list {
+  margin-top: 30px;
+}
+.principles-list .principle {
+  padding: 0.8rem 1.8rem 0.8rem 1.8rem;
+  border: 2px solid #020034;
+  border-radius: 25px;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+.domain-quadrant.inactive .principles-list {
+  visibility: hidden;
+}
+.domain-quadrant.inactive:hover .principles-list {
+  visibility: inherit;
 }
 .label {
-  color: #fff;
   padding-right: 6px;
   display: block;
 }
 .text-analysis {
-  color: #fff;
   position: relative;
 }
 .warning {
@@ -1400,25 +1682,21 @@ ul.capacities-list li .active {
   position: absolute;
   width: 100%;
 }
-.text-white {
-  color: #fff !important;
-}
 .breadcrumb {
   position: absolute;
-  bottom: 0px;
+  top: 2.5rem;
+  left: 3rem;
   width: calc(100% - 10vw);
   background: transparent;
 }
 .breadcrumb a {
-  color: #fff;
+  color: #020034;
 }
 .breadcrumb span {
-  color: #fff;
   padding: 0 0.5rem;
 }
 .multiple,
 .label-category {
-  color: #fff;
   text-align: center;
 }
 textarea.comment {
@@ -1456,7 +1734,6 @@ textarea.comment {
 }
 .progress-div {
   position: relative;
-  color: #fff;
   width: 100px;
   text-align: center;
 }
@@ -1467,24 +1744,9 @@ textarea.comment {
   text-align: center;
   font-weight: bold;
 }
-.principle-title {
-  color: #fff;
-  font-weight: bold;
-}
 .domain-quadrant {
-  background: #eee;
-  display: flex;
-  width: 100%;
-  margin: 2rem;
-  text-align: center;
-  border-radius: 6px;
 }
 .domain-quadrant-inner {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  text-align: center;
-  font-size: 2rem;
-  width: 100%;
 }
 .domain-quadrant.inactive {
   opacity: 0.2;
@@ -1500,27 +1762,129 @@ textarea.comment {
     flex-wrap: wrap;
   }
 }
-.principle {
-  font-size: 15px;
-  margin-top: 0.5rem;
+a.principle {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 19px;
+  color: #020034;
+  text-decoration: none;
 }
 .principle > div {
   background: rgb(74, 143, 173);
-  background: #999;
-  color: #fff;
-  border-radius: 6px;
+  border-radius: 25px;
   padding: 1rem;
 }
-.domain-name {
-  font-size: 20px;
-  display: block;
+
+.button-3 {
+  margin-bottom: 1rem;
 }
-.domain-name a,
-.domain-desc a {
-  color: #333;
-  text-decoration: none;
+.next-container {
+  position: absolute;
+  bottom: 150px;
+  right: 3rem;
+}
+.action-buttons {
+  position: absolute;
+  bottom: 150px;
+  left: 3rem;
+}
+.action-buttons button,
+.action-buttons a {
+  background: none;
+  border: 0;
+  outline: none;
+  padding: 0 0 0 0;
+}
+.comment-title {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 30px;
+}
+.title-view {
+  padding-bottom: 40vh;
+}
+.email-field span.label {
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  letter-spacing: 0.02em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.email-field input {
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  padding: 0.5rem 0.5rem;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  color: #020034;
+  margin-bottom: 2.5rem;
+}
+.email-field input:hover,
+.email-field input:focus,
+.email-field input:active {
+  outline: none;
+  box-shadow: none;
+}
+.email-field input::placeholder {
+  color: #d9d9d9;
+  text-transform: uppercase;
 }
 
+.open-response .form-control {
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  color: #020034;
+  padding: 0.5rem 0.5rem;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+}
+
+.text-description {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 21px;
+  margin-top: 2vh;
+  margin-bottom: 10vh;
+}
+.sismo-title {
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 70px;
+}
+.sismo-text {
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.sismo-question {
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: 10vh;
+}
+.punts {
+  background: url("~@/assets/images/punts.svg") no-repeat bottom center;
+  height: 50px;
+}
+
+.bg01 {
+  background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top center;
+}
+@media (min-width: 769px) and (max-height: 750px) {
+  ul.capacities-list > li {
+    display: inline-block;
+
+  }
+}
 @media (max-width: 768px) {
   .scope {
     font-size: 30px;
@@ -1551,11 +1915,116 @@ textarea.comment {
   .domain-quadrant-inner {
     padding: 0.5rem;
   }
+  .scope.title {
+    width: 100%;
+  }
 }
-</style>
-<style>
-#fp-nav ul li a span,
-.fp-slidesNav ul li a span {
-  background: #fff;
+@media (max-width: 1024px) {
+  .sismo-title {
+    font-size: 9.1vw;
+    line-height: 12.61666666666667vw;
+  }
+  .sismo-question {
+    font-size: 7.58333333333333vw;
+    line-height: 7.58333333333333vw;
+  }
+  .domain-number,
+  .domain-name {
+    font-size: 7.06666666666667vw;
+    line-height: 7.06666666666667vw;
+  }
+  .scope.title {
+    font-size: 7.06666666666667vw;
+    line-height: 7.06666666666667vw;
+    margin-top: 50px;
+    padding-top: 0;
+  }
+  .action-buttons {
+    bottom: 7.75vw;
+    left: 3rem;
+  }
+  .next-container {
+    bottom: 7.75vw;
+  }
+  .principle-title {
+    font-size: 7.58333333333333vw;
+    line-height: 7.58333333333333vw;
+    top: 50px;
+    left: 15px;
+  }
+  .principles-list .principle {
+    padding: 1.7vw 3vw;
+    display: inline-block;
+  }
+  a.principle {
+    font-size: 4vw;
+    line-height: 4.281666666666667vw;
+  }
+  .email-field span.label {
+    font-size: 1.39166666666667vw;
+    line-height: 1.55vw;
+  }
+  ul.capacities-list > li{
+    margin: 0;
+  }
+
+  ul.capacities-list > li .button{
+    width: 100%;
+  }
+  .button-3 {
+    margin-bottom: 8px;
+  }
+  .section {
+    height: auto!important;    
+  }
+  .fp-tableCell {
+    height: auto!important;    
+    display: flex;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1919px) {
+  .sismo-title {
+    font-size: 3.1vw;
+    line-height: 3.61666666666667vw;
+  }
+  .sismo-question {
+    font-size: 2.58333333333333vw;
+    line-height: 2.58333333333333vw;
+  }
+  .domain-number,
+  .domain-name {
+    font-size: 2.06666666666667vw;
+    line-height: 2.06666666666667vw;
+  }
+  .scope.title {
+    font-size: 2.06666666666667vw;
+    line-height: 2.06666666666667vw;
+    margin-top: 8vw;
+  }
+  .action-buttons {
+    bottom: 7.75vw;
+    left: 3rem;
+  }
+  .next-container {
+    bottom: 7.75vw;
+  }
+  .principle-title {
+    font-size: 2.58333333333333vw;
+    line-height: 2.58333333333333vw;
+    top: 4.14vw;
+    left: 3rem;
+  }
+  .principles-list .principle {
+    padding: 0.413333333333333vw 1.488vw 0.413333333333333vw 1.488vw;
+  }
+  a.principle {
+    font-size: 1vw;
+    line-height: 1.281666666666667vw;
+  }
+  .email-field span.label {
+    font-size: 1.39166666666667vw;
+    line-height: 1.55vw;
+  }
 }
 </style>

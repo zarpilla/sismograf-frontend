@@ -44,7 +44,6 @@
 <script>
   export default {
     name: 'Fullpage',
-    layout: 'full',
     data () {
       return {
         index: 0,

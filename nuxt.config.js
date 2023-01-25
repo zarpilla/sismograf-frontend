@@ -1,17 +1,26 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: process.env.TITLE || "Resilience earth",
+    title: process.env.TITLE || "Sismògraf",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" }
+      { hid: "description", name: "description", content: "" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    script: [
+      {
+        src: "/vendor/scrolloverflow/scrolloverflow.min.js",
+      },
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: [],
+  css: [
+    "@/assets/fonts/stylesheet.css",
+    "@/assets/css/works.scss",
+    "@/assets/css/main.css",
+  ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
@@ -19,7 +28,7 @@ export default {
     "@/plugins/statistics",
     { src: "~/plugins/vue-ellipse-progress.js", mode: "client" },
     "@/plugins/axios",
-    { src: "~/plugins/download-excel.js", mode: "client" }
+    { src: "~/plugins/download-excel.js", mode: "client" },
     // { src: '@/plugins/vue-html2pdf', mode: 'client' }
   ],
 
@@ -40,12 +49,12 @@ export default {
     "nuxt-fullpage.js",
     "@nuxtjs/markdownit",
     "nuxt-fontawesome",
-    "@nuxtjs/auth"
+    "@nuxtjs/auth",
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.API_URL
+    baseURL: process.env.API_URL,
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -54,15 +63,30 @@ export default {
     preset: "default",
     linkify: true,
     breaks: true,
-    injected: true
+    injected: true,
   },
   i18n: {
-    locales: ["en", "ca", "es"],
-    defaultLocale: "en",
+    locales: [
+      {
+        code: "en",
+        file: "en.js",
+      },
+      {
+        code: "ca",
+        file: "ca.js",
+      },
+      {
+        code: "es",
+        file: "es.js",
+      },
+    ],
+    defaultLocale: "ca",
     detectBrowserLanguage: false,
     seo: false,
     strategy: "prefix_except_default",
-    vueI18n: {
+    lazy: true,
+    langDir: "lang/",
+    zvueI18n: {
       fallbackLocale: "en",
       messages: {
         en: {
@@ -70,13 +94,14 @@ export default {
           Start: "Start!",
           "Successfully saved":
             "Successfully saved. Thank you very much for participating!",
-            "Select labels": "We want to start knowing more about you...",
+          "Select labels": "We want to start knowing more about you...",
           Init: "Start",
+          "Send and view Results": "View the results",
         },
         ca: {
           welcome: "Benvingudes",
           Start: "Començar",
-          Domains: "Dominis",
+          Domains: "Què treballarem?",
           Principles: "Principis",
           Next: "Següent",
           Indicators: "Indicadors",
@@ -85,20 +110,23 @@ export default {
           "Successfully saved":
             "Guardat correctament. Moltes gràcies per la teva participació!",
           Organization: "Organització",
-          "Send and view Results": "Guardar i veure resultats",
+          "Send and view Results": "Veure els resultats!",
           Send: "Enviar",
           Results: "Resultats",
           "Select labels": "Volem començar sabent de tu...",
           "Date:": "Data:",
           "Organization:": "Organització:",
-          "This poll is completely anonymous but if you want to answer:": "Aquesta enquesta és totalment anònima però si vols respondre:",
-          "If you want to receive information and results directly, you can leave us an email": "Si vols rebre informació i els resultats directament, ens pots deixar un correu electrònic",
-          "Are you part of a formal or informal organization / group / company ?": "Formes part d’alguna organització / col·lectiu / grup formal o informal / empresa ?"
+          "This poll is completely anonymous but if you want to answer:":
+            "*Aquesta enquesta és totalment anònima, però si vols que t’enviem els resultats a la teva bústia, ens pots deixar un correu electrònic.",
+          "If you want to receive information and results directly, you can leave us an email":
+            "Si vols rebre informació i els resultats directament, ens pots deixar un correu electrònic",
+          "Are you part of a formal or informal organization / group / company ?":
+            "Formes part d’alguna organització / col·lectiu / grup formal o informal / empresa ?",
         },
         es: {
           welcome: "Bienvenidas",
           Start: "Empezar",
-          Domains: "Dominios",
+          Domains: "¿Que trabajaremos?",
           Principles: "Principios",
           Next: "Siguiente",
           Indicators: "Indicadores",
@@ -107,18 +135,21 @@ export default {
           "Successfully saved":
             "Guardado correctamente. ¡Muchas gracias por participar!",
           Organization: "Organitzación",
-          "Send and view Results": "Guardar y ver resultados",
+          "Send and view Results": "Ver los resultados",
           Send: "Enviar",
           Results: "Resultados",
           "Select labels": "Queremos empezar conociendo más sobre ti...",
           "Date:": "Fecha:",
           "Organization:": "Organitzación:",
-          "This poll is completely anonymous but if you want to answer:": "Esta encuesta es completamente anónima pero si quieres responder:",
-          "If you want to receive information and results directly, you can leave us an email": "Si quieres recibir información y los resultados directamente, puedes dejarnos un correo electrónico",
-          "Are you part of a formal or informal organization / group / company ?": "¿Formas parte de alguna organización / colectivo / grupo formal o informal / empresa ?"
-        }
-      }
-    }
+          "This poll is completely anonymous but if you want to answer:":
+            "Esta encuesta es completamente anónima pero si quieres responder:",
+          "If you want to receive information and results directly, you can leave us an email":
+            "Si quieres recibir información y los resultados directamente, puedes dejarnos un correo electrónico",
+          "Are you part of a formal or informal organization / group / company ?":
+            "¿Formas parte de alguna organización / colectivo / grupo formal o informal / empresa ?",
+        },
+      },
+    },
   },
   fontawesome: {
     // imports: [
@@ -138,36 +169,34 @@ export default {
       local: {
         token: {
           property: "jwt",
-          global: true
+          global: true,
         },
         endpoints: {
           login: {
             url: "auth/local",
             method: "post",
-            propertyName: "jwt"
+            propertyName: "jwt",
           },
           user: {
             url: "users/me",
             method: "get",
-            propertyName: false
+            propertyName: false,
           },
-          logout: false
-        }
-      }
+          logout: false,
+        },
+      },
     },
-    // redirect: {
-    //   login: '/login',
-    //   logout: '/',
-    //   home: '/dashboard'
-    // }
   },
   server: {
     port: process.env.PORT || 3000,
   },
   env: {
     apiToken: process.env.API_TOKEN,
-    organization: process.env.ORG,
+    apiBase: process.env.API_BASE,
+    // organization: process.env.ORG,
     language: process.env.LANG,
-    emptyEmail: process.env.EMPTY_EMAIL
-  }
+    // emptyEmail: process.env.EMPTY_EMAIL,
+    // questionnaire: process.env.QUESTIONNAIRE,
+    application: process.env.APPLICATION,
+  },
 };

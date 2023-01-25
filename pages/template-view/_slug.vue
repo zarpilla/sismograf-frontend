@@ -29,7 +29,6 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 
 export default {
-  layout: "full",
   head() {
     return {
       title: `SISMÒGRAF`,
@@ -307,11 +306,5 @@ textarea.comment {
 .principle-title {
   color: #fff;
   font-weight: bold;
-}
-</style>
-<style>
-#fp-nav ul li a span,
-.fp-slidesNav ul li a span {
-  background: #fff;
 }
 </style>

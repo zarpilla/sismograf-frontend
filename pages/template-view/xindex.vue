@@ -27,7 +27,6 @@ export default {
   data() {
     return {
       templates: [],
-      //api_url: process.env.strapiBaseUri
     };
   },
   computed: {},

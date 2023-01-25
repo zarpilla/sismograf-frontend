@@ -1,20 +1,53 @@
 <template>
-  <div class="full-page-container">
-    <nuxt-link to="/" class="navbar-item navbar-abs">
-      <logo></logo>
-      <!-- <img
-        src="~assets/resilience_earth_w.svg"
-        alt="Resilience.earth"            
-        height="80"
-      > -->
-    </nuxt-link>
-    <div class="container xalign">
-      <nuxt />
+  <div class="full-page-container" id="full-page-container">
+    <div class="fake-container">
+      <div class="xalign">
+        <nuxt />
+      </div>      
     </div>    
+    <div class="footer">
+      <Footer></Footer>
+    </div>
   </div>
 </template>
+<script>
+import Footer from "~/components/Footer";
 
-<style>
+export default {
+  components: {
+    Footer,
+  },
+  async created() {
+    console.log('layout created')
+
+    // var { data } = await this.$axios.get(
+    //   `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2`,
+    //   {}
+    // );
+    // console.log("created data", data);
+
+    // var { data } = await this.$axios.get(
+    //   `/texts?pagination[pageSize]=9999`,
+    //   {}
+    // );
+
+    // this.$store.commit("texts/set", info);
+
+    // console.log("created texts", data);
+  },
+  // async fetch() {
+  //   var { data } = await this.$axios.get(
+  //     `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2`,
+  //     {}
+  //   );
+  //   console.log("data", data);
+
+  //   this.footer = data.data[0];
+  // },
+  // fetchOnServer: true,
+};
+</script>
+<style scoped>
 .navbar-abs{
   position: absolute;
   z-index: 10;
@@ -24,14 +57,22 @@
   margin-left: 5px;
 }
 .full-page-container{
-  background: rgb(85, 175, 184);
-  height: 100vh;
+  background: #FFFCF3;
+  min-height: 100vh;
 }
-.xalign{
-  /* height: 100vh; */
-  padding-top: 15vh;
-  color:#fff;
-  background: rgb(85, 175, 184);
-  /* font-size: 50px; */
+
+.bg01{  
+  background: #FFFCF3 url('~@/assets/images/bg01_1920.png') no-repeat top center;
+}
+
+.bg02{  
+  background: #FFFCF3 url('~@/assets/images/bg02_1920.png') no-repeat top center;
+}
+.bgnone{  
+  background: #FFFCF3;
+}
+.xalign{  
+  color:#020034;
+  padding-bottom: 120px;
 }
 </style>

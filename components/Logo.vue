@@ -1,7 +1,8 @@
 <template>
-  <span v-if="src"> <img :src="src" alt="Resilience.earth" height="80">
+  <span></span>
+  <!-- <span v-if="src"> <img :src="src" alt="Resilience.earth" height="80">
   </span>
-  <img v-else src="~assets/resilience_earth_w.svg" alt="Resilience.earth" height="80" />
+  <img v-else src="~assets/resilience_earth_w.svg" alt="Resilience.earth" height="80" /> -->
 </template>
 <script>
 export default {
