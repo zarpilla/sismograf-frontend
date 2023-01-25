@@ -1146,13 +1146,11 @@ export default {
     }
 
     var { data } = await $axios.get(
-      `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`,
+      `/applications?filters[slug][$eq]=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`,
       {}
     );
 
     const application = data.data[0];
-
-
     
     var { data } = await $axios.get(
         `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,

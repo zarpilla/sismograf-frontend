@@ -52,6 +52,7 @@
 import _ from "lodash";
 
 export default {
+  middleware: ['language'],
   data() {
     return {
       query: null,

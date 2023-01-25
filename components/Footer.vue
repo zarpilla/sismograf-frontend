@@ -27,9 +27,7 @@
                 apiBase + footer.attributes.footer.logo1.data.attributes.url
               "
             />
-            <img v-else src="~/assets/images/resilience.svg" />
           </a>
-          <img v-else src="~/assets/images/resilience.svg" />
           <a
             v-if="
               footer.attributes.footer.logo2.data.attributes.url &&
@@ -45,9 +43,7 @@
                 apiBase + footer.attributes.footer.logo2.data.attributes.url
               "
             />
-            <img v-else src="~/assets/images/balkar.svg" />
           </a>
-          <img v-else src="~/assets/images/balkar.svg" />
         </b-col>
       </b-row>
     </div>
@@ -65,7 +61,7 @@ export default {
   },
   async fetch() {
     var { data } = await this.$axios.get(
-      `/applications?slug=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
+      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
       {}
     );
     this.$store.commit("app/set", data.data[0]);
@@ -108,7 +104,6 @@ export default {
   text-decoration: none;
 }
 @media (max-width: 1024px) {
-
   .footer {
     height: 10vh;
   }
@@ -116,11 +111,11 @@ export default {
     margin-top: 10px;
     display: none;
   }
-  .images img{
+  .images img {
     max-width: 25vw;
     margin-left: 10vw;
   }
-  .mr-xs-auto{
+  .mr-xs-auto {
     margin-right: auto;
   }
 }
