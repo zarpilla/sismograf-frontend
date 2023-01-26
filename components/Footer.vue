@@ -1,13 +1,9 @@
 <template>
-  <div class="footer">
+  <div class="footer" :class="`layout-${layout ? layout : 'default'}`">
     <div class="bv-cont-row" v-if="footer">
       <b-row>
         <b-col>
           <div class="back">
-            <!-- <nuxt-link :to="localePath('/')" class="back">
-              <img src="~/assets/images/fletxa.svg" />
-              <span v-t="'tornar'"></span>
-            </nuxt-link> -->
             <span v-t="'el-sismograf'"></span>
           </div>
         </b-col>
@@ -61,6 +57,9 @@ export default {
       apiBase: process.env.apiBase,
     };
   },
+  props: {
+    layout: ''
+  },
   async fetch() {
     var { data } = await this.$axios.get(
       `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
@@ -107,16 +106,22 @@ export default {
   text-decoration: none;
 }
 @media (max-width: 1024px) {
-  .footer {
+  .footer.layout-home {
     height: 10vh;
+  }
+  .footer.layout-default {
+    height: 34px;
   }
   .back {
     margin-top: 10px;
-    display: none;
+    text-align: center;
+  }
+  .images {
+    margin-top: 0.5rem;
   }
   .images img {
-    max-width: 25vw;
-    margin-left: 10vw;
+    max-width: 80px;
+    margin-left: 30px;
   }
   .mr-xs-auto {
     margin-right: auto;

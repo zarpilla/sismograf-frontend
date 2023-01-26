@@ -2,7 +2,7 @@
   <div class="fullpage-container">
     <no-ssr>
       <full-page ref="fullpage" :options="options" id="fullpage">
-        <div class="section zfp-auto-height-responsive name granota">
+        <div class="section fp-auto-height-responsive aligned name granota">
           <div class="bg01">
             <b-container>
               <b-row>
@@ -33,14 +33,14 @@
               </b-row>
             </b-container>
             <div class="next-container text-right">
-              <button class="button button-4" @click="next">
+              <button class="button button-4 ml-auto" @click="next">
                 <span v-t="'next'" />
               </button>
             </div>
           </div>
         </div>
         <div
-          class="section zfp-auto-height-responsive name granota"
+          class="section zfp-auto-height-responsive aligned name granota"
           v-if="
             questionnaire &&
             questionnaire.attributes &&
@@ -65,7 +65,7 @@
               </b-row>
             </b-container>
             <div class="next-container text-right">
-              <button class="button button-4" @click="next">
+              <button class="button button-4 ml-auto ml-auto" @click="next">
                 <span v-t="'next'" />
               </button>
             </div>
@@ -73,24 +73,23 @@
         </div>
 
         <template
-          v-for="(labelCategory, lci) in questionnaire.attributes.label_categories
-            .data"
-        >        
+          v-for="(labelCategory, lci) in questionnaire.attributes
+            .label_categories.data"
+        >
           <div
             v-bind:key="lci"
             class="section zfp-auto-height-responsive granota"
           >
-            <h5 class="text-center sismo-text" v-t="'volem-comencar-sabent-de-tu-1'"></h5>
+            <h5
+              class="text-center sismo-text"
+              v-t="'volem-comencar-sabent-de-tu-1'"
+            ></h5>
             <b-container class="text-center">
-              <div
-                class="scope title indicator"                
-              >
+              <div class="scope title indicator">
                 {{ labelCategory.attributes.name }}
               </div>
 
-              <ul
-                class="capacities-list capacities-list-inline"                
-              >
+              <ul class="capacities-list capacities-list-inline">
                 <li
                   class="item"
                   v-for="label in labelCategory.attributes.labels.data"
@@ -133,7 +132,7 @@
           </div>
         </template>
 
-        <div class="section zfp-auto-height-responsive how-it-works">
+        <div class="section zfp-auto-height-responsive how-it-works aligned">
           <b-container>
             <h2
               class="title"
@@ -161,7 +160,13 @@
                 </div>
               </b-col>
               <b-col cols="12" md="4" order-md="3"> </b-col>
-              <b-col class="info-block" cols="12" md="4" order="12" order-md="4">
+              <b-col
+                class="info-block"
+                cols="12"
+                md="4"
+                order="12"
+                order-md="4"
+              >
                 <div class="num" v-if="template.attributes.domains.length > 3">
                   04
                 </div>
@@ -173,11 +178,11 @@
                 </div>
                 <div class="more" v-if="template.attributes.domains.length > 3">
                   {{ template.attributes.domains[3].description }}
-                </div>                
+                </div>
               </b-col>
               <b-col cols="12" md="4" order-md="5">
-                  <div class="granota"></div>
-                </b-col>              
+                <div class="granota"></div>
+              </b-col>
               <b-col class="info-block" cols="12" md="4" order="9" order-md="8">
                 <div class="num" v-if="template.attributes.domains.length > 2">
                   03
@@ -191,11 +196,11 @@
                 <div class="more" v-if="template.attributes.domains.length > 2">
                   {{ template.attributes.domains[2].description }}
                 </div>
-              </b-col>              
+              </b-col>
               <!-- <b-col  md="4"> x</b-col>
               <b-col  md="4"> c</b-col>
               <b-col  md="4"> v</b-col> -->
-              
+
               <b-col cols="12" md="4" order-md="7"> </b-col>
               <b-col class="info-block" cols="12" md="4" order="6" order-md="6">
                 <div class="num" v-if="template.attributes.domains.length > 1">
@@ -215,7 +220,7 @@
             </b-row>
           </b-container>
           <div class="next-container text-right">
-            <button @click="next" class="button button-4">
+            <button @click="next" class="button button-4 ml-auto">
               <span v-t="'next'" />
             </button>
           </div>
@@ -279,7 +284,7 @@
                 </b-col>
               </b-row>
               <div class="next-container text-right">
-                <button class="button button-4" @click="next">
+                <button class="button button-4 ml-auto" @click="next">
                   <span v-t="'next'" />
                 </button>
               </div>
@@ -298,60 +303,62 @@
               <span> > {{ domain.description }}</span>
             </div> -->
 
-            <div
-              class="principle-title"
-              v-t="
-                (questionnaire &&
-                  questionnaire.attributes &&
-                  questionnaire.attributes.domainsText) ||
-                'les-quatre-mirades'
-              "
-            ></div>
+            <div>
+              <div
+                class="principle-title"
+                v-t="
+                  (questionnaire &&
+                    questionnaire.attributes &&
+                    questionnaire.attributes.domainsText) ||
+                  'les-quatre-mirades'
+                "
+              ></div>
 
-            <b-container fluid>
-              <b-row>
-                <b-col
-                  class="equal"
-                  v-for="i in template.attributes.domains.length"
-                  :key="domain.id * 100 + i"
-                  md="3"
-                >
-                  <div
-                    class="domain-quadrant"
-                    :class="di === i - 1 ? 'active' : 'inactive'"
+              <b-container fluid>
+                <b-row>
+                  <b-col
+                    class="equal"
+                    v-for="i in template.attributes.domains.length"
+                    :key="domain.id * 100 + i"
+                    md="3"
                   >
-                    <div class="domain-quadrant-inner">
-                      <div class="domain-number">0{{ i }}</div>
-                      <div class="domain-name">
-                        <a
-                          :href="`#domain-${
-                            template.attributes.domains[i - 1].id
-                          }`"
-                        >
-                          {{ template.attributes.domains[i - 1].name }}
-                        </a>
-                      </div>
-                      <div
-                        class="principles-list"
-                        v-if="
-                          questionnaire &&
-                          questionnaire.attributes &&
-                          questionnaire.attributes.showPrinciples !== false
-                        "
-                      >
-                        <div class="principle-row" v-for="(principle, pi) in template.attributes.domains[
-                            i - 1
-                          ].principles"
-                          v-bind:key="principle.id">
-                        <a
-                          class="principle"
-                          
-                          :href="`#${principlesAnchors[i - 1][pi]}`"
-                        >
-                          {{ pi + 1 }}. {{ principle.name }}
-                        </a>
+                    <div
+                      class="domain-quadrant"
+                      :class="di === i - 1 ? 'active' : 'inactive'"
+                    >
+                      <div class="domain-quadrant-inner">
+                        <div class="domain-number">0{{ i }}</div>
+                        <div class="domain-name">
+                          <a
+                            :href="`#domain-${
+                              template.attributes.domains[i - 1].id
+                            }`"
+                          >
+                            {{ template.attributes.domains[i - 1].name }}
+                          </a>
                         </div>
-                        <!-- <div
+                        <div
+                          class="principles-list"
+                          v-if="
+                            questionnaire &&
+                            questionnaire.attributes &&
+                            questionnaire.attributes.showPrinciples !== false
+                          "
+                        >
+                          <div
+                            class="principle-row"
+                            v-for="(principle, pi) in template.attributes
+                              .domains[i - 1].principles"
+                            v-bind:key="principle.id"
+                          >
+                            <a
+                              class="principle"
+                              :href="`#${principlesAnchors[i - 1][pi]}`"
+                            >
+                              {{ pi + 1 }}. {{ principle.name }}
+                            </a>
+                          </div>
+                          <!-- <div
                         class="principle zd-block"
                         v-for="(principle, pi) in template.attributes.domains[i - 1]
                           .principles"
@@ -359,46 +366,40 @@
                       >
                         {{ pi + 1 }}. {{ principle.name }} - {{ principlesAnchors[i - 1][pi] }}
                       </div> -->
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </b-col>
-              </b-row>
-            </b-container>
-            <!-- <div class="progress-div-container">
-              <div class="progress-div">
-                <div class="progress-title" v-t="'que-treballarem'"></div>
-                <div class="progress-legend">
-                  {{ di + 1 }} / {{ template.attributes.domains.length }}
-                </div>
-                <vue-ellipse-progress
-                  color="#333"
-                  :progress="
-                    ((di + 1) / template.attributes.domains.length) * 100
-                  "
-                  :thickness="4"
-                  :size="100"
-                  :legend="false"
-                >
-                </vue-ellipse-progress>
-              </div>
-            </div> -->
+                  </b-col>
+                </b-row>
+              </b-container>
+            </div>
             <div class="next-container text-center">
-              <button class="button button-4" @click="next">
+              <div class="action-buttons">
+                      <button
+                        id="show-btn"
+                        class="btn-comment disabled"
+                        disabled
+                        v-bind:class="{
+                          active: isCommentActive(indicator),
+                        }"
+                        @click="showModal(indicator)"
+                      >
+                        <img src="~/assets/images/comment-disabled.svg" />
+                      </button>
+                      <button
+                        id="save-btn"
+                        class="btn-save"
+                        @click="showModalSave(indicator)"
+                      >
+                        <img src="~/assets/images/save.svg" />
+                      </button>
+                      <a id="index-btn" class="btn-index disabled" href="#">
+                        <img src="~/assets/images/index-disabled.svg" />
+                      </a>
+                    </div>
+              <button class="button button-4 ml-auto" @click="next">
                 <span v-t="'next'" />
               </button>
-
-              <!-- <button
-                v-if="
-                  questionnaire &&
-                  questionnaire.attributes &&
-                  questionnaire.attributes.domainsMustBeCompleted === false
-                "
-                class="button button-4"
-                @click="goToEnd"
-              >
-                <span v-t="'acabar'" />
-              </button> -->
             </div>
           </div>
 
@@ -475,35 +476,34 @@
                         </div>
                       </li>
                     </ul>
-
-                    <div class="next-container text-right">
-                      <button class="button button-4" @click="next">
-                        <span v-t="'next'" />
-                      </button>
-                    </div>
                   </b-container>
 
-                  <div class="action-buttons">
-                    <button
-                      id="show-btn"
-                      class="btn-comment"
-                      v-bind:class="{
-                        active: isCommentActive(indicator),
-                      }"
-                      @click="showModal(indicator)"
-                    >
-                      <img src="~/assets/images/comment.svg" />
+                  <div class="next-container text-right d-flex">
+                    <div class="action-buttons">
+                      <button
+                        id="show-btn"
+                        class="btn-comment"
+                        v-bind:class="{
+                          active: isCommentActive(indicator),
+                        }"
+                        @click="showModal(indicator)"
+                      >
+                        <img src="~/assets/images/comment.svg" />
+                      </button>
+                      <button
+                        id="save-btn"
+                        class="btn-save"
+                        @click="showModalSave(indicator)"
+                      >
+                        <img src="~/assets/images/save.svg" />
+                      </button>
+                      <a id="index-btn" class="btn-index" :href="`#domain-${domain.id}`">
+                        <img src="~/assets/images/index.svg" />
+                      </a>
+                    </div>
+                    <button class="button button-4 ml-auto" @click="next">
+                      <span v-t="'next'" />
                     </button>
-                    <button
-                      id="save-btn"
-                      class="btn-save"
-                      @click="showModalSave(indicator)"
-                    >
-                      <img src="~/assets/images/save.svg" />
-                    </button>
-                    <a id="index-btn" class="btn-index" href="#domains">
-                      <img src="~/assets/images/index.svg" />
-                    </a>
                   </div>
                 </div>
               </template>
@@ -579,7 +579,7 @@
             </div>
 
             <div class="next-container text-center">
-              <button class="button button-4" @click="next">
+              <button class="button button-4 ml-auto" @click="next">
                 <span v-t="'next'" />
               </button>
             </div>
@@ -621,7 +621,7 @@
               </div>
 
               <div class="next-container text-center">
-                <button class="button button-4" @click="next">
+                <button class="button button-4 ml-auto" @click="next">
                   <span v-t="'next'" />
                 </button>
               </div>
@@ -635,6 +635,7 @@
             how-it-works
             view-result
             bg-result
+            aligned
           "
         >
           <div
@@ -645,11 +646,11 @@
           </div>
           <b-container fluid>
             <b-row>
-              <b-col cols="2">
+              <b-col md="2">
                 <h2 class="title-view" v-t="'veure-els-resultats'"></h2>
               </b-col>
-              <b-col cols="4"> </b-col>
-              <b-col cols="4">
+              <b-col md="4"> </b-col>
+              <b-col md="4">
                 <div
                   class="email-field"
                   v-if="
@@ -696,7 +697,7 @@
                 ></div>
 
                 <button
-                  class="button button-4 mt-5"
+                  class="button button-4 ml-auto mt-5"
                   @click="saveAndResults"
                   v-bind:disabled="!validForm"
                 >
@@ -740,6 +741,8 @@ export default {
         sectionsColor: "#FFFCF3",
         navigation: true,
         slidesNavigation: false,
+        // responsiveWidth: 700,
+        scrollOverflow: true,
       },
       //results: [],
       analysis: {
@@ -768,7 +771,7 @@ export default {
       progressDomain: 0,
       progressPrinciple: 0,
       copyUrl: "",
-      application: null
+      application: null,
     };
   },
   computed: {
@@ -1025,14 +1028,11 @@ export default {
       },
     };
 
-    const appq = `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`
-    var { data } = await $axios.get(
-      appq,
-      headers
-    );
+    const appq = `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`;
+    var { data } = await $axios.get(appq, headers);
 
     const application = data.data[0];
-    
+
     var { data } = await $axios.get(
       `/templates?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}`,
       headers
@@ -1087,8 +1087,6 @@ export default {
           headers
         );
 
-        
-
         analysis.email = data.data.attributes.email;
         if (analysis.email === application.attributes.emptyEmail) {
           analysis.email = "";
@@ -1129,17 +1127,15 @@ export default {
       }
     }
 
-    
-    
     // console.log('application2', store.state.application)
     // console.log('application1', application)
 
     // const emptyEmail = store.app.
 
     var { data } = await $axios.get(
-        `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
-        headers
-      );
+      `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
+      headers
+    );
 
     const q =
       app.context.route.query && app.context.route.query.q
@@ -1161,7 +1157,7 @@ export default {
       template,
       analysis,
       questionnaire,
-      application
+      application,
     };
   },
   created() {},
@@ -1411,8 +1407,7 @@ export default {
       setTimeout(() => {
         this.copyToClipboard();
         this.$refs["save-modal"].show();
-      }, 150)
-      
+      }, 150);
     },
     copyToClipboard() {
       const dummy = document.createElement("input");
@@ -1467,7 +1462,8 @@ export default {
       this.analysis.language = this.$i18n.locale;
       this.analysis.template = this.template.id;
       this.analysis.publishedAt = new Date();
-      this.analysis.email = this.analysis.email || this.application.attributes.emptyEmail;
+      this.analysis.email =
+        this.analysis.email || this.application.attributes.emptyEmail;
       this.analysis.organization = this.analysis.organization || "";
       const headers = {
         headers: {
@@ -1517,7 +1513,10 @@ export default {
         this.localePath({
           name: "template-slug",
           params: { slug: this.slug },
-          query: { r: this.analysis.uid, q: this.questionnaire.attributes.slug },          
+          query: {
+            r: this.analysis.uid,
+            q: this.questionnaire.attributes.slug,
+          },
           hash: window.location.hash,
         })
       );
@@ -1654,7 +1653,7 @@ ul.capacities-list li .active {
 .principles-list {
   margin-top: 30px;
 }
-.principles-list .principle-row{
+.principles-list .principle-row {
   display: block;
 }
 .principles-list .principle {
@@ -1764,6 +1763,9 @@ textarea.comment {
   display: -webkit-flex;
   flex-wrap: wrap;
 }
+a.disabled{
+  cursor: default;
+}
 @media (min-width: 768px) {
   .row.equal {
     display: flex;
@@ -1787,11 +1789,6 @@ a.principle {
   margin-bottom: 1rem;
 }
 
-.action-buttons {
-  position: absolute;
-  bottom: 150px;
-  left: 3rem;
-}
 .action-buttons button,
 .action-buttons a {
   background: none;
@@ -1883,12 +1880,18 @@ a.principle {
 .bg01 {
   background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top center;
 }
+
 @media (min-width: 769px) and (max-height: 750px) {
   ul.capacities-list > li {
     display: inline-block;
   }
 }
 @media (max-width: 768px) {
+  .bg01 {
+    background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top
+      center;
+    background: inherit;
+  }
   .scope {
     font-size: 30px;
     padding-top: 3.5rem;
@@ -1915,11 +1918,29 @@ a.principle {
   .domain-quadrant {
     margin: 0.3rem;
   }
+  .domain-quadrant.inactive {
+    display: none;
+  }
   .domain-quadrant-inner {
     padding: 0.5rem;
   }
   .scope.title {
     width: 100%;
+  }
+  .how-it-works h2 {
+    margin-top: 3rem;
+    position: relative;
+  }
+  .principle-title {
+    top: inherit !important;
+    position: relative;
+    padding-bottom: 3rem;
+  }
+  .title-view {
+    padding-bottom: 4rem;
+  }
+  textarea.comment {
+    height: 35vh;
   }
 }
 @media (max-width: 1024px) {
@@ -1942,10 +1963,6 @@ a.principle {
     margin-top: 50px;
     padding-top: 0;
   }
-  .action-buttons {
-    bottom: 7.75vw;
-    left: 3rem;
-  }
   .principle-title {
     font-size: 7.58333333333333vw;
     line-height: 7.58333333333333vw;
@@ -1961,8 +1978,8 @@ a.principle {
     line-height: 4.281666666666667vw;
   }
   .email-field span.label {
-    font-size: 1.39166666666667vw;
-    line-height: 1.55vw;
+    font-size: 4.39166666666667vw;
+    line-height: 4.55vw;
   }
   ul.capacities-list > li {
     margin: 0;
@@ -1977,10 +1994,10 @@ a.principle {
   .section {
     height: auto !important;
   }
-  .fp-tableCell {
+  /* .fp-tableCell {
     height: auto !important;
     display: flex;
-  }
+  } */
 }
 
 @media (min-width: 1025px) and (max-width: 1919px) {
@@ -2001,10 +2018,6 @@ a.principle {
     font-size: 2.06666666666667vw;
     line-height: 2.06666666666667vw;
     margin-top: 8vw;
-  }
-  .action-buttons {
-    bottom: 7.75vw;
-    left: 3rem;
   }
 
   .principle-title {

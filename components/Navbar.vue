@@ -3,16 +3,8 @@
   <nuxt-link :to="localePath('/')" class="navbar-brand" v-t="'el-sismograf'">
   </nuxt-link>  
   <div class="navbar-start">
-    <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
-      <!-- <a class="navbar-link">
-        {{ loggedInUser.username }}
-      </a> -->
+    <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">      
        <a class="button" href="#logout" @click="logout">Logout</a>
-    </div>
-    <div class="navbar-item has-dropdown is-hoverable" v-if="!isAuthenticated">
-      <nuxt-link class="button is-light" to="/login">
-        Log in
-        </nuxt-link>
     </div>
   </div>
   </div>

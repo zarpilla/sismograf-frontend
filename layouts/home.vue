@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="zfooter">
-      <Footer></Footer>
+      <Footer layout="home"></Footer>
     </div>
   </div>
 </template>
@@ -69,12 +69,5 @@ export default {
 .xalign {
   color: #020034;
   padding-bottom: 120px;
-}
-
-@media (max-width: 1024px)  {
-  .xalign {
-    padding-bottom: 2rem;
-  }
-  
 }
 </style>

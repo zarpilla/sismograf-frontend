@@ -64,7 +64,7 @@ export default {
 <style scoped>
 .progress-bar {
   border-radius: 4px;
-  color: #222;
+  color: #020034;
   font-size: 14px;
 }
 .clickable {

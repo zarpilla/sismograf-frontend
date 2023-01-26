@@ -31,7 +31,7 @@
               </div>
             </div>
             <div class="control">
-              <button type="submit" class="btn btn-light is-dark">Log In</button>
+              <button type="submit" class="button button-1" v-t="'Log In'"></button>
             </div>
           </form>
         </div>
@@ -75,3 +75,12 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.admin .form-control{
+  border: 1px solid #eee!important;
+  border-radius: 0;
+}
+.admin .label {
+  color: #020034
+}
+</style>

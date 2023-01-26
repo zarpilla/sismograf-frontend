@@ -190,7 +190,9 @@ h2.main {
 .next-container {
   position: absolute;
   bottom: 150px;
+  left: 3rem;
   right: 3rem;
+  display: flex;
 }
 
 @media (min-width: 1300px) {
@@ -208,7 +210,7 @@ h2.main {
     line-height:9.1vw!important;
   }
   .button{
-    padding: 2.681333333333333vw 6.13333333333333vw 2.251333333333333vw 4.48vw;
+    padding: 2.681333333333333vw 50px 2.251333333333333vw 4.48vw;
     font-size: 3.75vw!important;
   }  
   .button-3{
@@ -222,7 +224,20 @@ h2.main {
   }
 
   .next-container {
-    bottom: 7.75vw;
+    bottom: inherit;
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 6rem;
+    left: inherit;
+    right: inherit;
+    padding: 0 15px;    
+  }
+
+  /* .fp-section.fp-table:not(.active) {
+    display: none!important;
+  } */
+  section:not(.aligned) .fp-tableCell{
+    display: block!important;
   }
 }
 
