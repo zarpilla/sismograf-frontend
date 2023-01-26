@@ -726,34 +726,6 @@ import { mapGetters } from "vuex";
 
 export default {
   components: { Progress },
-  // head() {
-  //   return {
-  //     title: `${this.title}`,
-  //     meta: [
-  //       // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-  //       {
-  //         hid: "description",
-  //         name: "description",
-  //         content: this.description,
-  //       },
-  //       {
-  //         hid: "og:title",
-  //         name: "og:title",
-  //         content: this.title,
-  //       },
-  //       {
-  //         hid: "og:description",
-  //         name: "og:description",
-  //         content: this.description,
-  //       },
-  //       {
-  //         hid: "og:image",
-  //         name: "og:image",
-  //         content: require("~/assets/resilience_earth.svg"),
-  //       },
-  //     ],
-  //   };
-  // },
   data() {
     return {
       apiUrl: process.env.API_URL,
@@ -796,11 +768,12 @@ export default {
       progressDomain: 0,
       progressPrinciple: 0,
       copyUrl: "",
+      application: null
     };
   },
   computed: {
     ...mapGetters({
-      app: "app/get",
+      application2: "app/get",
     }),
     anchors() {
       const anchors = []; //["init"];
@@ -1051,6 +1024,15 @@ export default {
         Authorization: `Bearer ${process.env.apiToken}`,
       },
     };
+
+    const appq = `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`
+    var { data } = await $axios.get(
+      appq,
+      headers
+    );
+
+    const application = data.data[0];
+    
     var { data } = await $axios.get(
       `/templates?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}`,
       headers
@@ -1105,8 +1087,10 @@ export default {
           headers
         );
 
+        
+
         analysis.email = data.data.attributes.email;
-        if (analysis.email === process.env.emptyEmail) {
+        if (analysis.email === application.attributes.emptyEmail) {
           analysis.email = "";
         }
         analysis.uid = data.data.attributes.uid;
@@ -1145,13 +1129,13 @@ export default {
       }
     }
 
-    var { data } = await $axios.get(
-      `/applications?filters[slug][$eq]=${process.env.application}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`,
-      {}
-    );
-
-    const application = data.data[0];
     
+    
+    // console.log('application2', store.state.application)
+    // console.log('application1', application)
+
+    // const emptyEmail = store.app.
+
     var { data } = await $axios.get(
         `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
         headers
@@ -1177,6 +1161,7 @@ export default {
       template,
       analysis,
       questionnaire,
+      application
     };
   },
   created() {},
@@ -1482,7 +1467,7 @@ export default {
       this.analysis.language = this.$i18n.locale;
       this.analysis.template = this.template.id;
       this.analysis.publishedAt = new Date();
-      this.analysis.email = this.analysis.email || process.env.emptyEmail;
+      this.analysis.email = this.analysis.email || this.application.attributes.emptyEmail;
       this.analysis.organization = this.analysis.organization || "";
       const headers = {
         headers: {
@@ -1590,6 +1575,13 @@ export default {
         (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 1 })) ||
         "0"
       );
+    },
+  },
+  nuxtI18n: {
+    paths: {
+      ca: "/sismograf/:slug",
+      en: "/seismograph/:slug",
+      es: "/sismografo/:slug",
     },
   },
 };

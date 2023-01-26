@@ -50,13 +50,12 @@ export default {
         },
       };
       var { data } = await $axios.get(
-        `/applications?populate=questionnaires&populate=questionnaires.template&locale=${app.i18n.locale}&token=${process.env.apiToken}`,
+        `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=questionnaires&populate=questionnaires.template&locale=${app.i18n.locale}`,
         headers
       );
       const application = data.data[0];
-      const questionnaires = application.attributes.questionnaires.data
 
-      console.log('org route', route)
+      const questionnaires = application.attributes.questionnaires.data
 
       if (route.query.org) {
         var { data } = await $axios.get(
@@ -84,6 +83,13 @@ export default {
     el.classList.add("bg01");
     el.classList.remove("bg02");
     el.classList.remove("bgnone");
+  },
+  nuxtI18n: {
+    paths: {
+      ca: "/ambits",
+      en: "/scopes",
+      es: "/ambitos",
+    },
   },
 };
 </script>

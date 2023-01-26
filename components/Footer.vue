@@ -14,6 +14,8 @@
         <b-col class="images text-right d-flex">
           <a
             v-if="
+              footer.attributes.footer.logo1 &&
+              footer.attributes.footer.logo1.data &&
               footer.attributes.footer.logo1.data.attributes.url &&
               footer.attributes.footer.link1
             "
@@ -22,7 +24,6 @@
             class="ml-auto mr-xs-auto"
           >
             <img
-              v-if="footer.attributes.footer.logo1.data.attributes.url"
               :src="
                 apiBase + footer.attributes.footer.logo1.data.attributes.url
               "
@@ -30,6 +31,8 @@
           </a>
           <a
             v-if="
+              footer.attributes.footer.logo2 &&
+              footer.attributes.footer.logo2.data &&
               footer.attributes.footer.logo2.data.attributes.url &&
               footer.attributes.footer.link2
             "
@@ -38,7 +41,6 @@
             class="zml-auto mr-xs-auto"
           >
             <img
-              v-if="footer.attributes.footer.logo2.data.attributes.url"
               :src="
                 apiBase + footer.attributes.footer.logo2.data.attributes.url
               "
@@ -64,7 +66,8 @@ export default {
       `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
       {}
     );
-    this.$store.commit("app/set", data.data[0]);
+    // this.$store.commit("app/set", data.data[0]);
+    // console.log("store commit footer");
     this.footer = data.data[0];
   },
   fetchOnServer: true,

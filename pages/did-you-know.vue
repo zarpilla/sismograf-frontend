@@ -29,13 +29,24 @@
 export default {
   data() {
     return {
-      query: null
+      query: null,
     };
   },
-  asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+  asyncData({
+    isDev,
+    route,
+    store,
+    env,
+    params,
+    query,
+    req,
+    res,
+    redirect,
+    error,
+  }) {
     if (route.query.org) {
-      const query = { org: route.query.org }
-      return { query }
+      const query = { org: route.query.org };
+      return { query };
     }
   },
   mounted() {
@@ -44,6 +55,13 @@ export default {
     el.classList.add("bg02");
     el.classList.remove("bg01");
     el.classList.remove("bgnone");
+  },
+  nuxtI18n: {
+    paths: {
+      ca: "/sabies-que",
+      en: "/did-you-know",
+      es: "/sabias-que",
+    },
   },
 };
 </script>

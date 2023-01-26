@@ -6,7 +6,6 @@
       </div>
     </div>
     <div class="footer">
-      {{ application }}
       <Footer></Footer>
     </div>
   </div>
@@ -39,29 +38,11 @@ export default {
       `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
       {}
     );
-
     this.application = data.data[0];
+    // this.$store.commit("app/set", this.application);
+    console.log('store commit')
   },
   fetchOnServer: true,
-
-  async asyncData({
-    isDev,
-    route,
-    store,
-    env,
-    params,
-    query,
-    req,
-    res,
-    redirect,
-    error,
-  }) {
-    var { data } = await this.$axios.get(
-      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&locale=${this.$i18n.locale}`,
-      {}
-    );
-    console.log("applications data", data.data[0]);
-  },
   async created() {
     console.log("layout created");
   },
