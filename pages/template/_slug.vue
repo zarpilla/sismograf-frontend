@@ -412,7 +412,7 @@
               class="zis-hidden-widescreen"
             >
               <template
-                v-for="indicator in pattern.indicators"
+                v-for="(indicator, ii) in pattern.indicators"
                 class="zis-hidden-widescreen"
               >
                 <div
@@ -420,7 +420,7 @@
                   class="section zfp-auto-height-responsive fp-no-table"
                   :class="`bg-domain-content-${di}`"
                 >
-                  <!-- <Progress
+                  <Progress
                     :domain="domain"
                     :template="template"
                     :principle="principle"
@@ -428,7 +428,7 @@
                     :pi="pi"
                     :ppi="ppi"
                   >
-                  </Progress> -->
+                  </Progress>
 
                   <div class="breadcrumb text-center">
                     <a :href="`#init`" v-t="'Init'"></a>
@@ -441,8 +441,11 @@
                     <!-- <span> > {{ pattern.name }}</span> -->
                   </div>
 
-                  <b-container>
+                  <b-container>                    
                     <div class="scope title indicator">
+                      <div class="mini-breadcrumb">
+                      {{pi+1}}.{{ principle.name }}
+                    </div>
                       {{ indicator.question }}
                     </div>
                     <div
@@ -1622,7 +1625,7 @@ ul.capacities-list li .active {
   text-align: center;
   width: 75%;
   margin: 0 auto;
-  margin-top: 150px;
+  margin-top: 100px;
 }
 .principle-title {
   font-weight: 700;
@@ -1736,8 +1739,8 @@ textarea.comment {
 }
 .progress-div-container {
   position: absolute;
-  top: 1rem;
-  right: 1vw;
+  top: 50px;
+  right: 2rem;
 }
 .progress-div {
   position: relative;
@@ -1880,7 +1883,15 @@ a.principle {
 .bg01 {
   background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top center;
 }
-
+.mini-breadcrumb{
+  font-weight: 900;
+font-size: 15px;
+line-height: 19px;
+text-align: center;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding-bottom: 1rem;
+}
 @media (min-width: 769px) and (max-height: 750px) {
   ul.capacities-list > li {
     display: inline-block;

@@ -241,7 +241,7 @@ h2.main {
   }
 }
 
-@media (min-width: 1025px) and (max-width: 1919px) {
+@media (min-width: 1025px) and (max-width: 1850px) {
   .button{
     padding: 0.681333333333333vw 4.13333333333333vw 0.651333333333333vw 2.48vw;
     font-size: 0.775vw;
@@ -266,6 +266,7 @@ h2.main {
   .button-3{
     padding: 0.581333333333333vw 1.48vw 0.551333333333333vw 1.48vw;
     margin-bottom: 0.75rem!important;
+    font-size: 1.15vw;
   }
 
 }
