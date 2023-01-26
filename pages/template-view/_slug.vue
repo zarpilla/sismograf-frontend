@@ -29,34 +29,34 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 
 export default {
-  head() {
-    return {
-      title: `SISMÒGRAF`,
-      meta: [
-        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-        {
-          hid: "description",
-          name: "description",
-          content: "",
-        },
-        {
-          hid: "og:title",
-          name: "og:title",
-          content: "SISMÒGRAF",
-        },
-        {
-          hid: "og:description",
-          name: "og:description",
-          content: "",
-        },
-        {
-          hid: "og:image",
-          name: "og:image",
-          content: require("~/assets/resilience_earth.svg"),
-        },
-      ],
-    };
-  },
+  // head() {
+  //   return {
+  //     title: `SISMÒGRAF`,
+  //     meta: [
+  //       // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+  //       {
+  //         hid: "description",
+  //         name: "description",
+  //         content: "",
+  //       },
+  //       {
+  //         hid: "og:title",
+  //         name: "og:title",
+  //         content: "SISMÒGRAF",
+  //       },
+  //       {
+  //         hid: "og:description",
+  //         name: "og:description",
+  //         content: "",
+  //       },
+  //       {
+  //         hid: "og:image",
+  //         name: "og:image",
+  //         content: require("~/assets/resilience_earth.svg"),
+  //       },
+  //     ],
+  //   };
+  // },
   data() {
     return {
       template: {},

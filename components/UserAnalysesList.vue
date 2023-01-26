@@ -2,27 +2,24 @@
   <div class="analyses zcontainer-fluid">
     <div class="d-flex mb-2">
       <button
-        class="btn mr-2"
-        :class="comparerIndex == 0 ? 'btn-secondary' : 'btn-disabled'"
+        class="button button-3 mr-3"
+        :class="comparerIndex == 0 ? 'button-secondary' : 'button-disabled'"
         @click="compareClicked(0)"
-      >
-        Group 1
+      v-t="'Group 1'">
+        
       </button>
       <button
-        class="btn"
-        :class="comparerIndex == 1 ? 'btn-secondary' : 'btn-disabled'"
+        class="button button-3"
+        :class="comparerIndex == 1 ? 'button-secondary' : 'button-disabled'"
         @click="compareClicked(1)"
-      >
-        Group 2
+        v-t="'Group 2'">
       </button>
     </div>
-
-    <!-- <pre>{{analyses}}</pre> -->
 
     <b-table :items="analyses" :fields="fields">
       <template #cell(uid)="data">
         <span
-          class="text-info clickable"
+          class="button button-3 small-padding clickable"
           @click="
             setGroup(false, comparerIndex, 'id', data.item.id, data.value)
           "
@@ -31,15 +28,15 @@
       </template>
       <template #cell(detail)="data">
         <button
-          class="btn btn-secondary"
+          class="button button-3 small-padding"
           @click="
             setGroup(true, comparerIndex, 'id', data.item.id, data.item.uid)
           "
-          v-t="'Detail'"
-        ></button>
+          
+        v-t="'Detail'"></button>
       </template>
       <template #cell(resilienceLevel)="data">
-        <div class="d-flex">
+        <div class="d-block" v-if="data.value">
           <b-progress-bar
             :value="data.value * 14.29 - 14.29"
             :max="100"
@@ -55,11 +52,12 @@
             <span
               ><b>{{ (data.value * 14.29 - 14.29).toFixed(0) }}%</b></span
             >
-          </b-progress-bar>
-          <b class="ml-1" style="display: inline-block">
-            ({{
-              toLevel(data.value, data.item.template.data.attributes.locale)
-            }})</b
+          </b-progress-bar>          
+          <b class="ml-1" style="display: block">
+            {{
+              // toLevel(data.value, data.item.template.data.attributes.locale)
+              toLevel(data.value, $i18n.locale)
+            }}</b
           >
         </div>
       </template>
@@ -102,6 +100,7 @@
 
       <template #cell(organization)="data">
         <span
+          v-if="data.item.questionnaire.data && data.item.questionnaire.data.attributes.organization && data.item.questionnaire.data.attributes.organization.data"
           class="text-info clickable"
           @click="
             setGroup(
@@ -140,8 +139,8 @@
       </template>
 
       <template #cell(updatedAt)="data">
-        {{ data.value }}
-      </template>
+        {{ data.value | toDate }}
+      </template> 
     </b-table>
     <hr class="mt-5" />
     <hr class="mt-1" />
@@ -213,7 +212,7 @@
 
         <download-excel
           v-if="pivotData1.length"
-          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          class="button button-4 export mt-5 mb-5 mr-2"
           :data="pivotData1"
           :fields="excelFields"
         >
@@ -222,7 +221,7 @@
 
         <download-excel
           v-if="pivotData2.length"
-          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          class="button button-4 export mt-5 mb-5 mr-2"
           :data="pivotData2"
           :fields="excelFields"
         >
@@ -231,7 +230,7 @@
 
         <button
           v-if="pivotData1.length"
-          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          class="button button-4 export mt-5 mb-5 mr-2"
           @click="downloadImage('summary-chart-1')"
         >
           Download Image 1
@@ -239,7 +238,7 @@
 
         <button
           v-if="pivotData2.length"
-          class="btn btn-primary btn-default export mt-5 mb-5 mr-2"
+          class="button button-4 export mt-5 mb-5 mr-2"
           @click="downloadImage('summary-chart-2')"
         >
           Download Image 2
@@ -247,7 +246,7 @@
       </div>
 
       <template #modal-footer>
-        <b-button class="mt-3 btn-primary" @click="cancelModal2">Ok</b-button>
+        <button class="button button-1" @click="cancelModal2" v-t="'close'">Close</button>
       </template>
     </b-modal>
   </div>
@@ -272,34 +271,40 @@ export default {
       fields: [
         {
           key: "uid",
-          label: "Id",
+          label: this.$t("col-id") !== 'col-id' ? this.$t("col-id") : "Id",
         },
         {
           key: "template",
           label: "Template",
+          label: this.$t("col-template") !== 'col-template' ? this.$t("col-template") : "Template",
         },
         {
           key: "questionnaire",
           label: "Questionnaire",
+          label: this.$t("col-questionnaire") !== 'col-questionnaire' ? this.$t("col-questionnaire") : "Questionnaire",
         },
         {
           key: "organization",
           label: "Organization",
+          label: this.$t("col-organization") !== 'col-organization' ? this.$t("col-organization") : "Organization",
         },
         {
           key: "labels",
           label: "Labels",
+          class: "t-labels",
+          label: this.$t("col-labels") !== 'col-labels' ? this.$t("col-labels") : "Template",
         },
-        "resilienceLevel",
+        {
+          key: "resilienceLevel",
+          label: this.$t("col-resilience-level") !== 'col-resilience-level' ? this.$t("col-resilience-level") : "Resilience Level",
+        },
         {
           key: "updatedAt",
-          formatter: (value) => {
-            return moment(value).format("DD-MM-YYYY");
-          },
+          label: this.$t("col-update-at") !== 'col-update-at' ? this.$t("col-update-at") : "Updated At",          
         },
         {
           key: "detail",
-          label: "Detail",
+          label: this.$t("col-detail") !== 'col-detail' ? this.$t("col-detail") : "Detail",
         },
       ],
       comparerIndex: 0,
@@ -340,15 +345,20 @@ export default {
     ...mapGetters(["isAuthenticated", "loggedInUser"]),
   },
   async fetch() {
-    // const headers = {
-    //   headers: {
-    //     Authorization: `Bearer ${process.env.apiToken}`,
-    //   },
-    // };
+    
+    for (let i = 0; i < this.$i18n.locales.length; i++) {
+      const loc = this.$i18n.locales[i]
+      var { data } = await this.$axios.get(
+        `/resilience-levels?locale=${loc.code}`,
+        {}
+      );
+      this.resilienceLevels[loc.code] = data.data;
+    }
 
     let organizationQuery = ''
-    if (process.env.organization !== '') {
-      organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${process.env.organization}`
+    const organization = this.$store.state.application.attributes.organization
+    if (organization) {
+      organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${organization}`
     }
 
     var { data } = await this.$axios.get(
@@ -356,7 +366,10 @@ export default {
       {}
     );
 
-    this.analyses = data.data.map(({ id, ...more }) => {
+    console.log('data.data', data.data)
+
+    this.analyses = 
+    data.data.map(({ id, ...more }) => {
       return { id, ...more.attributes };
     });
   },  
@@ -371,20 +384,20 @@ export default {
     // await this.addStyle("/vendor/kendo/kendo.custom.css", "kendo-custom-css");
     // await this.addStyle("/vendor/kendo/custom.css", "custom-css");
 
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${process.env.apiToken}`,
-      },
-    };
+    // const headers = {
+    //   headers: {
+    //     Authorization: `Bearer ${process.env.apiToken}`,
+    //   },
+    // };
 
-    this.$i18n.locales.forEach(async (loc) => {
-      var { data } = await this.$axios.get(
-        `/resilience-levels?locale=${loc}`,
-        {}
-      );
+    // this.$i18n.locales.forEach(async (loc) => {
+    //   var { data } = await this.$axios.get(
+    //     `/resilience-levels?locale=${loc}`,
+    //     {}
+    //   );
 
-      this.resilienceLevels[loc] = data.data;
-    });
+    //   this.resilienceLevels[loc] = data.data;
+    // });
   },
   methods: {
     setGroup(viewDetail, comparerIndex, group, identifier, title) {
@@ -572,7 +585,8 @@ export default {
   },
   filters: {
     toDate(value) {
-      return moment(value).format("DD-MM-YYYY");
+      // return moment(value).format("DD-MM-YYYY");
+      return moment(value, 'YYYY-MM-DDThh:mm:ss').format("DD-MM-YYYY hh:mm");
     },
     toUid(value) {
       return value && value.indexOf("-")
@@ -585,10 +599,32 @@ export default {
 <style scoped>
 .progress-bar {
   border-radius: 4px;
-  color: #222;
+  color: #020034;
   font-size: 14px;
 }
 .clickable {
   cursor: pointer;
+}
+.text-info {
+  color: #020034!important;
+  text-decoration: underline;
+}
+.button-3{
+  margin-bottom: 0!important;
+}
+.button-3.small-padding{
+  padding: 0.4rem 1.0rem 0.35rem 1.0rem!important;
+}
+.button-secondary{
+  background: #f3c857!important;
+}
+.button-disabled{
+  background: #fff!important;
+}
+
+</style>
+<style>
+.table thead th.t-labels, .table thead td.t-labels{
+  width: 20%;
 }
 </style>

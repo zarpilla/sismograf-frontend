@@ -40,12 +40,11 @@ export default {
     );
     this.application = data.data[0];
     // this.$store.commit("app/set", this.application);
-    console.log('store commit')
   },
   fetchOnServer: true,
-  async created() {
-    console.log("layout created");
-  },
+  // async created() {
+  //   console.log("layout created");
+  // },
 };
 </script>
 <style scoped>

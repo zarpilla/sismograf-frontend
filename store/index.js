@@ -28,13 +28,13 @@ export const actions = {
       },
     };
 
+    var q = process.env.API_URL +
+    `/applications?filters[slug][$eq]=${process.env.application}-${i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${i18n.locale}&token=${process.env.apiToken}`
     var { data } = await axios.get(
-      process.env.API_URL +
-        `/applications?filters[slug][$eq]=${process.env.application}-${i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${i18n.locale}&token=${process.env.apiToken}`,
+      q,
       headers
     );
-
     commit("SET_APPLICATION", data.data[0]);
-    console.log('commit!')
+    console.log('commit app q', q, data.data[0])
   },
 };

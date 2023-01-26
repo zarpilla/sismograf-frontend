@@ -1,7 +1,11 @@
 <template>
-  <div class="admin">
+  <div class="full-page-container" id="full-page-container">
     <Navbar />
-    <nuxt />
+    <div class="fake-container">
+      <div class="xalign">
+        <nuxt />
+      </div>
+    </div>    
   </div>
 </template>
 
@@ -19,5 +23,8 @@ export default {
   background: rgb(85, 175, 184);
   background: #fff;
   min-height: 100vh;
+}
+.xalign {
+  background: #FFFCF3;
 }
 </style>

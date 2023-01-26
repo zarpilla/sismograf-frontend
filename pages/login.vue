@@ -66,8 +66,8 @@ export default {
             password: this.password,
           },
         });
-        const lang = process.env.LANG || process.env.language || 'ca'
-        this.$router.push(`/${lang}/dashboard`);
+        const lang = process.env.LANG !== 'ca' ? '/' + process.env.LANG : ''
+        this.$router.push(`${lang}/dashboard`);
       } catch (e) {
         this.error = 'Could not log in, invalid user or password.'; // e.response.data.message[0].messages[0].message;
       }
