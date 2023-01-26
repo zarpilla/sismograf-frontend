@@ -1,5 +1,5 @@
 <template>
-  <div class="full-page-container" id="full-page-container">
+  <div class="full-page-container admin" id="full-page-container">
     <Navbar />
     <div class="fake-container">
       <div class="xalign">
@@ -20,8 +20,7 @@ export default {
 </script>
 <style scoped>
 .admin {
-  background: rgb(85, 175, 184);
-  background: #fff;
+  background: #FFFCF3;
   min-height: 100vh;
 }
 .xalign {
