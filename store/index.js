@@ -35,6 +35,5 @@ export const actions = {
       headers
     );
     commit("SET_APPLICATION", data.data[0]);
-    console.log('commit app q', q, data.data[0])
   },
 };

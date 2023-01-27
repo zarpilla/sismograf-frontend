@@ -87,8 +87,8 @@ export default {
   nuxtI18n: {
     paths: {
       ca: "/ambits",
-      en: "/scopes",
-      es: "/ambitos",
+      en: "/start",
+      es: "/empieza",
     },
   },
 };

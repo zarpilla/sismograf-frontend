@@ -119,7 +119,7 @@ export default {
   nuxtI18n: {
     paths: {
       ca: "/com-funciona",
-      en: "/how-it-works",
+      en: "/how-does-it-work",
       es: "/como-funciona",
     },
   },

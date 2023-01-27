@@ -230,7 +230,6 @@
           class="
             section
             zfp-auto-height-responsive
-            section-bg-dark
             how-it-works
             granota
           "
@@ -304,7 +303,12 @@
             </div> -->
 
             <div>
-              <div
+              
+
+              <b-container fluid>
+                <b-row>
+                  <b-col cols="12"></b-col>
+                  <div
                 class="principle-title"
                 v-t="
                   (questionnaire &&
@@ -313,14 +317,14 @@
                   'les-quatre-mirades'
                 "
               ></div>
-
-              <b-container fluid>
+                </b-row>
                 <b-row>
                   <b-col
-                    class="equal"
-                    v-for="i in template.attributes.domains.length"
+                    class="equal"                    
+                    v-for="(i, ii) in template.attributes.domains.length"
                     :key="domain.id * 100 + i"
                     md="3"
+                    :class="`domain-quadrant-outter-${ii}`"
                   >
                     <div
                       class="domain-quadrant"
@@ -353,9 +357,11 @@
                           >
                             <a
                               class="principle"
+                              :class="{ active: principleIsAnswered(template.attributes.domains[i - 1].id, principle.id)}"
                               :href="`#${principlesAnchors[i - 1][pi]}`"
                             >
                               {{ pi + 1 }}. {{ principle.name }}
+                              <img class="principle-check" src="~/assets/images/check-circle.svg" v-if="principleIsAnswered(template.attributes.domains[i - 1].id, principle.id)" />
                             </a>
                           </div>
                           <!-- <div
@@ -375,28 +381,28 @@
             </div>
             <div class="next-container text-center">
               <div class="action-buttons">
-                      <button
-                        id="show-btn"
-                        class="btn-comment disabled"
-                        disabled
-                        v-bind:class="{
-                          active: isCommentActive(indicator),
-                        }"
-                        @click="showModal(indicator)"
-                      >
-                        <img src="~/assets/images/comment-disabled.svg" />
-                      </button>
-                      <button
-                        id="save-btn"
-                        class="btn-save"
-                        @click="showModalSave(indicator)"
-                      >
-                        <img src="~/assets/images/save.svg" />
-                      </button>
-                      <a id="index-btn" class="btn-index disabled" href="#">
-                        <img src="~/assets/images/index-disabled.svg" />
-                      </a>
-                    </div>
+                <button
+                  id="show-btn"
+                  class="btn-comment disabled"
+                  disabled
+                  v-bind:class="{
+                    active: isCommentActive(indicator),
+                  }"
+                  @click="showModal(indicator)"
+                >
+                  <img src="~/assets/images/comment-disabled.svg" />
+                </button>
+                <button
+                  id="save-btn"
+                  class="btn-save"
+                  @click="showModalSave(indicator)"
+                >
+                  <img src="~/assets/images/save.svg" />
+                </button>
+                <a id="index-btn" class="btn-index disabled" href="#">
+                  <img src="~/assets/images/index-disabled.svg" />
+                </a>
+              </div>
               <button class="button button-4 ml-auto" @click="next">
                 <span v-t="'next'" />
               </button>
@@ -441,11 +447,11 @@
                     <!-- <span> > {{ pattern.name }}</span> -->
                   </div>
 
-                  <b-container>                    
+                  <b-container>
                     <div class="scope title indicator">
                       <div class="mini-breadcrumb">
-                      {{pi+1}}.{{ principle.name }}
-                    </div>
+                        {{ pi + 1 }}.{{ principle.name }}
+                      </div>
                       {{ indicator.question }}
                     </div>
                     <div
@@ -465,7 +471,7 @@
                         v-bind:key="option.id"
                       >
                         <div
-                          v-on:click="punctuation('results', indicator, option)"
+                          v-on:click="punctuation('results', indicator, option, domain.id, principle.id)"
                           class="button button-3"
                           v-bind:class="{
                             active: isOptionActive(
@@ -500,7 +506,11 @@
                       >
                         <img src="~/assets/images/save.svg" />
                       </button>
-                      <a id="index-btn" class="btn-index" :href="`#domain-${domain.id}`">
+                      <a
+                        id="index-btn"
+                        class="btn-index"
+                        :href="`#domain-${domain.id}`"
+                      >
                         <img src="~/assets/images/index.svg" />
                       </a>
                     </div>
@@ -603,7 +613,7 @@
                   v-bind:key="option.id"
                 >
                   <div
-                    v-on:click="punctuation('more', ind, option)"
+                    v-on:click="punctuation('more', ind, option, 0, 0)"
                     class="button button-3"
                     v-bind:class="{
                       active: isOptionActive('more', ind, option),
@@ -1018,9 +1028,42 @@ export default {
     validForm() {
       return this.validEmail && this.validOrganization;
     },
-    fas() {
-      return fas;
-    },
+    answersTree(){
+      const groups = []
+      for (let i = 0; i < this.template.attributes.domains.length; i++) {
+
+        const d = this.template.attributes.domains[i]
+        const domain = { id: d.id, name: d.name, principles: [] }
+        for (let j = 0; j < d.principles.length; j++) {
+          const pr = d.principles[j]
+          const principle = { id: pr.id, name: pr.name, indicators: [] }
+          const indicators = []
+          for (let k = 0; k < pr.patterns.length; k++) {
+            const pt = pr.patterns[k]
+            for (let l = 0; l < pt.indicators.length; l++) {
+              const i = pt.indicators[l]
+              indicators.push(i)
+            }
+          }
+          principle.indicators = indicators.map(i => i.id )
+          principle.indicatorsLen = indicators.map(i => i.id ).length
+          let responses = 0
+          principle.answered = true
+          principle.indicators.forEach(i => {
+            const hasResult = this.analysis.results.find(r => r.indicator === i)
+            if (!hasResult) {
+              principle.answered = false
+            }
+          });
+          principle.responses = responses  
+          domain.principles.push( principle )
+        }
+
+        groups.push(domain)
+      }
+
+      return groups
+    }
   },
   async asyncData({ $axios, app, error, store }) {
     let slug = app.context.route.params.slug;
@@ -1338,7 +1381,8 @@ export default {
         (r) => r.indicator === indicator.id && r.comment !== ""
       );
     },
-    punctuation(field, indicator, option) {
+    punctuation(field, indicator, option, domainId, principleId) {
+      console.log('indicator, option', domainId, principleId)
       const same = this.analysis[field].find(
         (r) => r.indicator === indicator.id && r.value === option.value
       );
@@ -1367,6 +1411,7 @@ export default {
       this.analysis[field].push({
         indicator: indicator.id,
         value: option.value,
+        domainId, principleId
       });
       if (numOfValues.length + 1 >= indicator.max) {
         var s = fullpage_api.getActiveSection();
@@ -1569,6 +1614,10 @@ export default {
         });
       }
     },
+    principleIsAnswered(domainId, principleId) {
+      const domain = this.answersTree.find(a => a.id === domainId)
+      return domain.principles.find(p => p.id === principleId).answered
+    }
   },
   filters: {
     float1(amount) {
@@ -1766,7 +1815,7 @@ textarea.comment {
   display: -webkit-flex;
   flex-wrap: wrap;
 }
-a.disabled{
+a.disabled {
   cursor: default;
 }
 @media (min-width: 768px) {
@@ -1883,14 +1932,17 @@ a.principle {
 .bg01 {
   background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top center;
 }
-.mini-breadcrumb{
+.mini-breadcrumb {
   font-weight: 900;
-font-size: 15px;
-line-height: 19px;
-text-align: center;
-letter-spacing: 2px;
-text-transform: uppercase;
-padding-bottom: 1rem;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding-bottom: 1rem;
+}
+.principle-check{
+  vertical-align: -7px;
 }
 @media (min-width: 769px) and (max-height: 750px) {
   ul.capacities-list > li {
@@ -1929,8 +1981,14 @@ padding-bottom: 1rem;
   .domain-quadrant {
     margin: 0.3rem;
   }
-  .domain-quadrant.inactive {
+  /* .domain-quadrant.inactive {
     display: none;
+  } */
+  .domain-quadrant.inactive {
+    opacity: 0.4;
+  }
+  .domain-quadrant.inactive .principles-list {
+    visibility: visible;
   }
   .domain-quadrant-inner {
     padding: 0.5rem;
@@ -1946,6 +2004,7 @@ padding-bottom: 1rem;
     top: inherit !important;
     position: relative;
     padding-bottom: 3rem;
+    padding-top: 3rem;
   }
   .title-view {
     padding-bottom: 4rem;
