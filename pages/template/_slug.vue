@@ -298,7 +298,7 @@
             :class="`bg-domain-${di}`"
           >
             <!-- <div class="breadcrumb text-center">
-              <a :href="`#init`" v-t="'Init'"></a>
+              <a :href="`#init`" v-t="'init'"></a>
               <span> > {{ domain.description }}</span>
             </div> -->
 
@@ -437,7 +437,7 @@
                   </Progress>
 
                   <div class="breadcrumb text-center">
-                    <a :href="`#init`" v-t="'Init'"></a>
+                    <a :href="`#init`" v-t="'init'"></a>
                     <span> > </span>
                     <a :href="`#domain-${domain.id}`">{{ domain.name }}</a>
                     <span> > </span>

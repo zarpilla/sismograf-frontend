@@ -5,7 +5,9 @@ body {
   background: url("~@/assets/images/granota.svg") no-repeat top center;
 }
 .mirades {
-    background: url("~@/assets/images/granota-right.svg") no-repeat top right;
+    background-image: url("~@/assets/images/granota-right.svg");
+    background-repeat: no-repeat;
+    background-position: top right;
 }
 .buttons {
   margin-top: 3rem;
