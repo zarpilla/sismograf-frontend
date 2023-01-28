@@ -3,8 +3,34 @@
     <div class="bv-cont-row" v-if="footer">
       <b-row>
         <b-col>
-          <div class="back">
-            <span v-t="'el-sismograf'"></span>
+          <div class="back d-none d-md-flex" v-if="layout !== 'full'">
+            <nuxt-link :to="localePath('index')" class="d-none d-md-flex">
+            <img
+              class="d-none d-md-block"
+              src="~/assets/images/punts.svg"
+            />
+            <span
+              class="copy-1"
+              v-html="$t('el-sismograf')"
+            ></span>
+            <span class="copy-2" v-html="$t('copy-footer')"></span>
+          </nuxt-link>
+          </div>
+          <div class="back d-none d-md-flex" v-if="layout === 'full'">
+            <img
+              class="d-none d-md-block"
+              src="~/assets/images/punts.svg"
+              @click="goInit"
+            />
+            <span
+              class="copy-1"
+              v-html="$t('el-sismograf')"
+              @click="goInit"
+            ></span>
+            <span class="copy-2" @click="goInit" v-html="$t('copy-footer')"></span>
+          </div>          
+          <div class="back d-flex d-md-none">
+            <span class="copy-3" v-html="$t('el-sismograf')"></span>
           </div>
         </b-col>
         <b-col class="images text-right d-flex">
@@ -58,7 +84,7 @@ export default {
     };
   },
   props: {
-    layout: ''
+    layout: "",
   },
   async fetch() {
     var { data } = await this.$axios.get(
@@ -70,9 +96,14 @@ export default {
     this.footer = data.data[0];
   },
   fetchOnServer: true,
+  methods: {
+    goInit() {
+      this.$nuxt.$emit("go-to-init");
+    },
+  },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .footer {
   background: #f3c857;
   position: fixed;
@@ -89,7 +120,31 @@ export default {
   line-height: 19px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-top: 43px;
+  margin-top: 26px;
+
+  a {
+    text-decoration: none;
+    color: #020034
+  }
+
+  .copy-1 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 49px;
+    text-transform: none;
+    display: inline-block;
+    padding-right: 14px;
+    border-right: 1px solid #020034;
+  }
+  .copy-2 {
+    padding-left: 14px;
+    padding-top: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 19px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
 }
 .back img {
   vertical-align: -3px;
@@ -105,11 +160,17 @@ export default {
   color: #020034;
   text-decoration: none;
 }
+
+.footer.layout-full {
+  .back {
+    cursor: pointer;
+  }
+}
 @media (max-width: 1024px) {
   .footer.layout-home {
-    height: 10vh;
+    height: 100px;
   }
-  .footer.layout-default {
+  .footer:not(.layout-home) {
     height: 34px;
   }
   .back {
@@ -126,16 +187,37 @@ export default {
   .mr-xs-auto {
     margin-right: auto;
   }
-}
-@media (min-width: 1025px) and (max-width: 1919px) {
-  .footer {
-    height: 5.27vw;
-  }
   .back {
-    margin-top: 2.22166666666667vw;
-  }
-  .images img {
-    height: 3.10333333333333vw;
+    .copy-1 {
+      font-size: 18px;
+      line-height: 20px;
+      text-align: left;
+      padding-top: 12px;
+    }
+    .copy-2 {
+      font-size: 14px;
+      text-align: left;
+      padding-top: 4px;
+    }
+
+    .copy-3 {
+      font-size: 14px;
+      text-align: left;
+      text-align: center;
+      display: inline-block;
+      width: 100%;
+    }
   }
 }
+// @media (min-width: 1025px) and (max-width: 1900px) {
+//   .footer {
+//     height: 5.27vw;
+//   }
+//   .back {
+//     margin-top: 1.0166666666667vw;
+//   }
+//   .images img {
+//     height: 3.10333333333333vw;
+//   }
+// }
 </style>

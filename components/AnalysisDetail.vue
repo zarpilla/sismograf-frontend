@@ -118,25 +118,7 @@ export default {
       };
     }    
   },
-  async mounted() {
-    // await this.addScript("/vendor/html2pdf/html2pdf.bundle.min.js", "html2pdf-js");
-  },
-  methods: {
-    async addScript(src, id) {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById(id)) {
-          resolve();
-        }
-        const head = document.head || document.getElementsByTagName("head")[0];
-        const script = document.createElement("script");
-        script.src = src;
-        script.id = id;
-        script.addEventListener("load", resolve);
-        script.addEventListener("error", (e) => reject(e));
-        script.addEventListener("abort", (e) => reject(e));
-        head.appendChild(script);
-      });
-    },
+  methods: {    
     getPDF() {
       // this.$refs.html2Pdf.generatePdf()
       // var element = document.getElementById("sismograf-report");

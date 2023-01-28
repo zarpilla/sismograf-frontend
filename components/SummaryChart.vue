@@ -67,8 +67,6 @@
         </div>
       </div>
     </section>
-    <!-- 
-    <button class="btn btn-primary mt-5" @click="getPDF">PDF</button> -->
   </div>
 </template>
 
@@ -129,40 +127,6 @@ export default {
         resilienceLevel: _.meanBy(summaryByDomain, "resilienceLevel"),
         domains: summaryByDomain,
       };
-    },
-  },
-  async mounted() {
-    // await this.addScript("/vendor/html2pdf/html2pdf.bundle.min.js", "html2pdf-js");
-  },
-  methods: {
-    async addScript(src, id) {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById(id)) {
-          resolve();
-        }
-        const head = document.head || document.getElementsByTagName("head")[0];
-        const script = document.createElement("script");
-        script.src = src;
-        script.id = id;
-        script.addEventListener("load", resolve);
-        script.addEventListener("error", (e) => reject(e));
-        script.addEventListener("abort", (e) => reject(e));
-        head.appendChild(script);
-      });
-    },
-    getPDF() {
-      // this.$refs.html2Pdf.generatePdf()
-      // var element = document.getElementById("sismograf-report");
-      // var opt = {
-      //   margin: [0, 0],
-      //   filename: `sismograf-${this.title}`,
-      //   image: { type: "jpeg", quality: 1 },
-      //   html2canvas: { dpi: 300, scale: 4, letterRendering: true },
-      //   jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
-      // };
-      // // console.log('element', element)
-      // html2pdf().set(opt).from(element).save();
-      // html2pdf().from(element).save();
     },
   },
   filters: {

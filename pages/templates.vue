@@ -12,9 +12,9 @@
             :to="
               localePath(
                 {
-                  name: 'template-slug',
-                  params: { slug: questionnaire.attributes.template.data.attributes.slug },
-                  query: { q: questionnaire.attributes.slug },
+                  name: 'template-template-q',
+                  params: { template: questionnaire.attributes.template.data.attributes.slug, q: questionnaire.attributes.slug },
+                  query
                 },
                 questionnaire.attributes.template.data.attributes.locale
               )
@@ -35,12 +35,9 @@ export default {
   data() {
     return {
       questionnaires: [],
-      organization: null
+      organization: null,
+      query: null
     };
-  },
-  computed: {},
-  head() {
-    return {};
   },
   async asyncData({ $axios, app, route }) {
     try {
@@ -55,7 +52,7 @@ export default {
       );
       const application = data.data[0];
 
-      const questionnaires = application.attributes.questionnaires.data
+      const questionnaires = application.attributes.questionnaires.data.filter(q => q.attributes.visible)
 
       if (route.query.org) {
         var { data } = await $axios.get(
@@ -63,10 +60,12 @@ export default {
           headers
         );
         const organization = data.data[0]
+        const query = { org: route.query.org };      
 
         return {
-          questionnaires: organization.attributes.questionnaires.data,
-          organization
+          questionnaires: organization.attributes.questionnaires.data.filter(q => q.attributes.visible),
+          organization,
+          query
         };
       }
 

@@ -13,13 +13,12 @@
                   </h1>
                   <h5
                     class="text-center sismo-text"
-                    v-t="
-                      'us-donem-la-benvinguda-al-sismograf-volem-comencar-sabent-de-tu'
+                    v-html="
+                      $t(
+                        'us-donem-la-benvinguda-al-sismograf-volem-comencar-sabent-de-tu'
+                      )
                     "
-                  >
-                    US DONEM LA benvinguda al sismògraf! volem començar sabent
-                    de tu...
-                  </h5>
+                  ></h5>
                   <div class="sismo-question" v-t="'com-et-dius'"></div>
                   <div class="email-field mt-5 mb-5">
                     <input
@@ -198,8 +197,8 @@
                 </div>
               </b-col>
               <!-- <b-col  md="4"> x</b-col>
-              <b-col  md="4"> c</b-col>
-              <b-col  md="4"> v</b-col> -->
+                <b-col  md="4"> c</b-col>
+                <b-col  md="4"> v</b-col> -->
 
               <b-col cols="12" md="4" order-md="7"> </b-col>
               <b-col class="info-block" cols="12" md="4" order="6" order-md="6">
@@ -226,14 +225,7 @@
           </div>
         </div>
 
-        <div
-          class="
-            section
-            zfp-auto-height-responsive
-            how-it-works
-            granota
-          "
-        >
+        <div class="section zfp-auto-height-responsive how-it-works granota">
           <div class="bg01">
             <div class="info-first" v-t="'alguns-trucs-que-t-ajudaran'">
               alguns trucs que t’ajudaran...
@@ -298,29 +290,27 @@
             :class="`bg-domain-${di}`"
           >
             <!-- <div class="breadcrumb text-center">
-              <a :href="`#init`" v-t="'init'"></a>
-              <span> > {{ domain.description }}</span>
-            </div> -->
+                <a :href="`#name`" v-t="'init'"></a>
+                <span> > {{ domain.description }}</span>
+              </div> -->
 
             <div>
-              
-
               <b-container fluid>
                 <b-row>
                   <b-col cols="12"></b-col>
                   <div
-                class="principle-title"
-                v-t="
-                  (questionnaire &&
-                    questionnaire.attributes &&
-                    questionnaire.attributes.domainsText) ||
-                  'les-quatre-mirades'
-                "
-              ></div>
+                    class="principle-title"
+                    v-t="
+                      (questionnaire &&
+                        questionnaire.attributes &&
+                        questionnaire.attributes.domainsText) ||
+                      'les-quatre-mirades'
+                    "
+                  ></div>
                 </b-row>
                 <b-row>
                   <b-col
-                    class="equal"                    
+                    class="equal"
                     v-for="(i, ii) in template.attributes.domains.length"
                     :key="domain.id * 100 + i"
                     md="3"
@@ -357,21 +347,35 @@
                           >
                             <a
                               class="principle"
-                              :class="{ active: principleIsAnswered(template.attributes.domains[i - 1].id, principle.id)}"
+                              :class="{
+                                active: principleIsAnswered(
+                                  template.attributes.domains[i - 1].id,
+                                  principle.id
+                                ),
+                              }"
                               :href="`#${principlesAnchors[i - 1][pi]}`"
                             >
                               {{ pi + 1 }}. {{ principle.name }}
-                              <img class="principle-check" src="~/assets/images/check-circle.svg" v-if="principleIsAnswered(template.attributes.domains[i - 1].id, principle.id)" />
+                              <img
+                                class="principle-check"
+                                src="~/assets/images/check-circle.svg"
+                                v-if="
+                                  principleIsAnswered(
+                                    template.attributes.domains[i - 1].id,
+                                    principle.id
+                                  )
+                                "
+                              />
                             </a>
                           </div>
                           <!-- <div
-                        class="principle zd-block"
-                        v-for="(principle, pi) in template.attributes.domains[i - 1]
-                          .principles"
-                        v-bind:key="principle.id"
-                      >
-                        {{ pi + 1 }}. {{ principle.name }} - {{ principlesAnchors[i - 1][pi] }}
-                      </div> -->
+                          class="principle zd-block"
+                          v-for="(principle, pi) in template.attributes.domains[i - 1]
+                            .principles"
+                          v-bind:key="principle.id"
+                        >
+                          {{ pi + 1 }}. {{ principle.name }} - {{ principlesAnchors[i - 1][pi] }}
+                        </div> -->
                         </div>
                       </div>
                     </div>
@@ -389,17 +393,24 @@
                     active: isCommentActive(indicator),
                   }"
                   @click="showModal(indicator)"
+                  :title="$t('btn-comment')"
                 >
                   <img src="~/assets/images/comment-disabled.svg" />
                 </button>
                 <button
                   id="save-btn"
                   class="btn-save"
+                  :title="$t('btn-save')"
                   @click="showModalSave(indicator)"
                 >
                   <img src="~/assets/images/save.svg" />
                 </button>
-                <a id="index-btn" class="btn-index disabled" href="#">
+                <a
+                  id="index-btn"
+                  class="btn-index disabled"
+                  href="#"
+                  :title="$t('btn-index')"
+                >
                   <img src="~/assets/images/index-disabled.svg" />
                 </a>
               </div>
@@ -437,7 +448,7 @@
                   </Progress>
 
                   <div class="breadcrumb text-center">
-                    <a :href="`#init`" v-t="'init'"></a>
+                    <a :href="`#name`" v-t="'init'"></a>
                     <span> > </span>
                     <a :href="`#domain-${domain.id}`">{{ domain.name }}</a>
                     <span> > </span>
@@ -471,7 +482,15 @@
                         v-bind:key="option.id"
                       >
                         <div
-                          v-on:click="punctuation('results', indicator, option, domain.id, principle.id)"
+                          v-on:click="
+                            punctuation(
+                              'results',
+                              indicator,
+                              option,
+                              domain.id,
+                              principle.id
+                            )
+                          "
                           class="button button-3"
                           v-bind:class="{
                             active: isOptionActive(
@@ -585,9 +604,45 @@
           </template>
         </b-modal>
 
+        <b-modal size="lg" centered ref="exit-modal" title="">
+          <template #modal-header>
+            <img src="~/assets/images/index.svg" />
+          </template>
+          <h5 class="comment-title" v-t="'sortir-sismograf'"></h5>
+
+          <div
+            class="copy-body"
+            v-html="$t('estas-segura-sortir-sismograf')"
+          ></div>
+
+          <template #modal-footer>
+            <button
+              @click="exit"
+              class="mt-3 mb-3 button button-3 uppercase"
+              v-t="'sortir-1'"
+            >
+              Sortir
+            </button>
+            <button
+              class="mt-3 mb-3 button button-4"
+              @click="cancelExitModal"
+              v-t="'no-continuar'"
+            >
+              Continuar
+            </button>
+            <button
+              class="mt-3 mb-3 button button-4"
+              @click="showModalSave"
+              v-t="'guarda-continuar'"
+            >
+              Guardar i continuar
+            </button>
+          </template>
+        </b-modal>
+
         <template v-for="(block, bi) in questionnaire.attributes.moreBlocks">
-          <div class="section" :key="bi">
-            <div class="title">
+          <div class="section more-section" :key="bi">
+            <div class="scope title mb-5">
               <span v-t="block.title" />
             </div>
 
@@ -600,38 +655,40 @@
 
           <template v-for="(ind, indi) in block.indicators.data" class="z">
             <div class="section" :key="indi">
-              <div class="label-category">
-                <span v-t="block.title" />
-              </div>
-              <div class="scope title indicator">
-                <span v-t="ind.attributes.question" />
-              </div>
-              <ul class="capacities-list">
-                <li
-                  class="item"
-                  v-for="option in ind.attributes.indicator_options"
-                  v-bind:key="option.id"
-                >
-                  <div
-                    v-on:click="punctuation('more', ind, option, 0, 0)"
-                    class="button button-3"
-                    v-bind:class="{
-                      active: isOptionActive('more', ind, option),
-                    }"
-                  >
-                    {{ option.name }}
+              <b-container class="text-center">
+                <div class="scope title indicator more-title">
+                  <div class="mini-breadcrumb mb-3">
+                    <span v-t="block.title" />
                   </div>
-                </li>
-              </ul>
+                  <span v-t="ind.attributes.question" />
+                </div>
 
-              <div v-if="ind.attributes.indicator_options.length === 0">
-                <textarea
-                  class="form-control"
-                  type="text"
-                  @input="setMoreComments(ind, $event)"
-                  name="organization"
-                ></textarea>
-              </div>
+                <ul class="capacities-list">
+                  <li
+                    class="item"
+                    v-for="option in ind.attributes.indicator_options"
+                    v-bind:key="option.id"
+                  >
+                    <div
+                      v-on:click="punctuation('more', ind, option, 0, 0)"
+                      class="button button-3"
+                      v-bind:class="{
+                        active: isOptionActive('more', ind, option),
+                      }"
+                    >
+                      {{ option.name }}
+                    </div>
+                  </li>
+                </ul>
+                <div v-if="ind.attributes.indicator_options.length === 0">
+                  <textarea
+                    class="form-control comment comment-more"
+                    type="text"
+                    @input="setMoreComments(ind, $event)"
+                    name="organization"
+                  ></textarea>
+                </div>
+              </b-container>
 
               <div class="next-container text-center">
                 <button class="button button-4 ml-auto" @click="next">
@@ -724,8 +781,8 @@
     </no-ssr>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import Radar from "~/components/Radar";
 import CLine from "~/components/CLine";
 import CBar from "~/components/CBar";
@@ -739,6 +796,7 @@ import _ from "lodash";
 import { mapGetters } from "vuex";
 
 export default {
+  layout: "full",
   components: { Progress },
   data() {
     return {
@@ -785,6 +843,7 @@ export default {
       progressPrinciple: 0,
       copyUrl: "",
       application: null,
+      organization: null,
     };
   },
   computed: {
@@ -1028,46 +1087,45 @@ export default {
     validForm() {
       return this.validEmail && this.validOrganization;
     },
-    answersTree(){
-      const groups = []
+    answersTree() {
+      const groups = [];
       for (let i = 0; i < this.template.attributes.domains.length; i++) {
-
-        const d = this.template.attributes.domains[i]
-        const domain = { id: d.id, name: d.name, principles: [] }
+        const d = this.template.attributes.domains[i];
+        const domain = { id: d.id, name: d.name, principles: [] };
         for (let j = 0; j < d.principles.length; j++) {
-          const pr = d.principles[j]
-          const principle = { id: pr.id, name: pr.name, indicators: [] }
-          const indicators = []
+          const pr = d.principles[j];
+          const principle = { id: pr.id, name: pr.name, indicators: [] };
+          const indicators = [];
           for (let k = 0; k < pr.patterns.length; k++) {
-            const pt = pr.patterns[k]
+            const pt = pr.patterns[k];
             for (let l = 0; l < pt.indicators.length; l++) {
-              const i = pt.indicators[l]
-              indicators.push(i)
+              const i = pt.indicators[l];
+              indicators.push(i);
             }
           }
-          principle.indicators = indicators.map(i => i.id )
-          principle.indicatorsLen = indicators.map(i => i.id ).length
-          let responses = 0
-          principle.answered = true
-          principle.indicators.forEach(i => {
-            const hasResult = this.analysis.results.find(r => r.indicator === i)
+          principle.indicators = indicators.map((i) => i.id);
+          principle.indicatorsLen = indicators.map((i) => i.id).length;
+          let responses = 0;
+          principle.answered = true;
+          principle.indicators.forEach((i) => {
+            const hasResult = this.analysis.results.find(
+              (r) => r.indicator === i
+            );
             if (!hasResult) {
-              principle.answered = false
+              principle.answered = false;
             }
           });
-          principle.responses = responses  
-          domain.principles.push( principle )
+          principle.responses = responses;
+          domain.principles.push(principle);
         }
 
-        groups.push(domain)
+        groups.push(domain);
       }
 
-      return groups
-    }
+      return groups;
+    },
   },
   async asyncData({ $axios, app, error, store }) {
-    let slug = app.context.route.params.slug;
-
     const headers = {
       headers: {
         Authorization: `Bearer ${process.env.apiToken}`,
@@ -1079,8 +1137,10 @@ export default {
 
     const application = data.data[0];
 
+    const organization = app.context.route.query.org;
+
     var { data } = await $axios.get(
-      `/templates?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}`,
+      `/templates?filters[slug][$eq]=${app.context.route.params.template}&locale=${app.i18n.locale}`,
       headers
     );
     if (!data || data.data.length == 0) {
@@ -1179,14 +1239,11 @@ export default {
     // const emptyEmail = store.app.
 
     var { data } = await $axios.get(
-      `/organizations?filters[slug][$eq]=${slug}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
+      `/organizations?filters[slug][$eq]=${app.context.route.params.template}&locale=${app.i18n.locale}&populate=logo&populate=questionnaires&populate=questionnaires.template&populate=questionnaires.image&token=${process.env.apiToken}`,
       headers
     );
 
-    const q =
-      app.context.route.query && app.context.route.query.q
-        ? app.context.route.query.q
-        : application.attributes.questionnaire;
+    const q = app.context.route.params.q;
 
     var { data } = await $axios.get(
       `/questionnaires/?filters[slug][$eq]=${q}&populate=organization&populate=organization.logo&populate=moreBlocks&populate=moreBlocks.indicators&populate=moreBlocks.indicators.indicator_options&populate=more_label_categories&populate=label_categories&populate=label_categories.labels&locale=${app.i18n.locale}`,
@@ -1199,19 +1256,25 @@ export default {
     }
 
     return {
-      slug,
+      slug: app.context.route.params.template,
       template,
       analysis,
       questionnaire,
       application,
+      organization,
     };
   },
-  created() {},
+  created() {
+    this.$nuxt.$on("go-to-init", () => {
+      this.askExit();
+      //Do Something
+    });
+  },
   async mounted() {
-    await this.addScript(
-      "/vendor/scrolloverflow/scrolloverflow.min.js",
-      "scrolloverflow-min-js"
-    );
+    // await this.addScript(
+    //   "/vendor/scrolloverflow/scrolloverflow.min.js",
+    //   "scrolloverflow-min-js"
+    // );
 
     this.mobile = window.innerWidth < 768;
     this.tablet =
@@ -1230,7 +1293,6 @@ export default {
     this.options.afterLoad = (origin, destination, direction, trigger) => {
       const item = destination.item;
       const el = document.body;
-      console.log("item", item);
       if (item.classList.contains("bg-domain-0")) {
         el.classList.add("bg-domain-0");
         el.classList.remove("bg-domain-1");
@@ -1382,7 +1444,7 @@ export default {
       );
     },
     punctuation(field, indicator, option, domainId, principleId) {
-      console.log('indicator, option', domainId, principleId)
+      console.log("indicator, option", domainId, principleId);
       const same = this.analysis[field].find(
         (r) => r.indicator === indicator.id && r.value === option.value
       );
@@ -1411,7 +1473,8 @@ export default {
       this.analysis[field].push({
         indicator: indicator.id,
         value: option.value,
-        domainId, principleId
+        domainId,
+        principleId,
       });
       if (numOfValues.length + 1 >= indicator.max) {
         var s = fullpage_api.getActiveSection();
@@ -1489,6 +1552,9 @@ export default {
     cancelSaveModal() {
       this.$refs["save-modal"].hide();
     },
+    cancelExitModal() {
+      this.$refs["exit-modal"].hide();
+    },
     // allIsSelected() {
     //   let allSelected = true;
     //   this.template.scopes.forEach((s) => {
@@ -1510,8 +1576,7 @@ export default {
       this.analysis.language = this.$i18n.locale;
       this.analysis.template = this.template.id;
       this.analysis.publishedAt = new Date();
-      this.analysis.email =
-        this.analysis.email || this.application.attributes.emptyEmail;
+      // this.analysis.email = this.analysis.email || this.application.attributes.emptyEmail;
       this.analysis.organization = this.analysis.organization || "";
       const headers = {
         headers: {
@@ -1521,27 +1586,32 @@ export default {
       };
       if (this.analysis.uid === null) {
         this.analysis.uid = uuidv4();
-        const post = { data: this.analysis };
+        const post = {
+          data: {
+            ...this.analysis,
+            email:
+              this.analysis.email || this.application.attributes.emptyEmail,
+          },
+        };
         // delete post.data.id
         var { data } = await this.$axios.post(`/analyses`, post, headers);
 
         this.analysis.id = data.data.id;
       } else {
-        const post = { data: this.analysis };
+        const post = {
+          data: {
+            ...this.analysis,
+            email:
+              this.analysis.email || this.application.attributes.emptyEmail,
+          },
+        };
+
         var { data } = await this.$axios.put(
           `/analyses/${this.analysis.id}`,
           post,
           headers
         );
       }
-
-      this.show = true;
-      setTimeout(() => {
-        // this.show = false;
-      }, 1500);
-      // this.$router.push({
-      //   path: `/analysis/${this.slug}?r=${this.analysis.uid}`
-      // })
     },
     async saveAndResults() {
       await this.save();
@@ -1550,7 +1620,7 @@ export default {
         this.localePath({
           name: "template-view-slug",
           params: { slug: this.slug, q: this.questionnaire.attributes.slug },
-          query: { r: this.analysis.uid },
+          query: { r: this.analysis.uid, org: this.organization },
         })
       );
     },
@@ -1559,11 +1629,14 @@ export default {
 
       this.$router.push(
         this.localePath({
-          name: "template-slug",
-          params: { slug: this.slug },
+          name: "template-template-q",
+          params: {
+            template: this.slug,
+            q: this.questionnaire.attributes.slug,
+          },
           query: {
             r: this.analysis.uid,
-            q: this.questionnaire.attributes.slug,
+            org: this.organization,
           },
           hash: window.location.hash,
         })
@@ -1615,9 +1688,29 @@ export default {
       }
     },
     principleIsAnswered(domainId, principleId) {
-      const domain = this.answersTree.find(a => a.id === domainId)
-      return domain.principles.find(p => p.id === principleId).answered
-    }
+      const domain = this.answersTree.find((a) => a.id === domainId);
+      return domain.principles.find((p) => p.id === principleId).answered;
+    },
+    askExit() {
+      console.log("this.$refs", this.$refs);
+      if (this.$refs["exit-modal"]) {
+        this.$refs["exit-modal"].show();
+      } else {
+        setTimeout(() => {
+          this.$refs["exit-modal"].show();
+        }, 100);
+      }
+    },
+    exit() {
+      const url = "/";
+      this.$router.push(
+        this.localePath({
+          name: "index",
+          params: { slug: this.slug, q: this.questionnaire.attributes.slug },
+          query: { org: this.organization },
+        })
+      );
+    },
   },
   filters: {
     float1(amount) {
@@ -1630,16 +1723,16 @@ export default {
   },
   nuxtI18n: {
     paths: {
-      ca: "/sismograf/:slug",
-      en: "/seismograph/:slug",
-      es: "/sismografo/:slug",
+      ca: "/sismograf/:template/:q",
+      en: "/seismograph/:template/:q",
+      es: "/sismografo/:template/:q",
     },
   },
 };
 </script>
-
-
-<style scoped>
+  
+  
+  <style scoped>
 ul.capacities-list {
   list-style-type: none;
   padding: 0;
@@ -1675,6 +1768,9 @@ ul.capacities-list li .active {
   width: 75%;
   margin: 0 auto;
   margin-top: 100px;
+}
+.scope.title.more-title {
+  margin-top: 0px;
 }
 .principle-title {
   font-weight: 700;
@@ -1763,6 +1859,10 @@ textarea.comment {
   background: #eee;
   border: 1px solid #ddd;
 }
+textarea.comment-more {
+  height: 150px;
+}
+
 .btn-secondary:not(:disabled):not(.disabled).active {
   background: hsl(48, 100%, 67%);
   border-color: hsl(48, 100%, 67%);
@@ -1941,9 +2041,13 @@ a.principle {
   text-transform: uppercase;
   padding-bottom: 1rem;
 }
-.principle-check{
+.principle-check {
   vertical-align: -7px;
 }
+.exit-link {
+  cursor: pointer;
+}
+
 @media (min-width: 769px) and (max-height: 750px) {
   ul.capacities-list > li {
     display: inline-block;
@@ -1982,8 +2086,8 @@ a.principle {
     margin: 0.3rem;
   }
   /* .domain-quadrant.inactive {
-    display: none;
-  } */
+      display: none;
+    } */
   .domain-quadrant.inactive {
     opacity: 0.4;
   }
@@ -2065,9 +2169,9 @@ a.principle {
     height: auto !important;
   }
   /* .fp-tableCell {
-    height: auto !important;
-    display: flex;
-  } */
+      height: auto !important;
+      display: flex;
+    } */
 }
 
 @media (min-width: 1025px) and (max-width: 1919px) {
@@ -2089,6 +2193,9 @@ a.principle {
     line-height: 2.06666666666667vw;
     margin-top: 8vw;
   }
+  .scope.title.more-title {
+    margin-top: 0vw;
+  }
 
   .principle-title {
     font-size: 2.58333333333333vw;
@@ -2109,3 +2216,4 @@ a.principle {
   }
 }
 </style>
+  

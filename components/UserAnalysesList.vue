@@ -372,32 +372,6 @@ export default {
     data.data.map(({ id, ...more }) => {
       return { id, ...more.attributes };
     });
-  },  
-  async mounted() {
-    // await this.addScript("/vendor/jquery/jquery.js", "jquery-js");
-    // await this.addScript("/vendor/kendo/kendo.all.min.js", "kendo-all-min-js");
-    // // await this.addScript("/vendor/html2pdf/html2pdf.bundle.min.js", "html2pdf-js");
-    // await this.addStyle(
-    //   "/vendor/kendo/kendo.common.min.css",
-    //   "kendo-common-min-css"
-    // );
-    // await this.addStyle("/vendor/kendo/kendo.custom.css", "kendo-custom-css");
-    // await this.addStyle("/vendor/kendo/custom.css", "custom-css");
-
-    // const headers = {
-    //   headers: {
-    //     Authorization: `Bearer ${process.env.apiToken}`,
-    //   },
-    // };
-
-    // this.$i18n.locales.forEach(async (loc) => {
-    //   var { data } = await this.$axios.get(
-    //     `/resilience-levels?locale=${loc}`,
-    //     {}
-    //   );
-
-    //   this.resilienceLevels[loc] = data.data;
-    // });
   },
   methods: {
     setGroup(viewDetail, comparerIndex, group, identifier, title) {
@@ -490,40 +464,7 @@ export default {
           }
           this.$refs["compare-modal"].show();
         }
-        // configPivot.dataSource.data = this.pivotData;
-
-        // configPivot.dataBound = (e) => {
-        //   var grid = $("#sismo-pivot").data("kendoPivotGrid");
-        //   localStorage["sismo-pivot-options-rows"] = JSON.stringify(grid.dataSource._rows)
-        //   localStorage["sismo-pivot-options-columns"] = JSON.stringify(grid.dataSource._columns)
-        // }
-        // configPivot.dataBinding = (e) => {
-        // }
-
-        // if (localStorage["sismo-pivot-options-rows"]) {
-        //   configPivot.dataSource.rows = JSON.parse(localStorage["sismo-pivot-options-rows"])
-        //   configPivot.dataSource.columns = JSON.parse(localStorage["sismo-pivot-options-columns"])
-        // }
-
-        // window.jQuery('#sismo-pivot').empty()
-        // window.jQuery('#sismo-pivot').kendoPivotGrid(configPivot)
-        // this.pivotgrid = $("#sismo-pivot").data("kendoPivotGrid");
       }
-    },
-    async addScript(src, id) {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById(id)) {
-          resolve();
-        }
-        const head = document.head || document.getElementsByTagName("head")[0];
-        const script = document.createElement("script");
-        script.src = src;
-        script.id = id;
-        script.addEventListener("load", resolve);
-        script.addEventListener("error", (e) => reject(e));
-        script.addEventListener("abort", (e) => reject(e));
-        head.appendChild(script);
-      });
     },
     async addStyle(src, id) {
       return new Promise((resolve, reject) => {

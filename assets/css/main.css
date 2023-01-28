@@ -213,7 +213,12 @@ h2.main {
   }
   .button{
     padding: 2.681333333333333vw 50px 2.251333333333333vw 4.48vw;
-    font-size: 3.75vw!important;
+    font-size: 3.65vw!important;
+  }  
+  .button::after {
+    top: 3.45vw;
+    right: 16px;
+
   }  
   .button-3{
     text-align: center;

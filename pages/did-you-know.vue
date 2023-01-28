@@ -18,7 +18,7 @@
     <div class="next-container text-right">
       <nuxt-link
         :to="localePath({ name: 'index', query: query })"
-        class="button button-4"
+        class="button button-4 ml-auto"
         v-t="'tornar'"
       >
       </nuxt-link>

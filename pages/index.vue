@@ -80,7 +80,16 @@ export default {
     const el = document.getElementById("full-page-container");
     el.classList.add("bg01");
     el.classList.remove("bg02");
-    el.classList.remove("bgnone");
+    el.classList.remove("bgnone");    
+    document.body.classList.remove("bg-domain-0");
+    document.body.classList.remove("bg-domain-1");
+    document.body.classList.remove("bg-domain-2");
+    document.body.classList.remove("bg-domain-3");
+    document.body.classList.remove("bg-domain-content-0");
+    document.body.classList.remove("bg-domain-content-1");
+    document.body.classList.remove("bg-domain-content-2");
+    document.body.classList.remove("bg-domain-content-3");
+    document.body.classList.remove("bg-result");
   },
 };
 </script>
