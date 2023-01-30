@@ -20,10 +20,10 @@ export default {
 </script>
 <style scoped>
 .admin {
-  background: #FFFCF3;
+  background: #FBF7EB;
   min-height: 100vh;
 }
 .xalign {
-  background: #FFFCF3;
+  background: #FBF7EB;
 }
 </style>

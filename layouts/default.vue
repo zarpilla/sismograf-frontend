@@ -52,19 +52,19 @@ export default {
   margin-left: 5px;
 }
 .full-page-container {
-  background: #fffcf3;
+  background: #FBF7EB;
   min-height: 100vh;
 }
 
 .bg01 {
-  background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top center;
+  background: #FBF7EB url("~@/assets/images/bg01_1920.png") no-repeat top center;
 }
 
 .bg02 {
-  background: #fffcf3 url("~@/assets/images/bg02_1920.png") no-repeat top center;
+  background: #FBF7EB url("~@/assets/images/bg02_1920.png") no-repeat top center;
 }
 .bgnone {
-  background: #fffcf3;
+  background: #FBF7EB;
 }
 .xalign {
   color: #020034;

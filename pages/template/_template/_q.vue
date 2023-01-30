@@ -809,7 +809,7 @@ export default {
       options: {
         licenseKey: "7C5A62B9-9F4349E0-A45C66A1-437BB3A2",
         menu: "#menu",
-        sectionsColor: "#FFFCF3",
+        sectionsColor: "#FBF7EB",
         navigation: true,
         slidesNavigation: false,
         // responsiveWidth: 700,
@@ -2030,7 +2030,7 @@ a.principle {
 }
 
 .bg01 {
-  background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top center;
+  background: #FBF7EB url("~@/assets/images/bg01_1920.png") no-repeat top center;
 }
 .mini-breadcrumb {
   font-weight: 900;
@@ -2055,7 +2055,7 @@ a.principle {
 }
 @media (max-width: 768px) {
   .bg01 {
-    background: #fffcf3 url("~@/assets/images/bg01_1920.png") no-repeat top
+    background: #FBF7EB url("~@/assets/images/bg01_1920.png") no-repeat top
       center;
     background: inherit;
   }

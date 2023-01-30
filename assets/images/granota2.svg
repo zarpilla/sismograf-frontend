@@ -4,14 +4,14 @@
 <circle cx="247.547" cy="247.284" r="136.52" stroke="#F5ECD2" stroke-width="2"/>
 <circle cx="247.63" cy="247.284" r="176.311" stroke="#F5ECD2"/>
 <circle cx="247.629" cy="247.284" r="246.67" stroke="#F5ECD2"/>
-<ellipse cx="178.077" cy="197.232" rx="44.6164" ry="21.4603" transform="rotate(65.3948 178.077 197.232)" fill="#FFFCF3"/>
-<ellipse cx="246.244" cy="187.946" rx="36.9859" ry="34.4208" transform="rotate(88.0595 246.244 187.946)" fill="#FFFCF3"/>
-<ellipse cx="243.511" cy="307.802" rx="36.9859" ry="34.4208" transform="rotate(88.0595 243.511 307.802)" fill="#FFFCF3"/>
-<ellipse rx="49.4284" ry="25.2114" transform="matrix(-0.488319 0.872665 0.872665 0.488319 312.504 200.834)" fill="#FFFCF3"/>
-<ellipse rx="34.7934" ry="23.7814" transform="matrix(-0.787683 0.616081 0.616081 0.787683 340.319 295.219)" fill="#FFFCF3"/>
-<ellipse cx="157.165" cy="295.652" rx="45.9574" ry="23.7814" transform="rotate(43.7374 157.165 295.652)" fill="#FFFCF3"/>
-<ellipse cx="204.028" cy="300.935" rx="52.5506" ry="23.7814" transform="rotate(62.7621 204.028 300.935)" fill="#FFFCF3"/>
-<ellipse rx="51.3862" ry="24.0953" transform="matrix(-0.457687 0.889114 0.889114 0.457687 282.505 303.259)" fill="#FFFCF3"/>
+<ellipse cx="178.077" cy="197.232" rx="44.6164" ry="21.4603" transform="rotate(65.3948 178.077 197.232)" fill="#FBF7EB"/>
+<ellipse cx="246.244" cy="187.946" rx="36.9859" ry="34.4208" transform="rotate(88.0595 246.244 187.946)" fill="#FBF7EB"/>
+<ellipse cx="243.511" cy="307.802" rx="36.9859" ry="34.4208" transform="rotate(88.0595 243.511 307.802)" fill="#FBF7EB"/>
+<ellipse rx="49.4284" ry="25.2114" transform="matrix(-0.488319 0.872665 0.872665 0.488319 312.504 200.834)" fill="#FBF7EB"/>
+<ellipse rx="34.7934" ry="23.7814" transform="matrix(-0.787683 0.616081 0.616081 0.787683 340.319 295.219)" fill="#FBF7EB"/>
+<ellipse cx="157.165" cy="295.652" rx="45.9574" ry="23.7814" transform="rotate(43.7374 157.165 295.652)" fill="#FBF7EB"/>
+<ellipse cx="204.028" cy="300.935" rx="52.5506" ry="23.7814" transform="rotate(62.7621 204.028 300.935)" fill="#FBF7EB"/>
+<ellipse rx="51.3862" ry="24.0953" transform="matrix(-0.457687 0.889114 0.889114 0.457687 282.505 303.259)" fill="#FBF7EB"/>
 <g style="mix-blend-mode:multiply">
 <rect x="118.251" y="130.781" width="258.592" height="224.783" fill="url(#pattern0)"/>
 </g>

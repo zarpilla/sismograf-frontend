@@ -4,12 +4,12 @@
 <circle r="149.5" transform="matrix(1 0 0 -1 270.41 0.5)" stroke="#F5ECD2" stroke-width="2"/>
 <circle r="193" transform="matrix(1 0 0 -1 270.5 0.5)" stroke="#F5ECD2"/>
 <circle r="270" transform="matrix(1 0 0 -1 270.5 0.5)" stroke="#F5ECD2"/>
-<ellipse rx="48.8277" ry="23.4859" transform="matrix(0.416364 -0.909198 -0.909198 -0.416364 194.382 55.2771)" fill="#FFFCF3"/>
-<ellipse rx="40.4769" ry="37.6697" transform="matrix(0.0338615 -0.999427 -0.999427 -0.0338615 268.983 65.4392)" fill="#FFFCF3"/>
-<ellipse cx="341.498" cy="51.3348" rx="54.0939" ry="27.5911" transform="rotate(-119.23 341.498 51.3348)" fill="#FFFCF3"/>
-<ellipse rx="50.2952" ry="26.0261" transform="matrix(0.722516 -0.691355 -0.691355 -0.722516 171.497 -52.4324)" fill="#FFFCF3"/>
-<ellipse rx="57.5107" ry="26.0261" transform="matrix(0.457687 -0.889114 -0.889114 -0.457687 222.783 -58.2146)" fill="#FFFCF3"/>
-<ellipse cx="308.668" cy="-60.7573" rx="56.2364" ry="26.3696" transform="rotate(-117.238 308.668 -60.7573)" fill="#FFFCF3"/>
+<ellipse rx="48.8277" ry="23.4859" transform="matrix(0.416364 -0.909198 -0.909198 -0.416364 194.382 55.2771)" fill="#FBF7EB"/>
+<ellipse rx="40.4769" ry="37.6697" transform="matrix(0.0338615 -0.999427 -0.999427 -0.0338615 268.983 65.4392)" fill="#FBF7EB"/>
+<ellipse cx="341.498" cy="51.3348" rx="54.0939" ry="27.5911" transform="rotate(-119.23 341.498 51.3348)" fill="#FBF7EB"/>
+<ellipse rx="50.2952" ry="26.0261" transform="matrix(0.722516 -0.691355 -0.691355 -0.722516 171.497 -52.4324)" fill="#FBF7EB"/>
+<ellipse rx="57.5107" ry="26.0261" transform="matrix(0.457687 -0.889114 -0.889114 -0.457687 222.783 -58.2146)" fill="#FBF7EB"/>
+<ellipse cx="308.668" cy="-60.7573" rx="56.2364" ry="26.3696" transform="rotate(-117.238 308.668 -60.7573)" fill="#FBF7EB"/>
 <g style="mix-blend-mode:multiply">
 <rect width="283" height="246" transform="matrix(1 0 0 -1 128.91 128)" fill="url(#pattern0)" fill-opacity="0.5"/>
 </g>

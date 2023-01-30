@@ -116,7 +116,7 @@ h2.main {
   margin-top: 12vh;
 }
 .fullpage-wrapper {
-  background: #fffcf3;
+  background: #FBF7EB;
 }
 #fp-nav.fp-right {
   top: 2rem !important;
@@ -142,7 +142,7 @@ h2.main {
   margin: -11px 0 0 -11px;
   border-radius: 100%;
   border: 2px solid #EFDDA2;
-  background: #fffcf3 !important;
+  background: #FBF7EB !important;
 }
 #fp-nav ul li a:not(.active) span,
 .fp-slidesNav ul li a:not(.active) span {
@@ -185,7 +185,7 @@ h2.main {
   border-radius: 0;
 }
 .bg-result{
-  background: #FFFCF3 url('~@/assets/images/bgres.png') no-repeat top center;
+  background: #FBF7EB url('~@/assets/images/bgres.png') no-repeat top center;
 }
 
 
