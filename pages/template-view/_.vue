@@ -6,6 +6,7 @@
       </div>
       <summary-wheel
         id="summary-wheel-1"
+        element-id="svg-3"
         class="mb-5"
         v-if="pivotData.length"
         :analysis="analysis && analysis.length ? analysis[0] : null"
@@ -73,7 +74,7 @@ export default {
         ({
           id,
           value,
-          domainId,
+          // domainId,
           templateId,
           questionnaireId,
           principleId,

@@ -119,6 +119,16 @@
         >
       </template>
 
+      <template #cell(organizationName)="data">
+        <span
+          v-if="data.item.organization"
+          class="text-infoz"          
+          >{{
+            data.item.organization
+          }}</span
+        >
+      </template>
+
       <template #cell(labels)="data">
         <span
           @click="
@@ -149,7 +159,9 @@
       size="lg"
       centered
       ref="analysis-modal"
+      id="analysis-modal"
       :title="analysis ? toUid(analysis.uid) : 'Analysis'"
+      class="analysis-modal"
     >
       <div class="d-block text-center">
         <analysis-detail
@@ -171,13 +183,30 @@
       ref="compare-modal"
       :title="analysis ? toUid(analysis.uid) : 'Analysis'"
     >
+    <pre>{{ analysis }}</pre>
       <div class="d-block text-center">
         <!-- <h2 v-if="pivotData1.length">Results</h2> -->
         <div class="row">
           <div class="z" :class="pivotData2.length ? 'col-md-6' : 'col-md-12'">
             <div class="mb-5">
-              <summary-chart
+              <summary-wheel
                 id="summary-chart-1"
+                element-id="svg-1"
+                class="mb-5"
+                v-if="pivotData1.length"
+                :analysis="analysis1"
+                :levels="resilienceLevels"
+                :title="
+                  comparer.group1 === 'id'
+                    ? toUid(comparer.title1)
+                    : comparer.title1
+                "
+                :pivotData="pivotData1"
+                :compare="pivotData2 && pivotData2.length > 0"
+              ></summary-wheel>
+              
+              <!-- <summary-chart
+                id="summary-chart-11"
                 class="mb-5"
                 v-if="pivotData1.length"
                 :levels="resilienceLevels"
@@ -188,12 +217,28 @@
                     : comparer.title1
                 "
                 :pivotData="pivotData1"
-              ></summary-chart>
+              ></summary-chart> -->
             </div>
           </div>
           <div class="col-md-6" v-if="pivotData2.length">
             <div class="mb-5">
-              <summary-chart
+              <summary-wheel
+                id="summary-chart-2"
+                element-id="svg-2"
+                class="mb-5"
+                v-if="pivotData2.length"
+                :analysis="analysis2"
+                :levels="resilienceLevels"
+                :title="
+                  comparer.group2 === 'id'
+                    ? toUid(comparer.title2)
+                    : comparer.title2
+                "
+                :pivotData="pivotData2"
+                :compare="pivotData2 && pivotData2.length > 0"
+              ></summary-wheel>
+
+              <!-- <summary-chart
                 id="summary-chart-2"
                 class="mb-5"
                 v-if="pivotData2.length"
@@ -205,33 +250,33 @@
                     : comparer.title2
                 "
                 :pivotData="pivotData2"
-              ></summary-chart>
+              ></summary-chart> -->
             </div>
           </div>
         </div>
 
-        <download-excel
+        <!-- <download-excel
           v-if="pivotData1.length"
           class="button button-4 export mt-5 mb-5 mr-2"
           :data="pivotData1"
           :fields="excelFields"
         >
           Download Data 1
-        </download-excel>
+        </download-excel> -->
 
-        <download-excel
+        <!-- <download-excel
           v-if="pivotData2.length"
           class="button button-4 export mt-5 mb-5 mr-2"
           :data="pivotData2"
           :fields="excelFields"
         >
           Download Data 2
-        </download-excel>
+        </download-excel> -->
 
         <button
           v-if="pivotData1.length"
           class="button button-4 export mt-5 mb-5 mr-2"
-          @click="downloadImage('summary-chart-1')"
+          @click="downloadImage('summary-chart-1', comparer.title1)"
         >
           Download Image 1
         </button>
@@ -239,7 +284,7 @@
         <button
           v-if="pivotData2.length"
           class="button button-4 export mt-5 mb-5 mr-2"
-          @click="downloadImage('summary-chart-2')"
+          @click="downloadImage('summary-chart-2', comparer.title2)"
         >
           Download Image 2
         </button>
@@ -286,13 +331,18 @@ export default {
         {
           key: "organization",
           label: "Organization",
+          label: this.$t("col-campaign") !== 'col-campaign' ? this.$t("col-campaign") : "Campaign",
+        },
+        {
+          key: "organizationName",
+          label: "Organization Name",
           label: this.$t("col-organization") !== 'col-organization' ? this.$t("col-organization") : "Organization",
         },
         {
           key: "labels",
           label: "Labels",
           class: "t-labels",
-          label: this.$t("col-labels") !== 'col-labels' ? this.$t("col-labels") : "Template",
+          label: this.$t("col-labels") !== 'col-labels' ? this.$t("col-labels") : "Labels",
         },
         {
           key: "resilienceLevel",
@@ -399,10 +449,10 @@ export default {
             ({
               id,
               value,
-              domainId,
+              // domainId,
               templateId,
               questionnaireId,
-              principleId,
+              // principleId,
               patternId,
               indicatorId,
               ...item
@@ -500,9 +550,11 @@ export default {
         this.comparerIndex = option;
       }
     },
-    downloadImage(id) {
+    downloadImage(id, title) {
+      const t = this
       htmlToImage.toPng(document.getElementById(id)).then(function (dataUrl) {
-        download(dataUrl, "sismograf.png");
+        const name = t.$i18n.t('sismograf-file') + '-' + title + '.png'
+        download(dataUrl, name);
       });
     },
     toUid(value) {
@@ -567,5 +619,30 @@ export default {
 <style>
 .table thead th.t-labels, .table thead td.t-labels{
   width: 20%;
+}
+
+.modal-dialog {
+    max-width: 100%!important;
+    margin: 0!important;
+    top: 20px!important;
+    bottom: 20px!important;
+    left: 20px!important;
+    right: 20px!important;
+    height: calc(100vh - 40px)!important;
+    width: calc(100vw - 40px)!important;
+    display: flex!important;
+}
+.modal-content{
+  height: calc(100vh - 40px)!important;
+}
+body.modal-open{
+  overflow: hidden;
+}
+.sismograf-report{
+  text-align: left;
+}
+.analysis-detail{
+  text-align: left;
+  padding-left: 0.5rem;
 }
 </style>

@@ -55,7 +55,7 @@ export default {
   },
   methods: {    
     toLevel(value) {
-      const level = this.levels[this.$i18n.locale].find(r => parseFloat(r.attributes.code) + 0.5 > value)
+      const level = this.levels.find(r => parseFloat(r.attributes.code) + 0.5 > value)
       return level ? level.attributes.name : ''
     }
   },
