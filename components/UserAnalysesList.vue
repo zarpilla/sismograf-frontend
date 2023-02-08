@@ -334,7 +334,7 @@ export default {
         resilienceLevel: "resilienceLevel",
         comments: "comments",
       },
-      resilienceLevels: { ca: [], en: [], es: [] },
+      resilienceLevels: [],
       analysis: null,
       analysis1: null,
       analysis2: null,
@@ -352,7 +352,7 @@ export default {
         `/resilience-levels?locale=${loc.code}`,
         {}
       );
-      this.resilienceLevels[loc.code] = data.data;
+      this.resilienceLevels = data.data;
     }
 
     let organizationQuery = ''
@@ -483,7 +483,7 @@ export default {
       });
     },
     toLevel(value, locale) {
-      const level = this.resilienceLevels[locale].find(
+      const level = this.resilienceLevels.find(
         (r) => parseFloat(r.attributes.code) + 0.5 > value
       );
       return level ? level.attributes.name : "";

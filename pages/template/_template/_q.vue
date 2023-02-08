@@ -1618,9 +1618,9 @@ export default {
 
       this.$router.push(
         this.localePath({
-          name: "template-view-slug",
-          params: { slug: this.slug, q: this.questionnaire.attributes.slug },
-          query: { r: this.analysis.uid, org: this.organization },
+          name: "template-view-all",
+          params: { slug: this.slug, q: this.questionnaire.attributes.slug, uid: this.analysis.uid },
+          query: { org: this.organization },
         })
       );
     },

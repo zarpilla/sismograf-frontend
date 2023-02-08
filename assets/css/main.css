@@ -49,6 +49,12 @@ body {
 .button-1:hover{
   background: #f3c857;
 }
+
+.button.icon-down::after {
+  background: url("~@/assets/images/fletxa-down.svg") no-repeat 0 center;
+  top: 13px;
+  height: 19px;
+}
 .button-2 {
   background: #f3c857;
   border: 2px solid #f3c857;
