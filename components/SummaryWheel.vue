@@ -26,7 +26,7 @@
           <b-col md="3" v-if="!compare">
             <div class="d-flex">
               <div class="dragons-list">
-                <h4>Col·lectivisme</h4>
+                <h4 v-t="'col-lectivisme'">Col·lectivisme</h4>
                 <div class="dragon-name">
                   <Dragon color="#3B4174"></Dragon>
                   {{ levelsDisplay[0].name }}
@@ -39,7 +39,7 @@
                   <Dragon color="#76B3A8"></Dragon>
                   {{ levelsDisplay[2].name }}
                 </div>
-                <h4>Individualisme</h4>
+                <h4 v-t="'individualisme'">Individualisme</h4>
                 <div class="dragon-name">
                   <Dragon color="#5F925F"></Dragon>
                   {{ levelsDisplay[3].name }}
@@ -52,7 +52,7 @@
                   <Dragon color="#DA8344"></Dragon>
                   {{ levelsDisplay[5].name }}
                 </div>
-                <h4>Trauma</h4>
+                <h4 v-t="'trauma'">Trauma</h4>
                 <div class="dragon-name">
                   <Dragon color="#CE542E"></Dragon>
                   {{ levelsDisplay[6].name }}
