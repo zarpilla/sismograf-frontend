@@ -1201,6 +1201,9 @@ export default {
         analysis.parent = data.data.attributes.parent;
         analysis.labels = data.data.attributes.labels.data;
 
+        analysis.name = data.data.attributes.name;
+        analysis.organization = data.data.attributes.organization;
+
         data.data.attributes.results.forEach((r) => {
           if (r.indicator && r.indicator.data && r.indicator.data.id) {
             const id = r.indicator.data.id;
