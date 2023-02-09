@@ -183,7 +183,6 @@
       ref="compare-modal"
       :title="analysis ? toUid(analysis.uid) : 'Analysis'"
     >
-    <pre>{{ analysis }}</pre>
       <div class="d-block text-center">
         <!-- <h2 v-if="pivotData1.length">Results</h2> -->
         <div class="row">
