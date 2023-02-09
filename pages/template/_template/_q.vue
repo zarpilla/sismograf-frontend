@@ -72,8 +72,7 @@
         </div>
 
         <template
-          v-for="(labelCategory, lci) in questionnaire.attributes
-            .label_categories.data"
+          v-for="(labelCategory, lci) in labelQuestions"
         >
           <div
             v-bind:key="lci"
@@ -1124,6 +1123,16 @@ export default {
 
       return groups;
     },
+    labelQuestions () {
+      if (this.questionnaire.attributes.label_categories && this.questionnaire.attributes.label_categories.data) {
+        return _.sortBy(this.questionnaire.attributes
+            .label_categories.data, 'attributes.order')
+      } else {
+        return this.questionnaire.attributes
+            .label_categories.data, 'attributes.order'
+      }
+      
+    }
   },
   async asyncData({ $axios, app, error, store }) {
     const headers = {
