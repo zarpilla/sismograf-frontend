@@ -181,8 +181,8 @@ export default {
       };
     },
     domainsData() {
-      const domains = this.chartSummary.domains.map((d) => {
-        return { name: d.domainName, value: this.toPct(d.resilienceLevel) };
+      const domains = this.chartSummary.domains.map((d, i) => {
+        return { name: `0${i + 1} ${d.domainName}`, value: this.toPct(d.resilienceLevel) };
       });
       for(let i = domains.length; i < 4; i++){
         domains.push({ name: `d${i}`, value: null, hidden: true })
@@ -273,10 +273,15 @@ export default {
       };
 
       const barColor = (value) => {
-        console.log('value', value)
         if (value == null) return this.colors06[3]
         const idx = parseInt(value / 12.5);
         return this.colors06[idx];
+      };
+
+      const dgrColor = (value) => {
+        if (value == null) return this.colors01[3]
+        const idx = parseInt(value / 12.5);
+        return this.colors01[idx];
       };
 
       const alertColor = (value) => {
@@ -327,7 +332,7 @@ export default {
       svg
         .append("path")
         .attr("d", dragon)
-        .attr("fill", bgrColor(this.globalLevel))
+        .attr("fill", dgrColor(this.globalLevel))
         .attr("transform", "rotate(45) translate(-20 -45)");
 
       var width = 875,
@@ -386,7 +391,6 @@ export default {
         .ordinal()
         .domain(this.domainsData.map((d) => d.name))
         .range(
-          //[bgrColor(57), bgrColor(46), bgrColor(38), bgrColor(52)]
           this.domainsData.map((d) => bgrColor(d.value))
         );
 
@@ -397,13 +401,10 @@ export default {
         });
       };
 
-      console.log('domains', domains())
-
       var colorDomains = d3.scale
         .ordinal()
         .domain(
           this.quartersData.map((d) => d.name)
-          // ["q1v", "q1", "q2v", "q2", "q3v", "q3", "q4v", "q4"]
         )
         .range(
           this.quartersData.map((d, i) =>
@@ -415,22 +416,10 @@ export default {
         return this.domainsValuesData.map((q) => {
           return { label: q.name, value: q.value };
         });
-        /*
-        [
-          { label: "q1v", value: 57 },
-          { label: "q1", value: 43 },
-          { label: "q2v", value: 46 },
-          { label: "q2", value: 54 },
-          { label: "q3v", value: 38 },
-          { label: "q3", value: 62 },
-          { label: "q4v", value: 52 },
-          { label: "q4", value: 48 },
-        ];*/
       };
 
-      const splitTextInLines = (text) => {
-        if (!text) return ['','']
-        const maxLine = 13;
+      const splitTextInLines = (text, maxLine) => {
+        if (!text) return ['','']        
         let j = 0;
         let newText = "";
         for (let i = 0; i < text.length; i++) {
@@ -448,49 +437,6 @@ export default {
 
       const principlesValues = () => {
         return this.principlesValuesData;
-        /*
-        [
-          {
-            label: "p1v",
-            description: "1. Liderar des de la responsabilitat",
-            value: 67,
-          },
-          { label: "p1", value: 100 - 67 },
-          {
-            label: "p2v",
-            description: "2. Conflictuar de manera creativa",
-            value: 66,
-          },
-          { label: "p2", value: 100 - 66 },
-          {
-            label: "p3v",
-            description: "3. Desenvolupar resiliència personal i psicosocial",
-            value: 31,
-          },
-          { label: "p3", value: 100 - 31 },
-          {
-            label: "p4v",
-            description: "1. Parlar i aprendre per evolucionar",
-            value: 57,
-          },
-          { label: "p4", value: 100 - 57 },
-          { label: "p5v", value: 40 },
-          { label: "p5", value: 100 - 40 },
-          { label: "p6v", value: 40 },
-          { label: "p6", value: 100 - 40 },
-          { label: "p7v", value: 44 },
-          { label: "p7", value: 100 - 44 },
-          { label: "p8v", value: 38 },
-          { label: "p8", value: 100 - 38 },
-          { label: "p9v", value: 26 },
-          { label: "p9", value: 100 - 26 },
-          { label: "p10v", value: 43 },
-          { label: "p10", value: 100 - 43 },
-          { label: "p11v", value: 26 },
-          { label: "p11", value: 100 - 26 },
-          { label: "p12v", value: 43 },
-          { label: "p12", value: 100 - 43 },
-        ];*/
       };
 
       var colorPrinciples = d3.scale
@@ -788,16 +734,17 @@ export default {
       text
         .enter()
         .append("text")
-        .text(function (d) {
-          return !d.data.hidden ? d.data.label : '';
+        .selectAll("tspan")
+        .data(function (d) {
+          return !d.data.hidden ? splitTextInLines(d.data.label, 1) : '';
         })
-        
+        .enter()
         .append("tspan")
         .text(function (d) {
-          return !d.data.hidden ? `0${d.data.i + 1}` : '';
+          return d
         })
-        .attr("dy", "-1em")
-        .attr("dx", "-4em")
+        .attr("dy", "1.05em")
+        .attr("x", "0")
         .style("font-family", "Athletics")
         .style("font-size", "18px")
         .style("font-weight", "500");
@@ -816,8 +763,8 @@ export default {
           return function (t) {
             var d2 = interpolate(t);
             var pos = arc.centroid(d2);
-            pos[0] = pos[0] * 1.1;
-            pos[1] = pos[1] * 1.1;
+            pos[0] = pos[0] * 1.38;
+            pos[1] = pos[1] * 1.38;
             return (
               "translate(" +
               pos +
@@ -903,10 +850,9 @@ export default {
         .append("text")
         .selectAll("tspan")
         .data(function (d) {
-          console.log('d.data.value', d.data)
           return d.data.description
-            ? splitTextInLines(d.data.description)
-            : !d.data.hidden ? splitTextInLines(d.data.label || ''): [''];
+            ? splitTextInLines(d.data.description, 13)
+            : !d.data.hidden ? splitTextInLines(d.data.label || '', 12): [''];
         })
         .enter()
         .append("tspan")
