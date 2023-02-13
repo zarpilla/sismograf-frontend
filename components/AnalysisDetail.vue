@@ -4,70 +4,69 @@
       <div class="sismograf-detail text-left">
         <div class="analysis-info">
           <label class="bold">Date:</label>
-          {{ analysis.createdAt | toDate}}
+          {{ analysis.createdAt | toDate }}
         </div>
         <div class="analysis-info" v-if="analysis.email">
           <label class="bold">Email:</label>
-          {{ analysis.email}}
+          {{ analysis.email }}
         </div>
         <div class="analysis-info" v-if="analysis.organization">
           <label class="bold">Organization:</label>
-          {{ analysis.organization}}
+          {{ analysis.organization }}
         </div>
         <div class="analysis-info" v-if="analysis.project">
           <label class="bold">Project:</label>
-          {{ analysis.project}} lalala
+          {{ analysis.project }} lalala
         </div>
         <div class="analysis-info" v-if="analysis.region">
           <label class="bold">Region:</label>
-          {{ analysis.region}}
+          {{ analysis.region }}
         </div>
         <div class="analysis-info" v-if="analysis.scope">
           <label class="bold">Scope:</label>
-          {{ analysis.scope}}
+          {{ analysis.scope }}
         </div>
-        <div class="analysis-info" v-if="analysis.labels && analysis.labels.length">
+        <div
+          class="analysis-info"
+          v-if="analysis.labels && analysis.labels.length"
+        >
           <label class="bold">Labels:</label>
           <div class="d-flex">
-            <div class="label badge bg-warning mr-1" v-for="(lbl, i) in analysis.labels" :key="i">{{ lbl.name }}</div>
+            <div
+              class="label badge bg-warning mr-1"
+              v-for="(lbl, i) in analysis.labels"
+              :key="i"
+            >
+              {{ lbl.name }}
+            </div>
           </div>
         </div>
-        <hr class="mb-3">
+        <hr class="mb-3" />
         <div v-for="(result, i) in analysis.results" :key="i" class="mb-3">
           <div class="indicator-name bold">
-            {{ result.indicatorName }}  
+            {{ result.indicatorName }}
           </div>
           <div class="indicator-value">
-            {{ result.responseValue }} ({{ ( result.resilienceLevel * 14.29 - 14.29).toFixed(0)}}%)
+            {{ result.responseValue }} ({{
+              (result.resilienceLevel * 14.29 - 14.29).toFixed(0)
+            }}%)
           </div>
           <div class="indicator-comments mb-2" v-if="result.comments">
             <b v-t="'Comments:'"></b> {{ result.comments }}
           </div>
         </div>
-        <!-- <summary-chart
-            id="summary-chart-detail"
-            v-if="summary.length"
-            class="mb-5"
-            :title="'ccc'"
-            :levels="levels"
-            :pivotData="summary"
-          ></summary-chart> -->
-
       </div>
     </section>
-    
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import moment from "moment";
-import SummaryChart from "./SummaryChart";
 import _ from "lodash";
 
 export default {
-  name: "SummaryChart",
-  components: {SummaryChart},
+  components: {},
   data() {
     return {};
   },
@@ -86,7 +85,7 @@ export default {
     },
     title: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   computed: {
@@ -116,24 +115,9 @@ export default {
         resilienceLevel: _.meanBy(summaryByDomain, "resilienceLevel"),
         domains: summaryByDomain,
       };
-    }    
-  },
-  methods: {    
-    getPDF() {
-      // this.$refs.html2Pdf.generatePdf()
-      // var element = document.getElementById("sismograf-report");
-      // var opt = {
-      //   margin: [0, 0],
-      //   filename: `sismograf-${this.title}`,
-      //   image: { type: "jpeg", quality: 1 },
-      //   html2canvas: { dpi: 300, scale: 4, letterRendering: true },
-      //   jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
-      // };
-      // // console.log('element', element)
-      // html2pdf().set(opt).from(element).save();
-      // html2pdf().from(element).save();
     },
   },
+  methods: {},
   filters: {
     toDate(value) {
       return moment(value).format("DD-MM-YYYY");
@@ -143,7 +127,7 @@ export default {
         ? value.substring(0, value.indexOf("-"))
         : value;
     },
-  },  
+  },
 };
 </script>
 <style scoped>
@@ -158,10 +142,10 @@ export default {
 .chart-summary {
   width: 100%;
 }
-.indicator-name{
+.indicator-name {
   font-weight: bold;
 }
-.bold{
-font-weight: bold;
+.bold {
+  font-weight: bold;
 }
 </style>

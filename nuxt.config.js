@@ -29,8 +29,7 @@ export default {
     "@/plugins/statistics",
     { src: "~/plugins/vue-ellipse-progress.js", mode: "client" },
     "@/plugins/axios",
-    { src: "~/plugins/download-excel.js", mode: "client" },
-    // { src: '@/plugins/vue-html2pdf', mode: 'client' }
+    { src: "~/plugins/download-excel.js", mode: "client" },    
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -194,6 +193,7 @@ export default {
   env: {
     apiToken: process.env.API_TOKEN,
     apiBase: process.env.API_BASE,
+    apiUrl: process.env.API_URL,
     // organization: process.env.ORG,
     language: process.env.LANG,
     // emptyEmail: process.env.EMPTY_EMAIL,

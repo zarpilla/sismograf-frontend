@@ -5,15 +5,14 @@
         class="button button-3 mr-3"
         :class="comparerIndex == 0 ? 'button-secondary' : 'button-disabled'"
         @click="compareClicked(0)"
-      v-t="'Group 1'">
-        
-      </button>
+        v-t="'Group 1'"
+      ></button>
       <button
         class="button button-3"
         :class="comparerIndex == 1 ? 'button-secondary' : 'button-disabled'"
         @click="compareClicked(1)"
-        v-t="'Group 2'">
-      </button>
+        v-t="'Group 2'"
+      ></button>
     </div>
 
     <b-table :items="analyses" :fields="fields">
@@ -32,8 +31,8 @@
           @click="
             setGroup(true, comparerIndex, 'id', data.item.id, data.item.uid)
           "
-          
-        v-t="'Detail'"></button>
+          v-t="'Detail'"
+        ></button>
       </template>
       <template #cell(resilienceLevel)="data">
         <div class="d-block" v-if="data.value">
@@ -52,7 +51,7 @@
             <span
               ><b>{{ (data.value * 14.29 - 14.29).toFixed(0) }}%</b></span
             >
-          </b-progress-bar>          
+          </b-progress-bar>
           <b class="ml-1" style="display: block">
             {{
               // toLevel(data.value, data.item.template.data.attributes.locale)
@@ -100,7 +99,11 @@
 
       <template #cell(organization)="data">
         <span
-          v-if="data.item.questionnaire.data && data.item.questionnaire.data.attributes.organization && data.item.questionnaire.data.attributes.organization.data"
+          v-if="
+            data.item.questionnaire.data &&
+            data.item.questionnaire.data.attributes.organization &&
+            data.item.questionnaire.data.attributes.organization.data
+          "
           class="text-info clickable"
           @click="
             setGroup(
@@ -120,13 +123,9 @@
       </template>
 
       <template #cell(organizationName)="data">
-        <span
-          v-if="data.item.organization"
-          class="text-infoz"          
-          >{{
-            data.item.organization
-          }}</span
-        >
+        <span v-if="data.item.organization" class="text-infoz">{{
+          data.item.organization
+        }}</span>
       </template>
 
       <template #cell(labels)="data">
@@ -150,7 +149,7 @@
 
       <template #cell(updatedAt)="data">
         {{ data.value | toDate }}
-      </template> 
+      </template>
     </b-table>
     <hr class="mt-5" />
     <hr class="mt-1" />
@@ -202,21 +201,9 @@
                 "
                 :pivotData="pivotData1"
                 :compare="pivotData2 && pivotData2.length > 0"
+                :group="comparer.group1"
+                :gid="comparer.identifier1"
               ></summary-wheel>
-              
-              <!-- <summary-chart
-                id="summary-chart-11"
-                class="mb-5"
-                v-if="pivotData1.length"
-                :levels="resilienceLevels"
-                :analysis="analysis1"
-                :title="
-                  comparer.group1 === 'id'
-                    ? toUid(comparer.title1)
-                    : comparer.title1
-                "
-                :pivotData="pivotData1"
-              ></summary-chart> -->
             </div>
           </div>
           <div class="col-md-6" v-if="pivotData2.length">
@@ -235,21 +222,9 @@
                 "
                 :pivotData="pivotData2"
                 :compare="pivotData2 && pivotData2.length > 0"
+                :group="comparer.group2"
+                :gid="comparer.identifier2"
               ></summary-wheel>
-
-              <!-- <summary-chart
-                id="summary-chart-2"
-                class="mb-5"
-                v-if="pivotData2.length"
-                :levels="resilienceLevels"
-                :analysis="analysis2"
-                :title="
-                  comparer.group2 === 'id'
-                    ? toUid(comparer.title2)
-                    : comparer.title2
-                "
-                :pivotData="pivotData2"
-              ></summary-chart> -->
             </div>
           </div>
         </div>
@@ -275,7 +250,7 @@
         <button
           v-if="pivotData1.length"
           class="button button-4 export mt-5 mb-5 mr-2"
-          @click="downloadImage('summary-chart-1', comparer.title1)"
+          @click="downloadImage('summary-chart-1', 'svg-1', comparer.title1)"
         >
           Download Image 1
         </button>
@@ -283,14 +258,16 @@
         <button
           v-if="pivotData2.length"
           class="button button-4 export mt-5 mb-5 mr-2"
-          @click="downloadImage('summary-chart-2', comparer.title2)"
+          @click="downloadImage('summary-chart-2', 'svg-2', comparer.title2)"
         >
           Download Image 2
         </button>
       </div>
 
       <template #modal-footer>
-        <button class="button button-1" @click="cancelModal2" v-t="'close'">Close</button>
+        <button class="button button-1" @click="cancelModal2" v-t="'close'">
+          Close
+        </button>
       </template>
     </b-modal>
   </div>
@@ -299,8 +276,6 @@
 <script>
 import { mapGetters } from "vuex";
 import moment from "moment";
-import configPivot from "./configPivot";
-import SummaryChart from "./SummaryChart";
 import AnalysisDetail from "./AnalysisDetail";
 import _ from "lodash";
 import * as htmlToImage from "html-to-image";
@@ -308,52 +283,76 @@ import download from "downloadjs";
 
 export default {
   name: "UserAnalysesList",
-  components: { AnalysisDetail, SummaryChart },
+  components: { AnalysisDetail },
   data() {
     return {
       analyses: [],
       fields: [
         {
           key: "uid",
-          label: this.$t("col-id") !== 'col-id' ? this.$t("col-id") : "Id",
+          label: this.$t("col-id") !== "col-id" ? this.$t("col-id") : "Id",
         },
         {
           key: "template",
           label: "Template",
-          label: this.$t("col-template") !== 'col-template' ? this.$t("col-template") : "Template",
+          label:
+            this.$t("col-template") !== "col-template"
+              ? this.$t("col-template")
+              : "Template",
         },
         {
           key: "questionnaire",
           label: "Questionnaire",
-          label: this.$t("col-questionnaire") !== 'col-questionnaire' ? this.$t("col-questionnaire") : "Questionnaire",
+          label:
+            this.$t("col-questionnaire") !== "col-questionnaire"
+              ? this.$t("col-questionnaire")
+              : "Questionnaire",
         },
         {
           key: "organization",
           label: "Organization",
-          label: this.$t("col-campaign") !== 'col-campaign' ? this.$t("col-campaign") : "Campaign",
+          label:
+            this.$t("col-campaign") !== "col-campaign"
+              ? this.$t("col-campaign")
+              : "Campaign",
         },
         {
           key: "organizationName",
           label: "Organization Name",
-          label: this.$t("col-organization") !== 'col-organization' ? this.$t("col-organization") : "Organization",
+          label:
+            this.$t("col-organization") !== "col-organization"
+              ? this.$t("col-organization")
+              : "Organization",
         },
         {
           key: "labels",
           label: "Labels",
           class: "t-labels",
-          label: this.$t("col-labels") !== 'col-labels' ? this.$t("col-labels") : "Labels",
+          label:
+            this.$t("col-labels") !== "col-labels"
+              ? this.$t("col-labels")
+              : "Labels",
         },
         {
           key: "resilienceLevel",
-          label: this.$t("col-resilience-level") !== 'col-resilience-level' ? this.$t("col-resilience-level") : "Resilience Level",
+          label:
+            this.$t("col-resilience-level") !== "col-resilience-level"
+              ? this.$t("col-resilience-level")
+              : "Resilience Level",
         },
         {
           key: "updatedAt",
-          label: this.$t("col-update-at") !== 'col-update-at' ? this.$t("col-update-at") : "Updated At",          
+          label:
+            this.$t("col-update-at") !== "col-update-at"
+              ? this.$t("col-update-at")
+              : "Updated At",
         },
         {
           key: "detail",
-          label: this.$t("col-detail") !== 'col-detail' ? this.$t("col-detail") : "Detail",
+          label:
+            this.$t("col-detail") !== "col-detail"
+              ? this.$t("col-detail")
+              : "Detail",
         },
       ],
       comparerIndex: 0,
@@ -394,9 +393,8 @@ export default {
     ...mapGetters(["isAuthenticated", "loggedInUser"]),
   },
   async fetch() {
-    
     for (let i = 0; i < this.$i18n.locales.length; i++) {
-      const loc = this.$i18n.locales[i]
+      const loc = this.$i18n.locales[i];
       var { data } = await this.$axios.get(
         `/resilience-levels?locale=${loc.code}`,
         {}
@@ -404,10 +402,10 @@ export default {
       this.resilienceLevels = data.data;
     }
 
-    let organizationQuery = ''
-    const organization = this.$store.state.application.attributes.organization
+    let organizationQuery = "";
+    const organization = this.$store.state.application.attributes.organization;
     if (organization) {
-      organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${organization}`
+      organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${organization}`;
     }
 
     var { data } = await this.$axios.get(
@@ -415,10 +413,9 @@ export default {
       {}
     );
 
-    console.log('data.data', data.data)
+    console.log("data.data", data.data);
 
-    this.analyses = 
-    data.data.map(({ id, ...more }) => {
+    this.analyses = data.data.map(({ id, ...more }) => {
       return { id, ...more.attributes };
     });
   },
@@ -541,20 +538,39 @@ export default {
       if (option === 1 && this.comparerIndex === 1) {
         this.comparer.group2 = "none";
         this.comparerIndex = 0;
-      }
-      else if (option === 0) {
+      } else if (option === 0) {
         this.comparer.group2 = "none";
         this.comparerIndex = 0;
       } else {
         this.comparerIndex = option;
       }
     },
-    downloadImage(id, title) {
-      const t = this
-      htmlToImage.toPng(document.getElementById(id)).then(function (dataUrl) {
-        const name = t.$i18n.t('sismograf-file') + '-' + title + '.png'
-        download(dataUrl, name);
+    downloadImage(id, id2, title) {
+      const svgUrl = document.getElementById(id2).src;
+      const t = this;
+      this.toDataUrl(svgUrl, (base64) => {
+        const imageUrl = base64;
+        document.getElementById(id2).src = imageUrl;
+
+        htmlToImage.toPng(document.getElementById(id)).then(function (dataUrl) {
+          const name = t.$i18n.t("sismograf-file") + "-" + title + ".png";
+          download(dataUrl, name);
+          document.getElementById(id2).src = svgUrl;
+        });
       });
+    },
+    toDataUrl(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          callback(reader.result);
+        };
+        reader.readAsDataURL(xhr.response);
+      };
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.send();
     },
     toUid(value) {
       return value && value.indexOf("-")
@@ -572,13 +588,13 @@ export default {
       this.$refs["analysis-modal"].hide();
     },
     cancelModal2() {
-      this.$refs["compare-modal"].hide();      
+      this.$refs["compare-modal"].hide();
     },
   },
   filters: {
     toDate(value) {
       // return moment(value).format("DD-MM-YYYY");
-      return moment(value, 'YYYY-MM-DDThh:mm:ss').format("DD-MM-YYYY hh:mm");
+      return moment(value, "YYYY-MM-DDThh:mm:ss").format("DD-MM-YYYY hh:mm");
     },
     toUid(value) {
       return value && value.indexOf("-")
@@ -598,49 +614,49 @@ export default {
   cursor: pointer;
 }
 .text-info {
-  color: #020034!important;
+  color: #020034 !important;
   text-decoration: underline;
 }
-.button-3{
-  margin-bottom: 0!important;
+.button-3 {
+  margin-bottom: 0 !important;
 }
-.button-3.small-padding{
-  padding: 0.4rem 1.0rem 0.35rem 1.0rem!important;
+.button-3.small-padding {
+  padding: 0.4rem 1rem 0.35rem 1rem !important;
 }
-.button-secondary{
-  background: #f3c857!important;
+.button-secondary {
+  background: #f3c857 !important;
 }
-.button-disabled{
-  background: #fff!important;
+.button-disabled {
+  background: #fff !important;
 }
-
 </style>
 <style>
-.table thead th.t-labels, .table thead td.t-labels{
+.table thead th.t-labels,
+.table thead td.t-labels {
   width: 20%;
 }
 
 .modal-dialog {
-    max-width: 100%!important;
-    margin: 0!important;
-    top: 20px!important;
-    bottom: 20px!important;
-    left: 20px!important;
-    right: 20px!important;
-    height: calc(100vh - 40px)!important;
-    width: calc(100vw - 40px)!important;
-    display: flex!important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  top: 20px !important;
+  bottom: 20px !important;
+  left: 20px !important;
+  right: 20px !important;
+  height: calc(100vh - 40px) !important;
+  width: calc(100vw - 40px) !important;
+  display: flex !important;
 }
-.modal-content{
-  height: calc(100vh - 40px)!important;
+.modal-content {
+  height: calc(100vh - 40px) !important;
 }
-body.modal-open{
+body.modal-open {
   overflow: hidden;
 }
-.sismograf-report{
+.sismograf-report {
   text-align: left;
 }
-.analysis-detail{
+.analysis-detail {
   text-align: left;
   padding-left: 0.5rem;
 }

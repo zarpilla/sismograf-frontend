@@ -811,18 +811,12 @@ export default {
         sectionsColor: "#FBF7EB",
         navigation: true,
         slidesNavigation: false,
-        // responsiveWidth: 700,
         scrollOverflow: true,
       },
-      //results: [],
       analysis: {
         id: 0,
         email: "",
         name: "",
-        // organization: "",
-        // project: "",
-        // region: "",
-        // scope: "",
         language: "",
         results: [],
         more: [],
@@ -1283,11 +1277,6 @@ export default {
     });
   },
   async mounted() {
-    // await this.addScript(
-    //   "/vendor/scrolloverflow/scrolloverflow.min.js",
-    //   "scrolloverflow-min-js"
-    // );
-
     this.mobile = window.innerWidth < 768;
     this.tablet =
       /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(
