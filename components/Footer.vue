@@ -88,10 +88,10 @@ export default {
   },
   async fetch() {
     var { data } = await this.$axios.get(
-      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
+      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}&populate=guide_template`,
       {}
     );
-    // this.$store.commit("app/set", data.data[0]);
+    this.$store.commit("app/set", data.data[0]);
     // console.log("store commit footer");
     this.footer = data.data[0];
   },

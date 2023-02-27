@@ -1,44 +1,43 @@
 .bg-domain-0,
 .bg-domain-content-0 {
-  background-color: #fff;
   .footer {
-    background: #348FB1 !important;
+    background: #67A0B9 !important;
   }
 
   .button-3:hover,
   .button-3.active {
-    background: #348FB1 !important;
-    border-color: #348FB1 !important;
+    background: #67A0B9 !important;
+    border-color: #67A0B9 !important;
   }
 
   a.principle:hover {
-    background: #348FB1;
+    background: #67A0B9;
   }
 
   #fp-nav ul li a span,
   .fp-slidesNav ul li a span {
-    background: #348FB1 !important;
+    background: #67A0B9 !important;
   }
 
   #fp-nav ul li a.active span,
   #fp-nav ul li:hover a.active span,
   .fp-slidesNav ul li a.active span,
   .fp-slidesNav ul li:hover a.active span {
-    border-color: #348FB1 !important;
+    border-color: #67A0B9 !important;
   }
 }
 
 .domain-quadrant-outter-0 {
   .domain-number {
-    color: #348FB1 !important;
+    color: #67A0B9 !important;
   }
 
   a.principle:hover {
-    background: #348FB1 !important;
+    background: #67A0B9 !important;
   }
   .domain-quadrant {
     .principle.active {
-      background: #348FB1 !important;
+      background: #67A0B9 !important;
     }
   }
 }
@@ -46,95 +45,49 @@
 
 .bg-domain-1,
 .bg-domain-content-1 {
-  background-color: #fff;
   .footer {
-    background: #A2EFDE !important;
+    background: #98D2C6 !important;
   }
   .button-3:hover,
   .button-3.active {
-    background: #A2EFDE !important;
-    border-color: #A2EFDE !important;
+    background: #98D2C6 !important;
+    border-color: #98D2C6 !important;
   }
 
   a.principle:hover {
-    background: #A2EFDE;
+    background: #98D2C6;
   }
 
   #fp-nav ul li a span,
   .fp-slidesNav ul li a span {
-    background: #A2EFDE !important;
+    background: #98D2C6 !important;
   }
 
   #fp-nav ul li a.active span,
   #fp-nav ul li:hover a.active span,
   .fp-slidesNav ul li a.active span,
   .fp-slidesNav ul li:hover a.active span {
-    border-color: #A2EFDE !important;
+    border-color: #98D2C6 !important;
   }
 }
 
 .domain-quadrant-outter-1 {
-  background-color: #fff;
   .domain-number {
-    color: #A2EFDE !important;
+    color: #98D2C6 !important;
   }
 
   a.principle:hover {
-    background: #A2EFDE !important;
+    background: #98D2C6 !important;
   }
   .domain-quadrant {
     .principle.active {
-      background: #A2EFDE !important;
+      background: #98D2C6 !important;
     }
   }  
 }
 
 .bg-domain-2,
 .bg-domain-content-2 {
-  background-color: #fff;
-  .footer {
-    background: #00EB9D !important;
-  }
-
-  .button-3:hover,
-  .button-3.active {
-    background: #00EB9D !important;
-    border-color: #00EB9D !important;
-  }
-
-  a.principle:hover {
-    background: #00EB9D;
-  }
-
-  #fp-nav ul li a span,
-  .fp-slidesNav ul li a span {
-    background: #00EB9D !important;
-  }
-
-  #fp-nav ul li a.active span,
-  #fp-nav ul li:hover a.active span,
-  .fp-slidesNav ul li a.active span,
-  .fp-slidesNav ul li:hover a.active span {
-    border-color: #00EB9D !important;
-  }
-}
-.domain-quadrant-outter-2 {
-  .domain-number {
-    color: #00EB9D !important;
-  }
-  a.principle:hover {
-    background: #00EB9D !important;
-  }
-  .domain-quadrant {
-    .principle.active {
-      background: #00EB9D !important;
-    }
-  }
-}
-
-.bg-domain-3,
-.bg-domain-content-3 {
-  background-color: #fff;
   .footer {
     background: #E87A70 !important;
   }
@@ -161,17 +114,60 @@
     border-color: #E87A70 !important;
   }
 }
-.domain-quadrant-outter-3 {
+.domain-quadrant-outter-2 {
   .domain-number {
     color: #E87A70 !important;
   }
-
   a.principle:hover {
     background: #E87A70 !important;
-  }  
+  }
   .domain-quadrant {
     .principle.active {
       background: #E87A70 !important;
+    }
+  }
+}
+
+.bg-domain-3,
+.bg-domain-content-3 {
+  background-color: #fff;
+  .footer {
+    background: #C58983 !important;
+  }
+
+  .button-3:hover,
+  .button-3.active {
+    background: #C58983 !important;
+    border-color: #C58983 !important;
+  }
+
+  a.principle:hover {
+    background: #C58983;
+  }
+
+  #fp-nav ul li a span,
+  .fp-slidesNav ul li a span {
+    background: #C58983 !important;
+  }
+
+  #fp-nav ul li a.active span,
+  #fp-nav ul li:hover a.active span,
+  .fp-slidesNav ul li a.active span,
+  .fp-slidesNav ul li:hover a.active span {
+    border-color: #C58983 !important;
+  }
+}
+.domain-quadrant-outter-3 {
+  .domain-number {
+    color: #C58983 !important;
+  }
+
+  a.principle:hover {
+    background: #C58983 !important;
+  }  
+  .domain-quadrant {
+    .principle.active {
+      background: #C58983 !important;
     }
   }  
 }

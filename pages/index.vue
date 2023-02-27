@@ -2,8 +2,7 @@
   <section class="section text-center granota">
     <div class="punts"></div>
     <div class="know">
-      <nuxt-link :to="localePath({ name: 'did-you-know', query: query })">
-        <img class="know-icon" src="~@/assets/images/know.svg" />
+      <nuxt-link :to="localePath({ name: 'did-you-know', query: query })" class="know-icon">
       </nuxt-link>
     </div>
     <h1 v-t="'el-sismograf'"></h1>
@@ -131,6 +130,9 @@ h3.title a {
   width: 60px;
   height: 60px;
   display: block;
+}
+.know-icon:hover {
+  background: url("~@/assets/images/know-hover.svg") no-repeat bottom center;
 }
 @media (max-width: 1024px) {
   h1 {

@@ -9,6 +9,11 @@ body {
     background-repeat: no-repeat;
     background-position: top right;
 }
+.bg-espiral{
+  background-image: url("~@/assets/images/cercles.svg");
+    background-repeat: no-repeat;
+    background-position: right 100px;
+}
 .buttons {
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -41,6 +46,13 @@ body {
   display: inline-block;
 
   background: url("~@/assets/images/fletxa-r.svg") no-repeat 0 center;
+}
+.button.previous{
+  padding: 0.8rem 3rem 0.8rem 5rem;
+}
+.button.previous::after{
+  left: 1.5rem;
+  right: inherit;
 }
 .button-1 {
   background: transparent;
@@ -109,7 +121,12 @@ body {
 .button-4:hover::after {
   background: url("~@/assets/images/fletxa-r.svg") no-repeat 0 center;
 }
-
+.button-4.previous::after {
+  background: url("~@/assets/images/fletxa-l-white.svg") no-repeat 0 center;
+}
+.button-4.previous:hover::after {
+  background: url("~@/assets/images/fletxa-l.svg") no-repeat 0 center;
+}
 .button-4:hover {
   background: #f3c857;
   border: 2px solid #f3c857;
@@ -193,7 +210,16 @@ h2.main {
 .bg-result{
   background: #FBF7EB url('~@/assets/images/bgres.png') no-repeat top center;
 }
+.bg-guide{
+  background: #FBF7EB url('~@/assets/images/bg_guide.png') no-repeat center 100px;
+}
 
+.bg-guide-2{
+  background: #FBF7EB url('~@/assets/images/bg_guide2.png') no-repeat center 100px;
+}
+.bg-guide-3{
+  background: #FBF7EB url('~@/assets/images/bg_guide3.png') no-repeat center 0px;
+}
 
 .next-container {
   position: absolute;

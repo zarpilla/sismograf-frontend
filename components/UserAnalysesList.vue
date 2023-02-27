@@ -413,7 +413,7 @@ export default {
       {}
     );
 
-    console.log("data.data", data.data);
+    // console.log("data.data", data.data);
 
     this.analyses = data.data.map(({ id, ...more }) => {
       return { id, ...more.attributes };

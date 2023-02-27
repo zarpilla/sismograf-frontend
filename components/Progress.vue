@@ -66,16 +66,16 @@ export default {
   computed: {
     colors() {
       if (this.di === 0) {
-        return  "#348FB1";
+        return  "#67A0B9";
       }
       if (this.di === 1) {
-        return "#A2EFDE"
+        return "#98D2C6"
       }
       if (this.di === 2) {
-        return "#00EB9D"
+        return "#E87A70"
       }
 
-      return "#E87A70"
+      return "#C58983"
     }
   }
   // mounted() {

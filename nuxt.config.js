@@ -64,6 +64,8 @@ export default {
     linkify: true,
     breaks: true,
     injected: true,
+    html: true
+    // :inner-html.prop="$md.render(career.summary)"
   },
   i18n: {
     locales: [
