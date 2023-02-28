@@ -31,48 +31,10 @@
               class="wheel"
               :src="apiUrl + `/analyses/wheel/${group}/?g1=${gid}`"
             />
-            <!-- <div class="wheel-cont" v-bind:style="{ backgroundImage: 'url(' + apiUrl + `/analyses/wheel/${group}/?g1=${gid}` + ')' }"></div> -->
           </b-col>
           <b-col md="3" v-if="!compare">
-            <div class="d-flex">
-              <div class="dragons-list">
-                <h4 v-t="'col-lectivisme'">Col·lectivisme</h4>
-                <div class="dragon-name">
-                  <Dragon color="#3B4174"></Dragon>
-                  {{ levelsDisplay[0].name }}
-                </div>
-                <div class="dragon-name">
-                  <Dragon color="#508DA8"></Dragon>
-                  {{ levelsDisplay[1].name }}
-                </div>
-                <div class="dragon-name">
-                  <Dragon color="#76B3A8"></Dragon>
-                  {{ levelsDisplay[2].name }}
-                </div>
-                <h4 v-t="'individualisme'">Individualisme</h4>
-                <div class="dragon-name">
-                  <Dragon color="#5F925F"></Dragon>
-                  {{ levelsDisplay[3].name }}
-                </div>
-                <div class="dragon-name">
-                  <Dragon color="#E1BB59"></Dragon>
-                  {{ levelsDisplay[4].name }}
-                </div>
-                <div class="dragon-name">
-                  <Dragon color="#DA8344"></Dragon>
-                  {{ levelsDisplay[5].name }}
-                </div>
-                <h4 v-t="'trauma'">Trauma</h4>
-                <div class="dragon-name">
-                  <Dragon color="#CE542E"></Dragon>
-                  {{ levelsDisplay[6].name }}
-                </div>
-                <div class="dragon-name">
-                  <Dragon color="#A71F1F"></Dragon>
-                  {{ levelsDisplay[7].name }}
-                </div>
-              </div>
-              <img src="~/assets/images/ellipses.svg" class="ellipses" />
+            <div class="dragons-list-cont">
+              <dragons-list :levels="levels"></dragons-list>
             </div>
           </b-col>
         </b-row>
@@ -87,8 +49,10 @@ import moment from "moment";
 import ResilienceProgress from "./ResilienceProgress";
 import _ from "lodash";
 import * as d3 from "d3";
+import DragonsList from './DragonsList.vue';
 
 export default {
+  components: { DragonsList },
   name: "SummaryWeel",
   data() {
     return {
@@ -198,7 +162,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .sismograf-report {
   padding-top: 3rem;
 }
@@ -236,13 +200,8 @@ export default {
   margin-top: 10vh;
   margin-left: 3rem;
 }
-.dragons-list {
+.dragons-list-cont {
   margin-top: 10vh;
-
-  h4 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
 }
 .dragon-name {
   padding-bottom: 1.2rem;

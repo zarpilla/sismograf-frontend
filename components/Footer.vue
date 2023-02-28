@@ -92,7 +92,7 @@ export default {
       {}
     );
     this.$store.commit("app/set", data.data[0]);
-    console.log("store commit footer");
+    // console.log("store commit footer");
     this.footer = data.data[0];
   },
   fetchOnServer: true,

@@ -320,9 +320,9 @@
           class="section zfp-auto-height-responsive how-it-works view-result aligned"
         >
           <div class="z">
-            <b-container class="container-mt container-mb">
+            <b-container fluid class="container-mt container-mb">
               <b-row>
-                <b-col md="8" offset-md="2">
+                <b-col md="6" offset-md="3">
                   <div class="text-content">
                     <h3
                       class="mt-5 mb-5"
@@ -330,22 +330,23 @@
                     ></h3>
                   </div>
                 </b-col>
-                <b-col md="12">
-                  <div class="mt-5">
-                                        
-                    <!-- https://d3-graph-gallery.com/graph/donut_label.html -->
-
+                <b-col md="9" offset-md="0">
+                  <div class="mt-0">
                     <img
                       :src="`${apiBase}/api/analyses/wheel/questionnaire/?g1=17&description=true&locale=${$i18n.locale}`"
                       class="roda-img"
-                    />
-                    <img
-                      src="~/assets/images/roda-gripaus.svg"
-                      class="roda-img"
-                    />
+                    />                    
                   </div>
                 </b-col>
-                <b-col md="8" offset-md="2">
+                <b-col md="2">
+                  <div class="mt-5">
+                    <div class="dragons-list-cont">
+                      <div class="dragons-intro mb-5" v-t="'llegenda-dels-paradigmes-dracs'"></div>                    
+                      <dragons-list :levels="levels"></dragons-list>
+                    </div>
+                  </div>
+                </b-col>
+                <b-col md="6" offset-md="3">
                   <div class="text-content mt-5">
                     <div
                       class="content"
@@ -372,10 +373,11 @@
 import { mapGetters } from "vuex";
 import _ from "lodash";
 import GuideWheel from '../components/GuideWheel.vue';
+import DragonsList from '../components/DragonsList.vue';
 
 export default {
   layout: "full",
-  components: {GuideWheel},
+  components: {GuideWheel, DragonsList},
   data() {
     return {
       apiBase: process.env.apiBase,      
@@ -467,6 +469,10 @@ export default {
   margin-top: 4rem !important;
   padding-left: 1rem;
 }
+.dragons-list-cont {
+  margin-top: 8rem !important;
+  padding-left: 1rem;
+}
 .separator-hor {
   margin-bottom: 1rem;
 }
@@ -546,6 +552,7 @@ export default {
 }
 .roda-img {
   max-width: 100%;
+  margin-top: -2rem;
 }
 .video-radius {
   border-radius: 15px;
@@ -554,6 +561,13 @@ export default {
   bottom: 200px;
   position: fixed;
 }
+.dragons-intro{
+  font-weight: 500;
+font-size: 18px;
+line-height: 22px;
+text-align: center;
+color: #E87A70;
 
+}
 </style>
   
