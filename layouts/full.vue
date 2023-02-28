@@ -189,17 +189,18 @@ ul.capacities-list li .active {
   position: absolute;
   width: 100%;
 }
-.breadcrumb {
+.breadcrumb-sismo {
   position: absolute;
   top: 2.5rem;
   left: 3rem;
   width: calc(100% - 10vw);
   background: transparent;
+  text-align: left;
 }
-.breadcrumb a {
+.breadcrumb-sismo a {
   color: #020034;
 }
-.breadcrumb span {
+.breadcrumb-sismo span {
   padding: 0 0.5rem;
 }
 .multiple,
@@ -422,7 +423,7 @@ a.principle {
     margin-bottom: 10px;
   }
   .progress-div-container,
-  .breadcrumb {
+  .breadcrumb-sismo {
     display: none;
   }
   .principle.col-4 {

@@ -286,10 +286,6 @@
             class="section zfp-auto-height-responsive mirades"
             :class="`bg-domain-${di}`"
           >
-            <!-- <div class="breadcrumb text-center">
-                <a :href="`#name`" v-t="'init'"></a>
-                <span> > {{ domain.description }}</span>
-              </div> -->
 
             <div>
               <b-container fluid>
@@ -444,7 +440,7 @@
                   >
                   </Progress>
 
-                  <div class="breadcrumb text-center">
+                  <div class="breadcrumb-sismo ztext-center">
                     <a :href="`#name`" v-t="'init'"></a>
                     <span> > </span>
                     <a :href="`#domain-${domain.id}`">{{ domain.name }}</a>

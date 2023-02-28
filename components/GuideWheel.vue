@@ -165,7 +165,7 @@ export default {
 
     this.domains = data.data.attributes.domains;
 
-    const container = document.getElementById("container-guide-wheel");
+    // const container = document.getElementById("container-guide-wheel");
     // if (container && container.clientWidth) {
     //   this.width = container.clientWidth;
     // }
@@ -175,12 +175,6 @@ export default {
 
     svg.querySelector("svg").style.width = this.width;
     svg.querySelector("svg").style.height = this.height;
-
-    // var svg = await this.$axios.get("/analyses/wheel/questionnaire/?g1=17");
-    // console.log("svg", svg.data);
-    // const svgContainer = document.getElementById("svg-guide-wheel");
-    // // svgContainer.append(svg)
-    // svgContainer.innerHTML = svg.data;
 
     const slices = svg.querySelectorAll("path.slice-x");
 
@@ -235,7 +229,6 @@ export default {
   },
   methods: {
     draw() {
-      
       var svg = d3.select("#svg-guide-wheel").append("svg");
       svg.attr("width", width);
       svg.attr("height", height);
@@ -271,7 +264,7 @@ export default {
         });
       var arc = d3.svg
         .arc()
-        .outerRadius(radius * 0.40)
+        .outerRadius(radius * 0.4)
         .innerRadius(radius * 0.2);
       var arc2 = d3.svg
         .arc()
@@ -279,7 +272,7 @@ export default {
         .outerRadius(radius * 0.24);
       var arc3 = d3.svg
         .arc()
-        .innerRadius(radius * 0.40)
+        .innerRadius(radius * 0.4)
         .outerRadius(radius * 0.62);
       var arc4 = d3.svg
         .arc()
@@ -287,7 +280,7 @@ export default {
         .outerRadius(radius * 1);
       var arc5 = d3.svg
         .arc()
-        .innerRadius(radius * 0.40)
+        .innerRadius(radius * 0.4)
         .outerRadius(radius * 0.44);
 
       svg.attr(
@@ -529,7 +522,7 @@ export default {
         .attr("data-id", function (d) {
           return d.data.id;
         });
-        
+
       slice4v
         .transition()
         .duration(1000)
@@ -748,8 +741,8 @@ export default {
         .attr("transform", (d, i) => {
           var angle = this.patternsValues[i * 2].acc;
           var pos = arc4.centroid(d);
-          pos[0] = pos[0] * 0.80;
-          pos[1] = pos[1] * 0.80;
+          pos[0] = pos[0] * 0.8;
+          pos[1] = pos[1] * 0.8;
           return "translate(" + pos + ") rotate(" + (angle - 90 - 3) + ")";
         })
         .attr("text-anchor", "start");

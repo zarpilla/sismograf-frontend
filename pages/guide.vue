@@ -302,7 +302,6 @@
                 <b-col md="12">
                   <div class="mt-5">
                     <guide-wheel></guide-wheel>
-                    <!-- <img src="~/assets/images/roda.svg" class="roda-img" /> -->
                   </div>
                 </b-col>
               </b-row>
@@ -333,6 +332,13 @@
                 </b-col>
                 <b-col md="12">
                   <div class="mt-5">
+                                        
+                    <!-- https://d3-graph-gallery.com/graph/donut_label.html -->
+
+                    <img
+                      :src="`${apiBase}/api/analyses/wheel/questionnaire/?g1=17&description=true&locale=${$i18n.locale}`"
+                      class="roda-img"
+                    />
                     <img
                       src="~/assets/images/roda-gripaus.svg"
                       class="roda-img"
@@ -372,7 +378,7 @@ export default {
   components: {GuideWheel},
   data() {
     return {
-      apiUrl: process.env.API_URL,
+      apiBase: process.env.apiBase,      
       levels: [],
       mouseOverClass: "",
       options: {
