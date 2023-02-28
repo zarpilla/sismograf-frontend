@@ -470,7 +470,7 @@ export default {
   padding-left: 1rem;
 }
 .dragons-list-cont {
-  margin-top: 8rem !important;
+  margin-top: 12rem !important;
   padding-left: 1rem;
 }
 .separator-hor {
