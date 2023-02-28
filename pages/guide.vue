@@ -523,6 +523,17 @@ export default {
   text-decoration: underline;
   cursor: help;
 }
+.dragon-name {
+  padding-bottom: 1.2rem;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+
+  svg {
+    vertical-align: -6px;
+    margin-right: 0.5rem;
+  }
+}
 .dragon-name:hover {
   cursor: help;
 }
