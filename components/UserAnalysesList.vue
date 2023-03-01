@@ -629,30 +629,7 @@ export default {
 .button-disabled {
   background: #fff !important;
 }
-</style>
-<style>
-.table thead th.t-labels,
-.table thead td.t-labels {
-  width: 20%;
-}
 
-.modal-dialog {
-  max-width: 100% !important;
-  margin: 0 !important;
-  top: 20px !important;
-  bottom: 20px !important;
-  left: 20px !important;
-  right: 20px !important;
-  height: calc(100vh - 40px) !important;
-  width: calc(100vw - 40px) !important;
-  display: flex !important;
-}
-.modal-content {
-  height: calc(100vh - 40px) !important;
-}
-body.modal-open {
-  overflow: hidden;
-}
 .sismograf-report {
   text-align: left;
 }

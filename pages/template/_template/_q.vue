@@ -361,14 +361,6 @@
                               />
                             </a>
                           </div>
-                          <!-- <div
-                          class="principle zd-block"
-                          v-for="(principle, pi) in template.attributes.domains[i - 1]
-                            .principles"
-                          v-bind:key="principle.id"
-                        >
-                          {{ pi + 1 }}. {{ principle.name }} - {{ principlesAnchors[i - 1][pi] }}
-                        </div> -->
                         </div>
                       </div>
                     </div>
@@ -382,10 +374,6 @@
                   id="show-btn"
                   class="btn-comment disabled"
                   disabled
-                  v-bind:class="{
-                    active: isCommentActive(indicator),
-                  }"
-                  @click="showModal(indicator)"
                   :title="$t('btn-comment')"
                 >
                   <img src="~/assets/images/comment-disabled.svg" />
@@ -394,7 +382,7 @@
                   id="save-btn"
                   class="btn-save"
                   :title="$t('btn-save')"
-                  @click="showModalSave(indicator)"
+                  @click="showModalSave()"
                 >
                   <img src="~/assets/images/save.svg" />
                 </button>
@@ -1514,7 +1502,7 @@ export default {
       this.commentIndicator = indicator;
       this.$refs["comment-modal"].show();
     },
-    async showModalSave(indicator) {
+    async showModalSave() {
       await this.saveAndContinue();
       setTimeout(() => {
         this.copyToClipboard();

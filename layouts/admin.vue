@@ -18,7 +18,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .admin {
   background: #FBF7EB;
   min-height: 100vh;
@@ -26,4 +26,5 @@ export default {
 .xalign {
   background: #FBF7EB;
 }
+
 </style>
