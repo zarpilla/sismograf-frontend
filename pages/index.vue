@@ -2,7 +2,10 @@
   <section class="section text-center granota">
     <div class="punts"></div>
     <div class="know">
-      <nuxt-link :to="localePath({ name: 'did-you-know', query: query })" class="know-icon">
+      <nuxt-link
+        :to="localePath({ name: 'did-you-know', query: query })"
+        class="know-icon"
+      >
       </nuxt-link>
     </div>
     <h1 v-t="'el-sismograf'"></h1>
@@ -51,8 +54,8 @@
 import _ from "lodash";
 
 export default {
-  middleware: ['language'],
-  layout: 'home',
+  middleware: ["language"],
+  layout: "home",
   data() {
     return {
       query: null,
@@ -79,7 +82,7 @@ export default {
     const el = document.getElementById("full-page-container");
     el.classList.add("bg01");
     el.classList.remove("bg02");
-    el.classList.remove("bgnone");    
+    el.classList.remove("bgnone");
     document.body.classList.remove("bg-domain-0");
     document.body.classList.remove("bg-domain-1");
     document.body.classList.remove("bg-domain-2");

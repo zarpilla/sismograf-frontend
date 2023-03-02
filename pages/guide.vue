@@ -1,10 +1,15 @@
 <template>
   <div class="fullpage-container fullpage-container-guide">
+    <div class="nav-guide"></div>
     <no-ssr>
       <full-page ref="fullpage" :options="options" id="fullpage">
         <div
           class="section zfp-auto-height-responsive how-it-works view-result bg-guide aligned"
         >
+          <div class="sismo-text bread-guide">
+            <div v-t="'guia-d-us-del-sismograf'"></div>
+            <div v-t="'introduccio-1'"></div>
+          </div>
           <div class="mt-10v">
             <b-container class="zpt-5">
               <b-row>
@@ -23,7 +28,7 @@
             <b-container class="mt-5 mb-3">
               <b-row>
                 <video width="100%" height="auto" controls class="video-radius">
-                  <source src="/videos/guia-ca.mp4" type="video/mp4" />
+                  <source :src="`/videos/guia-${$i18n.locale}.mp4`" type="video/mp4" />
                 </video>
               </b-row>
             </b-container>
@@ -53,6 +58,10 @@
         <div
           class="section zfp-auto-height-responsive how-it-works view-result bg-none aligned"
         >
+          <div class="sismo-text bread-guide">
+            <div v-t="'guia-d-us-del-sismograf'"></div>
+            <div v-t="'espiral-regeneratiu'"></div>
+          </div>
           <div class="bg-espiral">
             <b-container class="container-mt container-mb">
               <b-row>
@@ -83,6 +92,10 @@
         <div
           class="section zfp-auto-height-responsive how-it-works view-result aligned"
         >
+          <div class="sismo-text bread-guide">
+            <div v-t="'guia-d-us-del-sismograf'"></div>
+            <div v-t="'tipus-de-paradigmes-1'"></div>
+          </div>
           <div class="bg-guide-3">
             <b-container class="container-mt container-mb">
               <b-row>
@@ -287,8 +300,12 @@
         <div
           class="section zfp-auto-height-responsive how-it-works mirades view-result aligned"
         >
+          <div class="sismo-text bread-guide">
+            <div v-t="'guia-d-us-del-sismograf'"></div>
+            <div v-t="'tipus-de-patrons-1'"></div>
+          </div>
           <div class="z">
-            <b-container class="container-mt container-mb" id="container-guide-wheel">
+            <b-container class="container-mt container-mb">
               <b-row>
                 <b-col md="8" offset-md="2">
                   <div class="text-content">
@@ -319,10 +336,14 @@
         <div
           class="section zfp-auto-height-responsive how-it-works view-result aligned"
         >
+          <div class="sismo-text bread-guide">
+            <div v-t="'guia-d-us-del-sismograf'"></div>
+            <div v-t="'interpretacio-del-resultats-2'"></div>
+          </div>
           <div class="z">
-            <b-container fluid class="container-mt container-mb">
+            <b-container class="container-mt">
               <b-row>
-                <b-col md="6" offset-md="3">
+                <b-col md="8" offset-md="2">
                   <div class="text-content">
                     <h3
                       class="mt-5 mb-5"
@@ -330,24 +351,36 @@
                     ></h3>
                   </div>
                 </b-col>
+              </b-row>
+            </b-container>
+
+            <b-container fluid class="z">
+              <b-row>
                 <b-col md="9" offset-md="0">
                   <div class="mt-0">
                     <img
                       :src="`${apiBase}/api/analyses/wheel/questionnaire/?g1=17&description=true&locale=${$i18n.locale}`"
                       class="roda-img"
-                    />                    
+                    />
                   </div>
                 </b-col>
                 <b-col md="2">
                   <div class="mt-5">
                     <div class="dragons-list-cont">
-                      <div class="dragons-intro mb-5" v-t="'llegenda-dels-paradigmes-dracs'"></div>                    
+                      <div
+                        class="dragons-intro mb-5"
+                        v-t="'llegenda-dels-paradigmes-dracs'"
+                      ></div>
                       <dragons-list :levels="levels"></dragons-list>
                     </div>
                   </div>
                 </b-col>
-                <b-col md="6" offset-md="3">
-                  <div class="text-content mt-5">
+              </b-row>
+            </b-container>
+            <b-container class="container-mt-neg container-mb">
+              <b-row>
+                <b-col md="8" offset-md="2">
+                  <div class="text-content">
                     <div
                       class="content"
                       :inner-html.prop="$md.render($t('interpretacio-content'))"
@@ -372,15 +405,15 @@
 <script>
 import { mapGetters } from "vuex";
 import _ from "lodash";
-import GuideWheel from '../components/GuideWheel.vue';
-import DragonsList from '../components/DragonsList.vue';
+import GuideWheel from "../components/GuideWheel.vue";
+import DragonsList from "../components/DragonsList.vue";
 
 export default {
   layout: "full",
-  components: {GuideWheel, DragonsList},
+  components: { GuideWheel, DragonsList },
   data() {
     return {
-      apiBase: process.env.apiBase,      
+      apiBase: process.env.apiBase,
       levels: [],
       mouseOverClass: "",
       options: {
@@ -415,9 +448,7 @@ export default {
   },
   fetchOnServer: true,
   mounted() {
-    const wheel = document.getElementById('container-guide-wheel')
-    console.log('wheel', wheel)
-
+    document.body.classList.add("bg-guide");
   },
   methods: {
     next: () => {
@@ -426,7 +457,7 @@ export default {
     },
     prev: () => {
       var s = fullpage_api.getActiveSection();
-      console.log('x', s)
+      console.log("x", s);
       fullpage_api.moveTo(s.index);
     },
     over(css) {
@@ -451,16 +482,23 @@ export default {
   font-size: 18px;
   line-height: 24px;
 }
+.sismo-title {
+  margin-bottom: 1rem;
+}
 .sismo-subtitle {
   font-weight: 300;
   font-size: 40px;
   line-height: 45px;
+  margin-bottom: 1rem;
 }
 .container-mt {
   margin-top: 10vh;
 }
 .container-mb {
   margin-bottom: 300px;
+}
+.container-mt-neg {
+  margin-top: -150px;
 }
 .mt-10v {
   margin-top: 10vh;
@@ -568,18 +606,33 @@ export default {
 .video-radius {
   border-radius: 15px;
 }
-.next-container{
+.next-container {
   bottom: 200px;
   position: fixed;
 }
-.dragons-intro{
+.dragons-intro {
   font-weight: 500;
-font-size: 18px;
-line-height: 22px;
-text-align: center;
-color: #E87A70;
-
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #e87a70;
+}
+.nav-guide {
+  width: calc(100vw - 80px);
+  background: #020034;
+  height: 2px;
+  position: absolute;
+  right: 55px;
+  left: 31px;
+  top: calc(2rem - 2px);
+  z-index: 10;
+}
+.bread-guide {
+  position: absolute;
+  top: 3rem;
+  left: 31px;
+  text-align: left;
 }
 </style>
-</style>
+
   

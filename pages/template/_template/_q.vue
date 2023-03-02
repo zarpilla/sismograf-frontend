@@ -764,10 +764,6 @@
 </template>
   
 <script>
-import Radar from "~/components/Radar";
-import CLine from "~/components/CLine";
-import CBar from "~/components/CBar";
-import CBarDomains from "~/components/CBarDomains";
 import FadeTransition from "~/components/FadeTransition";
 import Progress from "~/components/Progress";
 

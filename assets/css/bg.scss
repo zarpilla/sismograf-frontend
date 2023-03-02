@@ -130,7 +130,6 @@
 
 .bg-domain-3,
 .bg-domain-content-3 {
-  background-color: #fff;
   .footer {
     background: #C58983 !important;
   }
@@ -170,4 +169,32 @@
       background: #C58983 !important;
     }
   }  
+}
+
+.bg-guide {
+  // .footer {
+  //   background: #67A0B9 !important;
+  // }
+
+  // .button-3:hover,
+  // .button-3.active {
+  //   background: #67A0B9 !important;
+  //   border-color: #67A0B9 !important;
+  // }
+
+  // a.principle:hover {
+  //   background: #67A0B9;
+  // }
+
+  #fp-nav ul li a span,
+  .fp-slidesNav ul li a span {
+    background: #020034 !important;
+  }
+
+  #fp-nav ul li a.active span,
+  #fp-nav ul li:hover a.active span,
+  .fp-slidesNav ul li a.active span,
+  .fp-slidesNav ul li:hover a.active span {
+    border-color: #020034 !important;
+  }
 }

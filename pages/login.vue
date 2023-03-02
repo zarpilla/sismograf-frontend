@@ -31,7 +31,11 @@
               </div>
             </div>
             <div class="control">
-              <button type="submit" class="button button-1" v-t="'Log In'"></button>
+              <button
+                type="submit"
+                class="button button-1"
+                v-t="'Log In'"
+              ></button>
             </div>
           </form>
         </div>
@@ -48,7 +52,7 @@ export default {
     Notification,
   },
   middleware: "guest",
-  layout: 'admin',
+  layout: "admin",
   data() {
     return {
       email: "",
@@ -66,21 +70,21 @@ export default {
             password: this.password,
           },
         });
-        const lang = process.env.LANG !== 'ca' ? '/' + process.env.LANG : ''
+        const lang = process.env.LANG !== "ca" ? "/" + process.env.LANG : "";
         this.$router.push(`${lang}/dashboard`);
       } catch (e) {
-        this.error = 'Could not log in, invalid user or password.'; // e.response.data.message[0].messages[0].message;
+        this.error = "Could not log in, invalid user or password."; // e.response.data.message[0].messages[0].message;
       }
     },
   },
 };
 </script>
 <style lang="scss">
-.admin .form-control{
-  border: 1px solid #eee!important;
+.admin .form-control {
+  border: 1px solid #eee !important;
   border-radius: 0;
 }
 .admin .label {
-  color: #020034
+  color: #020034;
 }
 </style>

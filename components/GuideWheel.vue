@@ -165,11 +165,6 @@ export default {
 
     this.domains = data.data.attributes.domains;
 
-    // const container = document.getElementById("container-guide-wheel");
-    // if (container && container.clientWidth) {
-    //   this.width = container.clientWidth;
-    // }
-
     this.draw();
     const svg = document.getElementById("svg-guide-wheel");
 
