@@ -361,12 +361,11 @@
                 <b-col md="9" offset-md="0">
                   <div class="mt-0">
                     <div class="roda-img-container">
-                      <img
-                      :src="`${apiBase}/api/analyses/wheel/questionnaire/?g1=17&description=true&locale=${$i18n.locale}`"
+                      <img v-if="application"
+                      :src="`${apiBase}/api/analyses/wheel/template/?g1=${application.attributes.guide_template.data.id}&description=true&locale=${$i18n.locale}`"
                       class="roda-img"
                     />
-                    </div>
-                    
+                    </div>                    
                   </div>
                 </b-col>
                 <b-col md="2">
@@ -433,6 +432,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      application: "app/get",
+    }),
     levelsDisplay() {
       return _.reverse(
         _.uniqWith(
