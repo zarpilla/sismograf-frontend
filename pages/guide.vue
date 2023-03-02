@@ -502,7 +502,7 @@ export default {
   margin-top: 10vh;
 }
 .container-mb {
-  margin-bottom: 300px;
+  margin-bottom: 380px;
 }
 .container-mt-neg {
   margin-top: -150px;
@@ -614,7 +614,7 @@ export default {
   border-radius: 15px;
 }
 .next-container {
-  bottom: 200px;
+  bottom: 150px;
   position: fixed;
 }
 .dragons-intro {
@@ -645,6 +645,9 @@ export default {
 }
 .roda-img-container{
   height: 1300px;
+}
+h3{
+  font-size: 40px;
 }
 </style>
 
