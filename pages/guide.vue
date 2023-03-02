@@ -119,7 +119,7 @@
                 </b-col>
                 <b-col md="2">
                   <div class="states text-center pt-5">
-                    <div class="state-num">3r estat</div>
+                    <div class="state-num" v-t="'3r-estat'">3r estat</div>
                     <h4
                       class="state-name"
                       v-t="'col-lectivisme'"
@@ -133,7 +133,7 @@
                       class="state-arrow"
                     />
 
-                    <div class="state-num">2n estat</div>
+                    <div class="state-num" v-t="'2n-estat'">2n estat</div>
                     <h4
                       class="state-name"
                       v-t="'individualisme'"
@@ -147,7 +147,7 @@
                       class="state-arrow"
                     />
 
-                    <div class="state-num">1r estat</div>
+                    <div class="state-num" v-t="'1r-estat'">1r estat</div>
                     <h4
                       class="state-name"
                       v-t="'trauma'"
