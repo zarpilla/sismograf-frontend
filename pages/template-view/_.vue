@@ -24,6 +24,8 @@
         >
           <span v-t="'descarregar-1'" />
         </button>
+        <nuxt-link class="button button-1 ml-auto" :to="localePath({ name: 'guide'})" v-t="'com-interpretar-els-resultats'">
+        </nuxt-link>
         <!-- <button class="button button-1 ml-auto">
             <span v-t="'com-interpretar-els-resultats'" />
           </button> -->

@@ -318,7 +318,9 @@
                 </b-col>
                 <b-col md="12">
                   <div class="mt-5">
-                    <guide-wheel></guide-wheel>
+                    <div class="guide-wheel-container">
+                      <guide-wheel></guide-wheel>
+                    </div>
                   </div>
                 </b-col>
               </b-row>
@@ -358,10 +360,13 @@
               <b-row>
                 <b-col md="9" offset-md="0">
                   <div class="mt-0">
-                    <img
+                    <div class="roda-img-container">
+                      <img
                       :src="`${apiBase}/api/analyses/wheel/questionnaire/?g1=17&description=true&locale=${$i18n.locale}`"
                       class="roda-img"
                     />
+                    </div>
+                    
                   </div>
                 </b-col>
                 <b-col md="2">
@@ -371,7 +376,7 @@
                         class="dragons-intro mb-5"
                         v-t="'llegenda-dels-paradigmes-dracs'"
                       ></div>
-                      <dragons-list :levels="levels"></dragons-list>
+                      <dragons-list :levels="levels" v-if="levels && levels.length"></dragons-list>
                     </div>
                   </div>
                 </b-col>
@@ -632,6 +637,12 @@ export default {
   top: 3rem;
   left: 31px;
   text-align: left;
+}
+.guide-wheel-container{
+  height: 1000px;
+}
+.roda-img-container{
+  height: 1300px;
 }
 </style>
 

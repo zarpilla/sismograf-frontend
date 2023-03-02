@@ -32,7 +32,7 @@
               :src="apiUrl + `/analyses/wheel/${group}/?g1=${gid}`"
             />
           </b-col>
-          <b-col md="3" v-if="!compare">
+          <b-col md="3" v-if="!compare && levels && levels.length">
             <div class="dragons-list-cont">
               <dragons-list :levels="levels"></dragons-list>
             </div>
