@@ -28,7 +28,10 @@
             <b-container class="mt-5 mb-3">
               <b-row>
                 <video width="100%" height="auto" controls class="video-radius">
-                  <source :src="`/videos/guia-${$i18n.locale}.mp4`" type="video/mp4" />
+                  <source
+                    :src="`/videos/guia-${$i18n.locale}.mp4`"
+                    type="video/mp4"
+                  />
                 </video>
               </b-row>
             </b-container>
@@ -46,14 +49,12 @@
               </b-row>
             </b-container>
             <div class="next-container text-right">
-              <!-- <button class="button button-4 mr-auto previous" @click="prev">
-                <span v-t="'prev'" />
-              </button> -->
               <button class="button button-4 ml-auto" @click="next">
                 <span v-t="'next'" />
               </button>
             </div>
           </div>
+          <Footer layout="guide"></Footer>
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works view-result bg-none aligned"
@@ -88,6 +89,7 @@
               </button>
             </div>
           </div>
+          <Footer layout="guide"></Footer>
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works view-result aligned"
@@ -296,6 +298,7 @@
               </button>
             </div>
           </div>
+          <Footer layout="guide"></Footer>
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works mirades view-result aligned"
@@ -334,6 +337,7 @@
               </button>
             </div>
           </div>
+          <Footer layout="guide"></Footer>
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works view-result aligned"
@@ -355,27 +359,39 @@
                 </b-col>
               </b-row>
             </b-container>
-
             <b-container fluid class="z">
               <b-row>
                 <b-col md="9" offset-md="0">
                   <div class="mt-0">
                     <div class="roda-img-container">
-                      <img v-if="application"
-                      :src="`${apiBase}/api/analyses/wheel/template/?g1=${application.attributes.guide_template.data.id}&description=true&locale=${$i18n.locale}`"
-                      class="roda-img"
-                    />
-                    </div>                    
+                      <img
+                        v-if="application"
+                        :src="`${apiBase}/api/analyses/wheel/template/?g1=${application.attributes.guide_template.data.id}&description=true&locale=${$i18n.locale}`"
+                        class="roda-img"
+                      />
+                    </div>
                   </div>
                 </b-col>
                 <b-col md="2">
                   <div class="mt-5">
                     <div class="dragons-list-cont">
                       <div
-                        class="dragons-intro mb-5"
+                        class="dragons-intro mb-1"
                         v-t="'llegenda-dels-paradigmes-dracs'"
                       ></div>
-                      <dragons-list :levels="levels" v-if="levels && levels.length"></dragons-list>
+                      <img
+                        src="~/assets/images/legend-row.svg"
+                        class="legend-row"
+                      />
+                      <img
+                        src="~/assets/images/state-arrow-large.svg"
+                        class="state-arrow-large"
+                      />
+                      <dragons-list
+                        :circles="false"
+                        :levels="levels"
+                        v-if="levels && levels.length"
+                      ></dragons-list>
                     </div>
                   </div>
                 </b-col>
@@ -399,6 +415,33 @@
               </button>
             </div>
           </div>
+          <div
+            class="get-more-info"
+            v-if="
+              application.attributes.guide_more_info &&
+              application.attributes.guide_more_image
+            "
+          >
+            <img
+              class="cover"
+              :src="`${apiBase}${application.attributes.guide_more_image.data.attributes.url}`"
+            />
+            <div class="get-more-info-text">
+              <b-container>
+                <b-row>
+                  <b-col md="7">
+                    <h2 v-t="'tens-mes-dubtes'"></h2>
+                    <div class="text" v-t="'podem-acomapanyar-vos-en-la-interpretacio-dels-resultats-aixi-com-en-les-practiques-que-us-puguin-ajudar-a-desencallar-els-vostres-punts-palanca'">                      
+                    </div>
+                    <a v-if="application.attributes && application.attributes.footer" class="mt-5 button button-2 zbutton-white" :href="application.attributes.footer.link1" target="_blank" v-t="'contacta-s'">
+
+                    </a>
+                  </b-col>
+                </b-row>
+              </b-container>
+            </div>
+          </div>
+          <Footer layout="guide"></Footer>
         </div>
       </full-page>
     </no-ssr>
@@ -413,7 +456,7 @@ import GuideWheel from "../components/GuideWheel.vue";
 import DragonsList from "../components/DragonsList.vue";
 
 export default {
-  layout: "full",
+  layout: "guide",
   components: { GuideWheel, DragonsList },
   data() {
     return {
@@ -515,8 +558,10 @@ export default {
   padding-left: 1rem;
 }
 .dragons-list-cont {
-  margin-top: 12rem !important;
+  margin-top: 10vh !important;
   padding-left: 1rem;
+  position: relative;
+  text-align: center;
 }
 .separator-hor {
   margin-bottom: 1rem;
@@ -623,7 +668,9 @@ export default {
   line-height: 22px;
   text-align: center;
   color: #e87a70;
+  position: relative;
 }
+
 .nav-guide {
   width: calc(100vw - 80px);
   background: #020034;
@@ -640,15 +687,47 @@ export default {
   left: 31px;
   text-align: left;
 }
-.guide-wheel-container{
+.guide-wheel-container {
   height: 1000px;
 }
-.roda-img-container{
+.roda-img-container {
   height: 1300px;
 }
-h3{
+h3 {
   font-size: 40px;
 }
+.state-arrow-large {
+  position: absolute;
+  left: -20px;
+  top: 160px;
+}
+.get-more-info {
+  position: relative;
+  .cover {
+    object-fit: cover;
+    width: 100%;
+  }
+  .get-more-info-text {
+    position: absolute;
+    width: 100%;
+    top: 0;
+  }
+  h2 {
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 35px;
+    color: #ffffff;
+    margin-top: 10vh;
+  }
+  .text {
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 117%;
+    color: #ffffff;
+    margin-top: 5vh;
+  }
+}
+
 </style>
 
   

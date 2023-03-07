@@ -286,6 +286,10 @@ h2.main {
     padding: 0.681333333333333vw 4.13333333333333vw 0.651333333333333vw 2.48vw;
     font-size: 0.775vw;
   }
+  .button.button.previous{
+    padding: 0.681333333333333vw 2.48vw 0.651333333333333vw 4.13333333333333vw;
+    font-size: 0.775vw;
+  }
   .button::after {
     /* width: 0.981666666666667vw;
     height: 0.775vw; */

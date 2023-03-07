@@ -1119,7 +1119,7 @@ export default {
       },
     };
 
-    const appq = `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${app.i18n.locale}`;
+    const appq = `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&populate=guide_more_image&locale=${app.i18n.locale}`;
     var { data } = await $axios.get(appq, headers);
 
     const application = data.data[0];

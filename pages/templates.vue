@@ -47,7 +47,7 @@ export default {
         },
       };
       var { data } = await $axios.get(
-        `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=questionnaires&populate=questionnaires.template&locale=${app.i18n.locale}`,
+        `/applications?filters[slug][$eq]=${process.env.application}-${app.i18n.locale}&populate=questionnaires&populate=questionnaires.template&populate=guide_more_image&locale=${app.i18n.locale}`,
         headers
       );
       const application = data.data[0];

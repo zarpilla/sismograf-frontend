@@ -34,7 +34,7 @@ export default {
   },
   async fetch() {
     var { data } = await this.$axios.get(
-      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}`,
+      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&populate=guide_more_image&locale=${this.$i18n.locale}`,
       {}
     );
     this.application = data.data[0];

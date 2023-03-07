@@ -88,7 +88,7 @@ export default {
   },
   async fetch() {
     var { data } = await this.$axios.get(
-      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}&populate=guide_template`,
+      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}&populate=guide_template&populate=guide_more_image`,
       {}
     );
     this.$store.commit("app/set", data.data[0]);
@@ -162,6 +162,11 @@ export default {
 }
 
 .footer.layout-full {
+  .back {
+    cursor: pointer;
+  }
+}
+.footer.layout-guide {
   .back {
     cursor: pointer;
   }

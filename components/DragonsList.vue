@@ -14,6 +14,7 @@
         <Dragon color="#76B3A8"></Dragon>
         {{ levelsDisplay[2].name }}
       </div>
+      <hr class="separator">
       <h4 v-t="'individualisme'">Individualisme</h4>
       <div class="dragon-name">
         <Dragon color="#5F925F"></Dragon>
@@ -27,6 +28,7 @@
         <Dragon color="#DA8344"></Dragon>
         {{ levelsDisplay[5].name }}
       </div>
+      <hr class="separator">
       <h4 v-t="'trauma'">Trauma</h4>
       <div class="dragon-name">
         <Dragon color="#CE542E"></Dragon>
@@ -37,7 +39,7 @@
         {{ levelsDisplay[7].name }}
       </div>
     </div>
-    <img src="~/assets/images/ellipses.svg" class="ellipses" />
+    <img v-if="circles" src="~/assets/images/ellipses.svg" class="ellipses" />
   </div>
 </template>
   
@@ -49,7 +51,7 @@ import _ from "lodash";
 import * as d3 from "d3";
 
 export default {
-  name: "SummaryWeel",
+  name: "DragonsList",
   data() {
     return {
       apiUrl: process.env.apiUrl,      
@@ -59,6 +61,10 @@ export default {
     levels: {
       type: Array,
       default: [],
+    },
+    circles: {
+      type: Boolean,
+      default: true,
     }
   },
   computed: {
@@ -78,6 +84,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dragons-list {
+  text-align: left;
   h4 {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -93,5 +100,9 @@ export default {
     vertical-align: -6px;
     margin-right: 0.5rem;
   }
+}
+.separator{
+  border: 1px dashed #97A26E;
+  margin: 0;
 }
 </style>
