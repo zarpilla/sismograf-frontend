@@ -409,7 +409,7 @@
                 </b-col>
               </b-row>
             </b-container>
-            <div class="next-container text-right">
+            <div class="next-container next-container-relative text-right">
               <button class="button button-4 mr-auto previous" @click="prev">
                 <span v-t="'prev'" />
               </button>
@@ -431,10 +431,21 @@
                 <b-row>
                   <b-col md="7">
                     <h2 v-t="'tens-mes-dubtes'"></h2>
-                    <div class="text" v-t="'podem-acomapanyar-vos-en-la-interpretacio-dels-resultats-aixi-com-en-les-practiques-que-us-puguin-ajudar-a-desencallar-els-vostres-punts-palanca'">                      
-                    </div>
-                    <a v-if="application.attributes && application.attributes.footer" class="mt-5 button button-2 zbutton-white" :href="application.attributes.footer.link1" target="_blank" v-t="'contacta-s'">
-
+                    <div
+                      class="text"
+                      v-t="
+                        'podem-acomapanyar-vos-en-la-interpretacio-dels-resultats-aixi-com-en-les-practiques-que-us-puguin-ajudar-a-desencallar-els-vostres-punts-palanca'
+                      "
+                    ></div>
+                    <a
+                      v-if="
+                        application.attributes && application.attributes.footer
+                      "
+                      class="mt-5 button button-2 zbutton-white"
+                      :href="application.attributes.footer.link1"
+                      target="_blank"
+                      v-t="'contacta-s'"
+                    >
                     </a>
                   </b-col>
                 </b-row>
@@ -715,7 +726,7 @@ h3 {
   h2 {
     font-weight: 700;
     font-size: 60px;
-    line-height: 35px;
+    line-height: 60px;
     color: #ffffff;
     margin-top: 10vh;
   }
@@ -727,7 +738,9 @@ h3 {
     margin-top: 5vh;
   }
 }
-
+.next-container-relative {
+  position: relative;
+}
 </style>
 
   
