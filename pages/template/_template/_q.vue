@@ -1220,6 +1220,7 @@ export default {
           }
         });
         analysis.comments = data.data.attributes.comments;
+        analysis.sentByEmail = data.data.attributes.sentByEmail;
       }
     }
 
@@ -1540,27 +1541,14 @@ export default {
     cancelExitModal() {
       this.$refs["exit-modal"].hide();
     },
-    // allIsSelected() {
-    //   let allSelected = true;
-    //   this.template.scopes.forEach((s) => {
-    //     s.capacities.forEach((c) => {
-    //       let capacityIsSelected = c.result != null;
-    //       allSelected = allSelected && capacityIsSelected;
-    //     });
-    //   });
-    //   return allSelected;
-    // },
-    async saveNew() {
-      this.analysis.id = null;
-      this.analysis.parent = this.analysis.uid;
-      this.analysis.uid = null;
-      this.analysis.publishedAt = new Date();
-      this.save();
-    },
-    async save() {
+
+    async save(sentByEmail) {
       this.analysis.language = this.$i18n.locale;
       this.analysis.template = this.template.id;
       this.analysis.publishedAt = new Date();
+      if (sentByEmail && this.analysis.email) {
+        this.analysis.sentByEmail = false
+      }
       // this.analysis.email = this.analysis.email || this.application.attributes.emptyEmail;
       this.analysis.organization = this.analysis.organization || "";
       const headers = {
@@ -1599,7 +1587,7 @@ export default {
       }
     },
     async saveAndResults() {
-      await this.save();
+      await this.save(true);
 
       this.$router.push(
         this.localePath({
@@ -1614,7 +1602,7 @@ export default {
       );
     },
     async saveAndContinue() {
-      await this.save();
+      await this.save(false);
 
       this.$router.push(
         this.localePath({

@@ -147,8 +147,8 @@ ul.capacities-list li .active {
   color: #020034;
 }
 .domain-name a {
-  color: #020034;
-  text-decoration: none;
+  color: #020034 !important;
+  text-decoration: none !important;
 }
 .principles-list {
   margin-top: 30px;
