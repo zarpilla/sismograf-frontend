@@ -162,6 +162,7 @@ ul.capacities-list li .active {
   border-radius: 25px;
   margin-bottom: 0.5rem;
   display: inline-block;
+  text-decoration: none;
 }
 .domain-quadrant.inactive .principles-list {
   visibility: hidden;

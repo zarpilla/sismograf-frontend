@@ -2,7 +2,7 @@
   <section class="section text-center section-main granota">
     <b-container>
     <h2 class="main" v-if="organization">{{ organization.attributes.name }}</h2>
-    <div class="org-desc" v-if="organization && organization.attributes.description">{{ organization.attributes.description }}</div>
+    <div class="org-desc" v-if="organization && organization.attributes.description" v-html="$md.render(organization.attributes.description)"></div>
     <h2 v-else class="main" v-t="'a-quin-ambit-correspon-el-teu-projecte'">A quin àmbit correspon el teu projecte?</h2>
     
     
@@ -21,7 +21,7 @@
             "
             class="button button-1 uppercase"
           >
-            {{ questionnaire.attributes.name }}
+            {{ questionnaire.attributes.buttonText || questionnaire.attributes.name }}
           </nuxt-link>
         </div>
       </div>

@@ -54,7 +54,7 @@
               </button>
             </div>
           </div>
-          <Footer layout="guide"></Footer>
+          <!-- Footer layout="guide"></Footer -->
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works view-result bg-none aligned"
@@ -89,7 +89,7 @@
               </button>
             </div>
           </div>
-          <Footer layout="guide"></Footer>
+          <!-- Footer layout="guide"></Footer -->
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works view-result aligned"
@@ -298,7 +298,7 @@
               </button>
             </div>
           </div>
-          <Footer layout="guide"></Footer>
+          <!-- Footer layout="guide"></Footer -->
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works mirades view-result aligned"
@@ -337,7 +337,7 @@
               </button>
             </div>
           </div>
-          <Footer layout="guide"></Footer>
+          <!-- Footer layout="guide"></Footer -->
         </div>
         <div
           class="section zfp-auto-height-responsive how-it-works view-result aligned"
@@ -409,17 +409,24 @@
                 </b-col>
               </b-row>
             </b-container>
-            <div class="next-container next-container-relative text-right">
+            <div class="next-container znext-container-relative text-right">
               <button class="button button-4 mr-auto previous" @click="prev">
                 <span v-t="'prev'" />
               </button>
+              <!-- <button class="button button-4 ml-auto" @click="next" v-if="!$route.query.results">
+                <span v-t="'sismograf'" />
+              </button> -->
+              <pre>{{ $route.query.results }}</pre>
+              <nuxt-link class="button button-4 ml-auto" v-if="!$route.query.results" :to="localePath({ name: 'index', query: { org: $route.query.org }})" v-t="'el-sismograf'">
+              </nuxt-link>
             </div>
           </div>
           <div
             class="get-more-info"
             v-if="
               application.attributes.guide_more_info &&
-              application.attributes.guide_more_image
+              application.attributes.guide_more_image &&
+              $route.query.results
             "
           >
             <img
@@ -452,9 +459,10 @@
               </b-container>
             </div>
           </div>
-          <Footer layout="guide"></Footer>
+          <!-- Footer layout="guide"></Footer -->
         </div>
       </full-page>
+      <Footer></Footer>
     </no-ssr>
   </div>
 </template>
@@ -670,7 +678,7 @@ export default {
   border-radius: 15px;
 }
 .next-container {
-  bottom: 150px;
+  bottom: 200px;
   position: fixed;
 }
 .dragons-intro {

@@ -29,7 +29,7 @@
             >
               <div class="p-3">
                 <nuxt-link
-                  :to="localePath({ name: 'how-it-works', query: query })"
+                  :to="localePath({ name: 'guide', query: query })"
                   class="button button-1"
                   v-t="'com-funciona-1'"
                 >
@@ -73,6 +73,7 @@ export default {
     redirect,
     error,
   }) {
+    
     if (route.query.org) {
       const query = { org: route.query.org };
       return { query };
