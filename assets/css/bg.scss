@@ -197,4 +197,10 @@
   .fp-slidesNav ul li:hover a.active span {
     border-color: #020034 !important;
   }
+
+  @media screen and (max-width: 530px) {
+    #fp-nav, .nav-guide{
+      display: none !important;;
+    }
+  }
 }
