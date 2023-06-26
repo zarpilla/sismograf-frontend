@@ -639,7 +639,7 @@ export default {
 }
 </style>
 <style>
-.analysis-modal___BV_modal_body_ {
+#analysis-modal___BV_modal_body_ {
   overflow: scroll;
 }
 </style>
