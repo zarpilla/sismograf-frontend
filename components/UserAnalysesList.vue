@@ -638,3 +638,8 @@ export default {
   padding-left: 0.5rem;
 }
 </style>
+<style>
+.analysis-modal___BV_modal_body_ {
+  overflow: scroll;
+}
+</style>
