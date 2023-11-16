@@ -408,10 +408,9 @@ export default {
       organizationQuery = `&filters[questionnaire][organization][slug][$eq]=${organization}`;
     }
 
-    var { data } = await this.$axios.get(
-      `/analyses?pagination[pageSize]=9999&populate=template&populate=questionnaire&populate=labels&pòpulate=labels.label_category&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}${organizationQuery}&sort=createdAt:desc`,
-      {}
-    );
+    var q = `/analyses?pagination[pageSize]=9999&populate=template&populate=questionnaire&populate=labels&populate=labels.label_category&populate=template.users&populate=questionnaire.users&populate=questionnaire.organization&filters[questionnaire][users][id][$eq]=${this.loggedInUser.id}}${organizationQuery}&sort=createdAt:desc`
+
+    var { data } = await this.$axios.get(q, {});
 
     // console.log("data.data", data.data);
 

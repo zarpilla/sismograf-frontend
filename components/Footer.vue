@@ -68,6 +68,23 @@
               "
             />
           </a>
+          <a
+            v-if="
+              footer.attributes.footer.logo3 &&
+              footer.attributes.footer.logo3.data &&
+              footer.attributes.footer.logo3.data.attributes.url &&
+              footer.attributes.footer.link3
+            "
+            :href="footer.attributes.footer.link3"
+            target="_blank"
+            class="zml-auto mr-xs-auto"
+          >
+            <img
+              :src="
+                apiBase + footer.attributes.footer.logo3.data.attributes.url
+              "
+            />
+          </a>
         </b-col>
       </b-row>
     </div>
@@ -88,7 +105,7 @@ export default {
   },
   async fetch() {
     var { data } = await this.$axios.get(
-      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&locale=${this.$i18n.locale}&populate=guide_template&populate=guide_more_image`,
+      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&populate=footer.logo3&locale=${this.$i18n.locale}&populate=guide_template&populate=guide_more_image`,
       {}
     );
     this.$store.commit("app/set", data.data[0]);
@@ -187,7 +204,8 @@ export default {
   }
   .images img {
     max-width: 80px;
-    margin-left: 30px;
+    margin-left: 15px;
+    margin-right: 15px;
   }
   .mr-xs-auto {
     margin-right: auto;
