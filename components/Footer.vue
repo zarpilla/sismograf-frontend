@@ -203,7 +203,7 @@ export default {
     margin-top: 0.5rem;
   }
   .images img {
-    max-width: 80px;
+    max-width: 100%;
     margin-left: 15px;
     margin-right: 15px;
   }
