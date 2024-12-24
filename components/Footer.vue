@@ -85,6 +85,41 @@
               "
             />
           </a>
+          <a
+            v-if="
+              footer.attributes.footer.logo4 &&
+              footer.attributes.footer.logo4.data &&
+              footer.attributes.footer.logo4.data.attributes.url &&
+              footer.attributes.footer.link4
+            "
+            :href="footer.attributes.footer.link4"
+            target="_blank"
+            class="zml-auto mr-xs-auto"
+          >
+            <img
+              :src="
+                apiBase + footer.attributes.footer.logo4.data.attributes.url
+              "
+            />
+          </a>
+          <a
+            v-if="
+              footer.attributes.footer.logo5 &&
+              footer.attributes.footer.logo5.data &&
+              footer.attributes.footer.logo5.data.attributes.url &&
+              footer.attributes.footer.link5
+            "
+            :href="footer.attributes.footer.link5"
+            target="_blank"
+            class="zml-auto mr-xs-auto"
+          >
+            <img
+              :src="
+                apiBase + footer.attributes.footer.logo5.data.attributes.url
+              "
+            />
+          </a>
+          
         </b-col>
       </b-row>
     </div>
@@ -105,7 +140,7 @@ export default {
   },
   async fetch() {
     var { data } = await this.$axios.get(
-      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&populate=footer.logo3&locale=${this.$i18n.locale}&populate=guide_template&populate=guide_more_image`,
+      `/applications?filters[slug][$eq]=${process.env.application}-${this.$i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&populate=footer.logo3&populate=footer.logo4&populate=footer.logo5&locale=${this.$i18n.locale}&populate=guide_template&populate=guide_more_image`,
       {}
     );
     this.$store.commit("app/set", data.data[0]);

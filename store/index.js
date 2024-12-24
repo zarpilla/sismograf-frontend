@@ -29,7 +29,7 @@ export const actions = {
     };
 
     var q = process.env.API_URL +
-    `/applications?filters[slug][$eq]=${process.env.application}-${i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&populate=footer.logo3&populate=guide_more_image&locale=${i18n.locale}&token=${process.env.apiToken}&populate=guide_template`
+    `/applications?filters[slug][$eq]=${process.env.application}-${i18n.locale}&populate=footer&populate=footer.logo1&populate=footer.logo2&populate=footer.logo3&populate=footer.logo4&populate=footer.logo5&populate=guide_more_image&locale=${i18n.locale}&token=${process.env.apiToken}&populate=guide_template`
     var { data } = await axios.get(
       q,
       headers
